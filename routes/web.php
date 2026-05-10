@@ -26,6 +26,10 @@ Route::get('/katalog', function () {
 Route::get('/daftarproduk', function () {
     return view('pelanggan.daftarproduk');
 })->name('daftar-produk');
+Route::get('/detail-produk/{id}', function ($id) {
+    return view('pelanggan.detailproduk', ['id' => $id]);
+})->name('detail-produk');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

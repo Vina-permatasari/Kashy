@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar Produk – Kashy Store</title>
+<title>Daftar Produk</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script>
@@ -38,8 +38,6 @@
   }
   .card.selected { border-color: #C8966C !important; box-shadow: 0 0 0 4px rgba(200,150,108,.18), 0 12px 40px rgba(28,28,28,.18) !important; transform: translateY(-4px) !important; }
   .card.selected::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(200,150,108,.06) 0%,transparent 50%); pointer-events:none; }
-  .wish-btn.on { background: #C8966C !important; }
-  .wish-btn.on svg path { stroke: white !important; fill: white !important; }
   .bn-item.active .bn-icon { background: #F0D7C7; }
   .bn-item.active .bn-icon svg { stroke: #C8966C; }
   .bn-item.active .bn-label { color: #C8966C; font-weight: 600; }
@@ -51,11 +49,11 @@
 
 <!-- TOPBAR -->
 <nav class="sticky top-0 z-50 bg-gray-900 px-5 py-3.5 flex items-center justify-center shadow-md">
-  <a href="{{ route('katalog') }}" class="absolute left-5 flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition-colors no-underline">
+  <a href="javascript:history.back()" class="absolute left-5 flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
     Kembali
   </a>
-  <span class="font-display text-xl font-bold text-white tracking-widest italic">Kashy</span>
+  <span class="font-display text-xl font-bold text-white tracking-widest italic">SND STORE</span>
 </nav>
 
 <!-- SEARCH -->
@@ -79,36 +77,34 @@
 <div class="overflow-x-auto hide-scroll px-4 pb-4">
   <div class="inline-flex gap-2 min-w-full">
     <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs active font-body" data-cat="semua" onclick="setFilter(this)">Semua</button>
-    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="kemeja" onclick="setFilter(this)">Kemeja</button>
-    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="rok" onclick="setFilter(this)">Rok</button>
-    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="cardigan" onclick="setFilter(this)">Cardigan</button>
-    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="celana" onclick="setFilter(this)">Celana</button>
-    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="jaket" onclick="setFilter(this)">Jaket</button>
+    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="kemeja" onclick="window.location.href='{{ route('daftar-produk') }}?cat=kemeja'">Kemeja</button>
+    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="rok" onclick="window.location.href='{{ route('daftar-produk') }}?cat=rok'">Rok</button>
+    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="cardigan" onclick="window.location.href='{{ route('daftar-produk') }}?cat=cardigan'">Cardigan</button>
+    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="celana" onclick="window.location.href='{{ route('daftar-produk') }}?cat=celana'">Celana</button>
+    <button class="filter-chip flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium border-2 border-border bg-white text-muted cursor-pointer transition-all duration-200 hover:border-terra-l hover:text-terra hover:bg-terra-xs font-body" data-cat="jaket" onclick="window.location.href='{{ route('daftar-produk') }}?cat=jaket'">Jaket</button>
   </div>
 </div>
 
 <!-- PRODUCT GRID -->
-<div class="grid grid-cols-2 gap-2.5 px-3 pb-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 md:px-5 lg:px-7 flex-1" id="productGrid"></div>
+<div class="grid grid-cols-2 gap-2 px-2 pb-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5 md:gap-3 lg:gap-4 md:px-5 lg:px-7 flex-1" id="productGrid"></div>
 
 <!-- PAGINATION -->
 <div class="flex flex-col items-center gap-2.5 px-4 py-4 pb-5">
-  <div class="w-full flex items-center justify-between flex-wrap gap-2">
-    <div class="text-xs text-muted" id="resultCount"></div>
-    <div class="flex items-center gap-2 text-xs text-muted">
-      <span>Per halaman:</span>
-      <div class="relative">
-        <select id="perPageSelect" onchange="onPerPageChange()"
-                class="border-2 border-border rounded-lg px-2.5 py-1.5 pr-7 text-xs font-body text-gray-900 bg-white cursor-pointer outline-none appearance-none focus:border-terra transition-colors">
-          <option value="8">8</option>
-          <option value="12">12</option>
-          <option value="24" selected>24</option>
-          <option value="48">48</option>
-        </select>
-        <svg class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-      </div>
+  <div class="flex items-center justify-center gap-2 text-xs text-muted">
+    <div class="text-xs text-muted text-center" id="resultCount"></div>
+    <span>Produk Per halaman:</span>
+    <div class="relative">
+      <select id="perPageSelect" onchange="onPerPageChange()"
+              class="border-2 border-border rounded-lg px-2.5 py-1.5 pr-7 text-xs font-body text-gray-900 bg-white cursor-pointer outline-none appearance-none focus:border-terra transition-colors">
+        <option value="8">8</option>
+        <option value="12">12</option>
+        <option value="24" selected>24</option>
+        <option value="48">48</option>
+      </select>
+      <svg class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
     </div>
   </div>
-  <div class="text-xs text-muted" id="pageInfo"></div>
+  <div class="text-xs text-muted text-center" id="pageInfo"></div>
   <div class="flex items-center gap-1 flex-wrap justify-center" id="pagination"></div>
 </div>
 
@@ -116,7 +112,6 @@
 
 <!-- BOTTOM NAV -->
 <nav class="sticky bottom-0 z-50 bg-white border-t border-border flex justify-around py-2.5 pb-4 shadow-[0_-2px_12px_rgba(28,28,28,0.06)]">
-
   <button class="bn-item flex flex-col items-center gap-1 flex-1 border-0 bg-transparent cursor-pointer font-body p-0"
           onclick="window.location.href='{{ route('katalog') }}'">
     <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:bg-terra-xs hover:-translate-y-0.5">
@@ -127,8 +122,7 @@
     </div>
     <span class="bn-label text-xs font-medium text-muted transition-colors">Beranda</span>
   </button>
-
-  <button class="bn-item active flex flex-col items-center gap-1 flex-1 border-0 bg-transparent cursor-pointer font-body p-0" onclick="setNav(this)">
+  <button class="bn-item active flex flex-col items-center gap-1 flex-1 border-0 bg-transparent cursor-pointer font-body p-0">
     <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:bg-terra-xs hover:-translate-y-0.5">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 6h16M4 12h16M4 18h16"/>
@@ -136,25 +130,6 @@
     </div>
     <span class="bn-label text-xs font-medium text-muted transition-colors">Daftar Produk</span>
   </button>
-
-  <button class="bn-item flex flex-col items-center gap-1 flex-1 border-0 bg-transparent cursor-pointer font-body p-0" onclick="setNav(this)">
-    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:bg-terra-xs hover:-translate-y-0.5">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-      </svg>
-    </div>
-    <span class="bn-label text-xs font-medium text-muted transition-colors">Wishlist</span>
-  </button>
-
-  <button class="bn-item flex flex-col items-center gap-1 flex-1 border-0 bg-transparent cursor-pointer font-body p-0" onclick="setNav(this)">
-    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:bg-terra-xs hover:-translate-y-0.5">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
-      </svg>
-    </div>
-    <span class="bn-label text-xs font-medium text-muted transition-colors">Kontak</span>
-  </button>
-
 </nav>
 
 <script>
@@ -165,7 +140,7 @@ const BASE = [
   { name:'Cardigan Rajut',      cat:'cardigan', price:'Rp 47.000',  old:'',           badge:'',        bg:'linear-gradient(135deg,#e0d4c9,#d0c4b9)' },
   { name:'Kemeja Flannel',      cat:'kemeja',   price:'Rp 85.000',  old:'',           badge:'branded', bg:'linear-gradient(135deg,#d9cfc4,#c9bfb4)' },
   { name:'Celana Cargo',        cat:'celana',   price:'Rp 120.000', old:'',           badge:'branded', bg:'linear-gradient(135deg,#cfc4b9,#bfb4a9)' },
-  { name:'Jaket Denim',         cat:'jaket',    price:'Rp 150.000', old:'',           badge:'thrift',  bg:'linear-gradient(135deg,#c9cfe0,#b9c2d4)' },
+  { name:'Jaket Denim',         cat:'jaket',    price:'Rp 150.000', old:'',           badge:'',  bg:'linear-gradient(135deg,#c9cfe0,#b9c2d4)' },
   { name:'Rok Mini Plaid',      cat:'rok',      price:'Rp 95.000',  old:'Rp 120.000', badge:'sale',    bg:'linear-gradient(135deg,#e0c9c9,#d0b9b9)' },
   { name:'Kemeja Putih',        cat:'kemeja',   price:'Rp 65.000',  old:'',           badge:'new',     bg:'linear-gradient(135deg,#eee8e0,#ddd8d0)' },
   { name:'Celana Jeans Slim',   cat:'celana',   price:'Rp 135.000', old:'Rp 160.000', badge:'sale',    bg:'linear-gradient(135deg,#c5cdd8,#b5bdc8)' },
@@ -179,7 +154,7 @@ const BASE = [
   { name:'Blouse Renda',        cat:'kemeja',   price:'Rp 68.000',  old:'',           badge:'new',     bg:'linear-gradient(135deg,#f0e8e0,#e0d8d0)' },
   { name:'Cardigan Knit',       cat:'cardigan', price:'Rp 110.000', old:'',           badge:'',        bg:'linear-gradient(135deg,#d8d0c8,#c8c0b8)' },
   { name:'Celana Pipa',         cat:'celana',   price:'Rp 105.000', old:'Rp 130.000', badge:'sale',    bg:'linear-gradient(135deg,#d8c8b8,#c8b8a8)' },
-  { name:'Jaket Corduroy',      cat:'jaket',    price:'Rp 165.000', old:'',           badge:'thrift',  bg:'linear-gradient(135deg,#c8b8a8,#b8a898)' },
+  { name:'Jaket Corduroy',      cat:'jaket',    price:'Rp 165.000', old:'',           badge:'',  bg:'linear-gradient(135deg,#c8b8a8,#b8a898)' },
   { name:'Rok Wrap',            cat:'rok',      price:'Rp 88.000',  old:'',           badge:'',        bg:'linear-gradient(135deg,#e0ccc0,#d0bcb0)' },
   { name:'Kemeja Linen',        cat:'kemeja',   price:'Rp 92.000',  old:'',           badge:'',        bg:'linear-gradient(135deg,#e8e0d0,#d8d0c0)' },
   { name:'Celana Palazzo',      cat:'celana',   price:'Rp 115.000', old:'',           badge:'new',     bg:'linear-gradient(135deg,#d0c8c0,#c0b8b0)' },
@@ -189,7 +164,7 @@ const BASE = [
   { name:'Celana Chino',        cat:'celana',   price:'Rp 98.000',  old:'',           badge:'',        bg:'linear-gradient(135deg,#d4ccc0,#c4bcb0)' },
   { name:'Jaket Hoodie',        cat:'jaket',    price:'Rp 175.000', old:'',           badge:'new',     bg:'linear-gradient(135deg,#c8d0d8,#b8c0c8)' },
   { name:'Rok Floral',          cat:'rok',      price:'Rp 85.000',  old:'',           badge:'',        bg:'linear-gradient(135deg,#e8d0d0,#d8c0c0)' },
-  { name:'Kemeja Motif',        cat:'kemeja',   price:'Rp 79.000',  old:'',           badge:'thrift',  bg:'linear-gradient(135deg,#d8c8d0,#c8b8c0)' },
+  { name:'Kemeja Motif',        cat:'kemeja',   price:'Rp 79.000',  old:'',           badge:'',  bg:'linear-gradient(135deg,#d8c8d0,#c8b8c0)' },
   { name:'Celana Linen',        cat:'celana',   price:'Rp 108.000', old:'',           badge:'',        bg:'linear-gradient(135deg,#dcd4c8,#ccc4b8)' },
   { name:'Cardigan V-Neck',     cat:'cardigan', price:'Rp 88.000',  old:'Rp 110.000', badge:'sale',    bg:'linear-gradient(135deg,#e4dcd0,#d4ccc0)' },
   { name:'Jaket Fleece',        cat:'jaket',    price:'Rp 140.000', old:'',           badge:'',        bg:'linear-gradient(135deg,#c8d4dc,#b8c4cc)' },
@@ -201,7 +176,7 @@ const BASE = [
   { name:'Rok Asimetris',       cat:'rok',      price:'Rp 98.000',  old:'',           badge:'',        bg:'linear-gradient(135deg,#e0d4cc,#d0c4bc)' },
   { name:'Cardigan Panjang',    cat:'cardigan', price:'Rp 145.000', old:'',           badge:'branded', bg:'linear-gradient(135deg,#dcd0c4,#ccc0b4)' },
   { name:'Celana Mom Jeans',    cat:'celana',   price:'Rp 130.000', old:'',           badge:'',        bg:'linear-gradient(135deg,#c4ccd8,#b4bcc8)' },
-  { name:'Jaket Trucker',       cat:'jaket',    price:'Rp 160.000', old:'',           badge:'thrift',  bg:'linear-gradient(135deg,#c8c0b8,#b8b0a8)' },
+  { name:'Jaket Trucker',       cat:'jaket',    price:'Rp 160.000', old:'',           badge:'',  bg:'linear-gradient(135deg,#c8c0b8,#b8b0a8)' },
   { name:'Rok Ruffle',          cat:'rok',      price:'Rp 76.000',  old:'',           badge:'',        bg:'linear-gradient(135deg,#e4d8d0,#d4c8c0)' },
   { name:'Kemeja Batik Modern', cat:'kemeja',   price:'Rp 115.000', old:'',           badge:'',        bg:'linear-gradient(135deg,#d8c8b8,#c8b8a8)' },
   { name:'Celana Skirt',        cat:'celana',   price:'Rp 88.000',  old:'Rp 105.000', badge:'sale',    bg:'linear-gradient(135deg,#e0d0c8,#d0c0b8)' },
@@ -219,15 +194,14 @@ const ICONS = {
   jaket:    `<path d="M3 7 7 3h2.5L12 6l2.5-3H17l4 4-2.5 2L17 7v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V7L4.5 9 3 7z"/><path d="M12 6v14"/>`,
   default:  `<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>`,
 };
-const BADGE_LABELS  = { new:'New', branded:'Branded', sale:'Sale', thrift:'Thrift' };
-const BADGE_CLASSES = { new:'bg-gray-900 text-white', branded:'bg-terra text-white', sale:'bg-red-500 text-white', thrift:'bg-white/90 text-gray-900 border border-stone-200' };
+const BADGE_LABELS  = { new:'New', branded:'Branded', sale:'Sale'};
+const BADGE_CLASSES = { new:'bg-gray-900 text-white', branded:'bg-terra text-white', sale:'bg-red-500 text-white' };
 const CAT_LABELS    = { semua:'Semua Produk', kemeja:'Kemeja', rok:'Rok', cardigan:'Cardigan', celana:'Celana', jaket:'Jaket' };
 
 let currentCat    = 'semua';
 let currentSearch = '';
 let currentPage   = 1;
 let perPage       = 24;
-let wishlist      = new Set();
 let selected      = null;
 
 function getFiltered() {
@@ -263,26 +237,22 @@ function render() {
   grid.innerHTML = paged.map((p, i) => {
     const icon = ICONS[p.cat] || ICONS.default;
     const badgeHtml = p.badge
-      ? `<span class="absolute top-2 right-2 z-20 text-xs font-bold px-2 py-0.5 rounded-full leading-tight ${BADGE_CLASSES[p.badge]||'bg-gray-500 text-white'}">${BADGE_LABELS[p.badge]}</span>` : '';
-    const isW = wishlist.has(p.id);
+      ? `<span class="absolute top-2 right-2 z-20 text-[10px] font-bold px-2 py-0.5 rounded-full ${BADGE_CLASSES[p.badge]||'bg-gray-500 text-white'}">${BADGE_LABELS[p.badge]}</span>`
+      : '';
     const isS = selected === p.id;
+
     return `
-    <div class="card relative bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer border-2 transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-terra-l ${isS?'selected':'border-transparent'}" style="animation:fadeUp .3s ease ${i*.04}s both" onclick="selectCard(${p.id})">
-      <button class="wish-btn absolute top-2 left-2 z-30 w-8 h-8 rounded-full bg-white/92 border-0 flex items-center justify-center shadow cursor-pointer transition-all duration-200 hover:scale-110 ${isW?'on':''}" onclick="toggleWish(event,${p.id})">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#9C8B7E" fill="none"/>
-        </svg>
-      </button>
+    <div class="card relative bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer border-2 transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-terra-l ${isS?'selected':'border-transparent'}" style="animation:fadeUp .3s ease ${i*.04}s both" onclick="window.location.href='/detail-produk/${p.id}'">
       ${badgeHtml}
-      <div class="relative w-full overflow-hidden" style="aspect-ratio:3/3.5">
+      <div class="relative w-full overflow-hidden" style="aspect-ratio:3/3">
         <div class="absolute inset-0" style="background:${p.bg}"></div>
         <div class="relative z-10 w-full h-full flex items-center justify-center">
-          <svg style="width:52%;height:52%" viewBox="0 0 24 24" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${icon}</svg>
+          <svg class="transition-transform duration-300 hover:scale-110" style="width:48%;height:48%" viewBox="0 0 24 24" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${icon}</svg>
         </div>
       </div>
       <div class="p-2.5 pb-3">
-        <div class="text-xs font-medium text-gray-900 mb-1.5 leading-tight">${p.name}</div>
-        <div class="flex items-baseline gap-1.5">
+        <div class="text-xs font-semibold text-gray-900 mb-1 leading-tight line-clamp-2">${p.name}</div>
+        <div class="flex items-baseline gap-1.5 flex-wrap">
           <span class="text-sm font-bold text-gray-900">${p.price}</span>
           ${p.old ? `<span class="text-xs text-muted line-through">${p.old}</span>` : ''}
         </div>
@@ -340,7 +310,6 @@ function goPage(p) {
   document.getElementById('productGrid').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 function selectCard(id) { selected = selected === id ? null : id; render(); }
-function toggleWish(e, id) { e.stopPropagation(); wishlist.has(id) ? wishlist.delete(id) : wishlist.add(id); render(); }
 function setFilter(el) {
   currentCat = el.dataset.cat;
   currentPage = 1;
@@ -352,6 +321,20 @@ function setFilter(el) {
 function onSearch() { currentSearch = document.getElementById('searchInput').value; currentPage = 1; selected = null; render(); }
 function onPerPageChange() { perPage = parseInt(document.getElementById('perPageSelect').value); currentPage = 1; selected = null; render(); }
 function setNav(el) { document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
+
+// AMBIL PARAMETER CATEGORY DARI URL
+const params = new URLSearchParams(window.location.search);
+const kategoriURL = params.get('cat');
+
+if (kategoriURL) {
+  currentCat = kategoriURL;
+  document.querySelectorAll('.filter-chip').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.cat === kategoriURL) {
+      btn.classList.add('active');
+    }
+  });
+}
 
 render();
 </script>
