@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kashy</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-    body { font-family: 'Inter', sans-serif; }
-    .font-display { font-family: 'Playfair Display', serif; }
-</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Cormorant Garamond', 'serif'],
+                        body:    ['DM Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+    </style>
 </head>
 <body>
 
@@ -17,7 +28,6 @@
 
     {{-- Navbar --}}
     <nav class="w-full flex items-center justify-center py-4 px-6 bg-[#1c1c1c] z-10">
-    <span class="font-display text-white text-xl font-semibold tracking-widest">Kashy</span>
     </nav>
 
     {{-- Hero Section --}}
@@ -26,7 +36,7 @@
 
         {{-- Background Image --}}
         <img
-            src="{{ asset('images/baju.jpeg') }}"
+            src="{{ asset('images/bajuuu.jpg') }}"
             alt="SND Store"
             class="absolute inset-0 w-full h-full object-cover"
         >
@@ -34,16 +44,16 @@
         {{-- Dark Overlay --}}
         <div class="absolute inset-0 bg-black/50"></div>
 
-        {{-- Hero Content --}}
-        <div class="relative z-10 flex flex-col items-center justify-end h-full w-full px-6 pb-12 md:pb-16 text-center"
+        {{-- Hero Content (DI TENGAH) --}}
+        <div class="relative z-10 flex flex-col items-center justify-center h-full w-full px-6 text-center"
              style="min-height: 80vh;">
 
             {{-- Store Name & Tagline --}}
             <div class="mb-8 md:mb-10">
-                <h1 class="text-white text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide mb-2">
+                <h1 class="font-sans text-white text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-normal mb-3 uppercase">
                     SND STORE
                 </h1>
-                <p class="text-white/80 text-base md:text-lg italic font-light">
+                <p class="text-white/70 text-base md:text-lg italic font-light tracking-wide">
                     cantik bagus murah
                 </p>
             </div>
@@ -53,13 +63,13 @@
 
                 {{-- Lihat Katalog Produk --}}
                 <a href="{{ route('katalog') }}"
-                   class="w-full py-4 bg-[#C8966C] hover:bg-[#b8845a] text-white text-center text-base md:text-lg font-medium rounded-lg transition-colors duration-200">
+                   class="w-full py-4 bg-[#C8966C] hover:bg-[#b8845a] text-white text-center text-base font-medium rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
                     Lihat Katalog Produk
                 </a>
 
                 {{-- Login Aplikasi --}}
                 <a href="{{ route('login') }}"
-                   class="w-full py-4 bg-transparent hover:bg-white/10 text-white text-center text-base md:text-lg font-medium rounded-lg border border-white transition-colors duration-200">
+                   class="w-full py-4 bg-transparent hover:bg-white/10 text-white text-center text-base font-medium rounded-xl border border-white/60 hover:border-white transition-all duration-200">
                     Login Aplikasi
                 </a>
 
