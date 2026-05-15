@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShiftController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +23,7 @@ Route::get('/karyawan/dashboard', function () {
 Route::get('/absensi', function () {
     return view('karyawan.absensi');
 })->name('absensi');
+Route::get('/shift/history', [ShiftController::class, 'getHistory'])->name('shift.history');
 
 Route::get('/katalog', function () {
     return view('pelanggan.katalog');
@@ -30,19 +32,30 @@ Route::get('/katalog', function () {
 Route::get('/daftarproduk', function () {
     return view('pelanggan.daftarproduk');
 })->name('daftar-produk');
+
 Route::get('/detail-produk/{id}', function ($id) {
     return view('pelanggan.detailproduk', ['id' => $id]);
 })->name('detail-produk');
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/karyawan/stok-produk', function () {
+    return view('karyawan.stok-produk');
+})->middleware('auth')->name('stok-produk');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Route untuk shift/absensi karyawan
+Route::middleware(['auth'])->group(function () {
+    Route::post('/shift/aktifkan', [ShiftController::class, 'aktifkanShift'])->name('shift.aktifkan');
+    Route::post('/shift/handle', [ShiftController::class, 'handleAbsensi'])->name('shift.handle');
+    Route::get('/shift/status', [ShiftController::class, 'cekStatus'])->name('shift.status');
 });
 
 require __DIR__.'/auth.php';
