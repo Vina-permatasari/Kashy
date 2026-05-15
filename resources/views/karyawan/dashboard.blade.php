@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Dashboard Karyawan – Kashy</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -59,17 +60,9 @@
 
 <!-- TOPBAR -->
 <nav class="sticky top-0 z-20 bg-gray-900 px-5 py-3 flex items-center justify-between shadow-md">
-  
   <div class="w-8"></div>
-
-  <span class="font-display text-xl font-bold text-white tracking-widest">
-    Kashy
-  </span>
-
-  <!-- Right Actions -->
+  <span class="font-display text-xl font-bold text-white tracking-widest">Kashy</span>
   <div class="flex items-center gap-2">
-
-    <!-- Notification -->
     <button class="relative w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2">
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -77,35 +70,17 @@
       </svg>
       <span class="absolute top-1 right-1 w-2 h-2 bg-terra rounded-full border border-gray-900"></span>
     </button>
-
-    <!-- Logout -->
     <form method="POST" action="{{ route('logout') }}">
       @csrf
-
-      <button 
-        type="submit"
-        class="w-8 h-8 flex items-center justify-center rounded-full 
-               bg-terra-xs border border-terra-ll 
-               hover:bg-terra transition-all duration-300 group"
-      >
-        <svg 
-          width="16" 
-          height="16" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="#C8966C" 
-          stroke-width="2.2" 
-          class="group-hover:stroke-white transition"
-        >
+      <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-full bg-terra-xs border border-terra-ll hover:bg-terra transition-all duration-300 group">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2.2" class="group-hover:stroke-white transition">
           <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
           <polyline points="10 17 15 12 10 7"/>
           <line x1="15" y1="12" x2="3" y2="12"/>
         </svg>
       </button>
     </form>
-
   </div>
-
 </nav>
 
 <main class="flex-1 overflow-y-auto px-4 pt-5 pb-28 max-w-2xl mx-auto w-full">
@@ -114,7 +89,7 @@
   <div class="mb-6 fade-up delay-1">
     <p class="text-xs text-muted font-medium uppercase tracking-wide" id="greetTime">Selamat Pagi</p>
     <h1 class="font-display text-3xl sm:text-4xl font-bold italic text-gray-900 mt-0.5">
-      Selamat Pagi, <span class="text-terra">Aris</span>
+      Selamat Pagi, <span class="text-terra">{{ Auth::user()->name }}</span>
     </h1>
     <p class="text-sm text-muted mt-2 leading-relaxed">Senang melihatmu kembali. Berikut ringkasan hari ini.</p>
   </div>
@@ -170,14 +145,12 @@
             <p class="text-xs text-muted">08:00 – 16:00 WIB</p>
           </div>
         </div>
-        <!-- Status badge (dinamis) -->
-        <div id="shiftBadge" class="flex items-center gap-1.5 bg-red-100 px-3 py-1.5 rounded-full border border-red-300">
-          <span id="badgeDot" class="w-2 h-2 rounded-full bg-red-500"></span>
-          <span id="badgeText" class="text-[11px] font-semibold text-red-600">Tidak Aktif</span>
+        <div id="shiftBadge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border">
+          <span id="badgeDot" class="w-2 h-2 rounded-full"></span>
+          <span id="badgeText" class="text-[11px] font-semibold">Memuat...</span>
         </div>
       </div>
       
-      <!-- Timeline Shift (awal tersembunyi) -->
       <div id="shiftTimeline" class="mb-4 hidden">
         <div class="flex justify-between text-[10px] text-muted mb-1">
           <span>08:00</span>
@@ -189,7 +162,6 @@
         </div>
       </div>
 
-      <!-- Lokasi & Supervisor -->
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-xs text-muted mb-4">
         <div class="flex items-center gap-1.5">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -201,15 +173,17 @@
         </div>
       </div>
 
-      <!-- Tombol Shift (dinamis) -->
-      <button id="shiftButton" onclick="handleShiftAction()" class="w-full sm:w-auto px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-        <span id="shiftButtonText">Aktifkan Shift Hari Ini</span>
-      </button>
+      <form id="shiftForm" action="{{ route('shift.aktifkan') }}" method="POST">
+        @csrf
+        <button type="submit" id="shiftButton" class="w-full sm:w-auto px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          <span id="shiftButtonText">Aktifkan Shift Hari Ini</span>
+        </button>
+      </form>
     </div>
   </div>
 
-  <!-- TUGAS HARI INI (sama seperti sebelumnya) -->
+  <!-- TUGAS HARI INI -->
   <div class="bg-white rounded-2xl shadow-sm border border-border overflow-hidden mb-6 fade-up delay-3">
     <div class="px-5 pt-5 pb-4">
       <div class="flex items-center justify-between mb-4">
@@ -222,9 +196,6 @@
             <p class="text-[11px] text-muted" id="taskProgress">0 dari 4 selesai</p>
           </div>
         </div>
-        <button class="w-8 h-8 rounded-lg bg-terra flex items-center justify-center hover:bg-terra-l transition">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        </button>
       </div>
       <div class="w-full h-1.5 bg-stone-100 rounded-full mb-5">
         <div id="taskBar" class="h-full bg-terra rounded-full transition-all duration-500" style="width:0%"></div>
@@ -305,7 +276,7 @@
 </div>
 
 <script>
-  // ======================= GREETING =======================
+  // GREETING
   (function() {
     const h = new Date().getHours();
     let greet = 'Selamat Pagi';
@@ -314,41 +285,81 @@
     else if (h >= 18) greet = 'Selamat Malam';
     document.getElementById('greetTime').innerText = greet;
     const heading = document.querySelector('h1');
-    if(heading) heading.innerHTML = `${greet}, <span class="text-terra">Aris</span>`;
+    if(heading) heading.innerHTML = `${greet}, <span class="text-terra">{{ Auth::user()->name }}</span>`;
   })();
 
-  // ======================= SHIFT STATUS (localStorage) =======================
-  function loadShiftStatus() {
-    const shiftActive = localStorage.getItem('shiftActive') === 'true';
-    const shiftStartTime = localStorage.getItem('shiftStartTime');
-    if (shiftActive && shiftStartTime) {
-      // Shift aktif: tampilkan timeline, ubah badge, tombol disabled
-      document.getElementById('shiftTimeline').classList.remove('hidden');
-      // Ubah badge
-      const badge = document.getElementById('shiftBadge');
+  // Ambil status shift dari server
+  let shiftStatus = 'tidak_aktif';
+  let checkInTime = null;
+  let checkOutTime = null;
+
+  async function loadShiftStatus() {
+    try {
+      const response = await fetch('{{ route("shift.status") }}');
+      const data = await response.json();
+      
+      shiftStatus = data.shift_status;
+      checkInTime = data.check_in;
+      checkOutTime = data.check_out;
+      
+      updateUIBasedOnStatus();
+    } catch (error) {
+      console.error('Gagal load status shift:', error);
+    }
+  }
+
+  function updateUIBasedOnStatus() {
+    const badge = document.getElementById('shiftBadge');
+    const badgeDot = document.getElementById('badgeDot');
+    const badgeText = document.getElementById('badgeText');
+    const shiftTimeline = document.getElementById('shiftTimeline');
+    const shiftButton = document.getElementById('shiftButton');
+    const shiftButtonText = document.getElementById('shiftButtonText');
+    
+    if (shiftStatus === 'aktif' || (checkInTime && !checkOutTime)) {
+      // Shift aktif
       badge.classList.remove('bg-red-100', 'border-red-300');
       badge.classList.add('bg-emerald-100', 'border-emerald-300');
-      document.getElementById('badgeDot').className = 'w-2 h-2 rounded-full bg-emerald-500 pulse-dot';
-      document.getElementById('badgeText').innerText = 'Aktif';
-      // Ubah tombol
-      const btn = document.getElementById('shiftButton');
-      btn.disabled = true;
-      btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
-      btn.classList.add('bg-gray-400', 'cursor-not-allowed', 'hover:bg-gray-400');
-      document.getElementById('shiftButtonText').innerHTML = 'Shift Sedang Berjalan';
-      // Update timeline setiap menit
+      badgeDot.className = 'w-2 h-2 rounded-full bg-emerald-500 pulse-dot';
+      badgeText.innerText = 'Aktif';
+      
+      shiftTimeline.classList.remove('hidden');
       updateCurrentTime();
       setInterval(updateCurrentTime, 60000);
-    } else {
-      // Shift tidak aktif: timeline tetap tersembunyi, badge merah, tombol aktif
-      document.getElementById('shiftTimeline').classList.add('hidden');
-      // Badge sudah default (Tidak Aktif)
-      // Tombol aktif
-      const btn = document.getElementById('shiftButton');
-      btn.disabled = false;
-      btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
-      btn.classList.remove('bg-gray-400', 'cursor-not-allowed', 'hover:bg-gray-400');
-      document.getElementById('shiftButtonText').innerHTML = 'Aktifkan Shift Hari Ini';
+      
+      // Tombol disabled karena shift sudah aktif
+      shiftButton.disabled = true;
+      shiftButton.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
+      shiftButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+      shiftButtonText.innerHTML = 'Shift Sedang Berjalan';
+    } 
+    else if (shiftStatus === 'selesai' || checkOutTime) {
+      // Shift selesai
+      badge.classList.remove('bg-red-100', 'border-red-300');
+      badge.classList.add('bg-gray-100', 'border-gray-300');
+      badgeDot.className = 'w-2 h-2 rounded-full bg-gray-500';
+      badgeText.innerText = 'Selesai';
+      
+      shiftTimeline.classList.add('hidden');
+      
+      shiftButton.disabled = true;
+      shiftButton.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
+      shiftButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+      shiftButtonText.innerHTML = 'Shift Sudah Selesai';
+    }
+    else {
+      // Shift tidak aktif
+      badge.classList.remove('bg-emerald-100', 'border-emerald-300', 'bg-gray-100', 'border-gray-300');
+      badge.classList.add('bg-red-100', 'border-red-300');
+      badgeDot.className = 'w-2 h-2 rounded-full bg-red-500';
+      badgeText.innerText = 'Tidak Aktif';
+      
+      shiftTimeline.classList.add('hidden');
+      
+      shiftButton.disabled = false;
+      shiftButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+      shiftButton.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+      shiftButtonText.innerHTML = 'Aktifkan Shift Hari Ini';
     }
   }
 
@@ -357,7 +368,6 @@
     const hours = now.getHours().toString().padStart(2,'0');
     const minutes = now.getMinutes().toString().padStart(2,'0');
     document.getElementById('currentTimeLabel').innerText = `${hours}:${minutes}`;
-    // Hitung progress shift (08:00 - 16:00)
     const startHour = 8, endHour = 16;
     let currentHour = now.getHours() + now.getMinutes()/60;
     let progress = ((currentHour - startHour) / (endHour - startHour)) * 100;
@@ -365,18 +375,7 @@
     document.getElementById('shiftProgressBar').style.width = progress + '%';
   }
 
-  // ======================= TOMBOL SHIFT =======================
-  function handleShiftAction() {
-    // Cek apakah shift sudah aktif (tombol mungkin di-disable, tapi safety)
-    if (localStorage.getItem('shiftActive') === 'true') {
-      showToast('Shift sudah aktif!');
-      return;
-    }
-    // Arahkan ke halaman absensi dengan parameter ?from=dashboard
-    window.location.href = '{{ route("absensi") }}?from=dashboard&action=startShift';
-  }
-
-  // ======================= TASK MANAGEMENT =======================
+  // TASK MANAGEMENT
   function toggleTask(li) {
     const cb = li.querySelector('input[type="checkbox"]');
     const badge = li.querySelector('.badge');
@@ -404,13 +403,11 @@
     document.getElementById('totalTaskCount').innerText = total;
   }
 
-  // ======================= BOTTOM NAV =======================
   function setNav(el) {
     document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
   }
 
-  // ======================= TOAST =======================
   let toastTimeout;
   function showToast(msg) {
     const toast = document.getElementById('toast');
@@ -424,9 +421,52 @@
     }, 2600);
   }
 
-  // ======================= INIT =======================
+  // Handle form submit dengan AJAX biar ga reload halaman
+  document.getElementById('shiftForm')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
+    const submitBtn = document.getElementById('shiftButton');
+    const originalText = document.getElementById('shiftButtonText').innerHTML;
+    
+    submitBtn.disabled = true;
+    document.getElementById('shiftButtonText').innerHTML = 'Memproses...';
+    
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+          'Accept': 'application/json'
+        },
+        body: formData
+      });
+      
+      if (response.redirected) {
+        // Redirect ke halaman absensi
+        window.location.href = response.url;
+      } else {
+        const result = await response.json();
+        if (result.success) {
+          showToast(result.message || 'Shift berhasil diaktifkan');
+          window.location.href = '{{ route("absensi") }}';
+        } else {
+          showToast(result.message || 'Gagal mengaktifkan shift');
+          submitBtn.disabled = false;
+          document.getElementById('shiftButtonText').innerHTML = originalText;
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showToast('Terjadi kesalahan, coba lagi');
+      submitBtn.disabled = false;
+      document.getElementById('shiftButtonText').innerHTML = originalText;
+    }
+  });
+
+  // Load data saat halaman dibuka
   loadShiftStatus();
-  updateTaskProgress(); // hitung progress awal
+  updateTaskProgress();
 </script>
 </body>
 </html>
