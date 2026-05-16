@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Katalog | SND STORE</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script>
   tailwind.config = {
     theme: {
@@ -20,8 +20,8 @@
           bg:      '#F5F0EB',
         },
         fontFamily: {
-          display: ['Cormorant Garamond', 'serif'],
-          body:    ['DM Sans', 'sans-serif'],
+          display: ['Poppins', 'serif'],
+          body:    ['Poppins', 'sans-serif'],
         },
         keyframes: {
           fadeUp: {
@@ -38,7 +38,7 @@
 </script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background-color: #F5F0EB; }
+  body { font-family: 'Poppins', sans-serif; background-color: #F5F0EB; }
   .hide-scroll::-webkit-scrollbar { display: none; }
   .hide-scroll { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   @keyframes fadeUp {
@@ -59,7 +59,7 @@
 
 <!-- ════ TOPBAR ════ -->
 <nav class="sticky top-0 z-50 bg-gray-900 px-5 py-3.5 flex items-center justify-center shadow-md">
-  <a href="javascript:history.back()"  class="absolute left-5 flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition-colors no-underline">
+  <a href="{{ route('landing') }}"  class="absolute left-5 flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition-colors no-underline">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
     Kembali
   </a>

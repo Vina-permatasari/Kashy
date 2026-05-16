@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daftar Produk</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script>
   tailwind.config = {
     theme: {
@@ -20,8 +20,8 @@
           bg:         '#F5F0EB',
         },
         fontFamily: {
-          display: ['Cormorant Garamond', 'serif'],
-          body:    ['DM Sans', 'sans-serif'],
+          display: ['Poppins', 'serif'],
+          body:    ['Poppins', 'sans-serif'],
         },
       }
     }
@@ -29,7 +29,7 @@
 </script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; }
+  body { font-family: 'Poppins', sans-serif; }
   .hide-scroll::-webkit-scrollbar { display: none; }
   .hide-scroll { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   @keyframes fadeUp {

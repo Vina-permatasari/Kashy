@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Detail Produk</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script>
   tailwind.config = {
     theme: {
@@ -15,15 +15,15 @@
           muted: '#9C8B7E', border: '#EAE0D6', bg: '#F5F0EB',
         },
         fontFamily: {
-          display: ['Cormorant Garamond', 'serif'],
-          body: ['DM Sans', 'sans-serif'],
+          display: ['Poppins', 'serif'],
+          body: ['Poppins', 'sans-serif'],
         },
       }
     }
   }
 </script>
 <style>
-  body { font-family: 'DM Sans', sans-serif; }
+  body { font-family: 'Poppins', sans-serif; }
   .fade-up { animation: fadeUp 0.4s ease; }
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(12px); }

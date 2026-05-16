@@ -20,9 +20,18 @@ Route::get('/karyawan/dashboard', function () {
     return view('karyawan.dashboard');
 })->name('dashboard-karyawan');
 
-Route::get('/absensi', function () {
+Route::get('/karyawa/absensi', function () {
     return view('karyawan.absensi');
 })->name('absensi');
+Route::get('/karyawan/stok-produk', function () {
+    return view('karyawan.stok-produk');
+})->middleware('auth')->name('karyawan.stok');
+Route::get('/karyawan/profile', function () {
+    return view('karyawan.profile');
+})->middleware('auth')->name('karyawan.profile');
+Route::get('/karyawan/pusatbantuan', function () {
+    return view('karyawan.pusatbantuan'); // atau view('karyawan.bantuan')
+})->middleware('auth')->name('pusatbantuan');
 Route::get('/shift/history', [ShiftController::class, 'getHistory'])->name('shift.history');
 
 Route::get('/katalog', function () {

@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kashy</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        display: ['Cormorant Garamond', 'serif'],
-                        body:    ['DM Sans', 'sans-serif'],
+                        display: ['Poppins', 'serif'],
+                        body:    ['Poppins', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'DM Sans', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; }
     </style>
 </head>
 <body>
@@ -54,7 +54,7 @@
                     SND STORE
                 </h1>
                 <p class="text-white/70 text-base md:text-lg italic font-light tracking-wide">
-                    cantik bagus murah
+                    "Like new, Branded & Budget-friendly"
                 </p>
             </div>
 

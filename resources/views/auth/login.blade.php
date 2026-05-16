@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Kashy</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        display: ['Cormorant Garamond', 'serif'],
-                        body: ['DM Sans', 'sans-serif'],
+                        display: ['Poppins', 'sans-serif'],
+                        body:    ['Poppins', 'sans-serif'],
                     },
                     keyframes: {
                         slideUp: {
@@ -49,7 +49,7 @@
         }
     </script>
     <style>
-        body { font-family: 'DM Sans', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; }
         .input-field:focus { outline: none; }
     </style>
 </head>

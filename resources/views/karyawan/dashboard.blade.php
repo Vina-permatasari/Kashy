@@ -6,7 +6,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Dashboard Karyawan – Kashy</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script>
   tailwind.config = {
     theme: {
@@ -21,8 +21,8 @@
           bg:         '#F5F0EB',
         },
         fontFamily: {
-          display: ['Cormorant Garamond', 'serif'],
-          body:    ['DM Sans', 'sans-serif'],
+          display: ['Poppins', 'sans-serif'],
+          body:    ['Poppins', 'sans-serif'],
         },
       }
     }
@@ -30,7 +30,7 @@
 </script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: 'DM Sans', sans-serif; background:#F5F0EB; }
+  body { font-family: 'Poppins',sans-serif; background:#F5F0EB; }
   @keyframes fadeUp {
     from { opacity:0; transform:translateY(16px); }
     to   { opacity:1; transform:translateY(0); }
@@ -70,7 +70,7 @@
       </svg>
       <span class="absolute top-1 right-1 w-2 h-2 bg-terra rounded-full border border-gray-900"></span>
     </button>
-    <form method="POST" action="{{ route('logout') }}">
+    <!-- <form method="POST" action="{{ route('logout') }}">
       @csrf
       <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-full bg-terra-xs border border-terra-ll hover:bg-terra transition-all duration-300 group">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2.2" class="group-hover:stroke-white transition">
@@ -79,7 +79,7 @@
           <line x1="15" y1="12" x2="3" y2="12"/>
         </svg>
       </button>
-    </form>
+    </form> -->
   </div>
 </nav>
 
@@ -87,8 +87,8 @@
   
   <!-- GREETING -->
   <div class="mb-6 fade-up delay-1">
-    <p class="text-xs text-muted font-medium uppercase tracking-wide" id="greetTime">Selamat Pagi</p>
-    <h1 class="font-display text-3xl sm:text-4xl font-bold italic text-gray-900 mt-0.5">
+    <p class="text-xs text-muted font-medium uppercase tracking-wide" id="greetTime"></p>
+    <h1 class="font-display text-3xl sm:text-4xl font-bold text-gray-900 mt-0.5">
       Selamat Pagi, <span class="text-terra">{{ Auth::user()->name }}</span>
     </h1>
     <p class="text-sm text-muted mt-2 leading-relaxed">Senang melihatmu kembali. Berikut ringkasan hari ini.</p>
@@ -249,25 +249,22 @@
   </div>
 </main>
 
-<!-- BOTTOM NAV -->
-<nav class="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-border flex justify-around py-2 pb-4 shadow-[0_-2px_12px_rgba(0,0,0,0.05)]">
-  <button class="bn-item active flex flex-col items-center gap-1 flex-1" onclick="setNav(this)">
-    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-    <span class="bn-label text-[10px] font-medium text-muted">Beranda</span>
+<!-- Bottom Nav -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border flex justify-around py-2 pb-4 shadow-[0_-2px_12px_rgba(28,28,28,0.06)]">
+  <button class="bn-item active flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('dashboard-karyawan') }}'">
+    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Beranda</span>
   </button>
   <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('absensi') }}'">
-    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div>
-    <span class="bn-label text-[10px] font-medium text-muted">Absensi</span>
+    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Absensi</span>
   </button>
-  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='/karyawan/stok-produk'"> 
-    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
-    <span class="bn-label text-[10px] font-medium text-muted">Stok Produk</span>
+  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('stok-produk') }}'">
+    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Stok Produk</span>
   </button>
-  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="setNav(this)">
-    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-    <span class="bn-label text-[10px] font-medium text-muted">Profil</span>
+  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('karyawan.profile') }}'">
+    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Profil</span>
   </button>
 </nav>
+
 
 <!-- TOAST NOTIF -->
 <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-30 bg-gray-900 text-white text-sm font-medium px-5 py-3 rounded-full shadow-xl flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 translate-y-4">
@@ -319,9 +316,11 @@
     if (shiftStatus === 'aktif' || (checkInTime && !checkOutTime)) {
       // Shift aktif
       badge.classList.remove('bg-red-100', 'border-red-300');
-      badge.classList.add('bg-emerald-100', 'border-emerald-300');
-      badgeDot.className = 'w-2 h-2 rounded-full bg-emerald-500 pulse-dot';
+      badge.classList.add('bg-green-100', 'border-green-300');
+      badgeDot.className = 'w-2 h-2 rounded-full bg-green-500 pulse-dot';
       badgeText.innerText = 'Aktif';
+      badgeText.classList.add('text-green-700', 'font-semibold');
+        badgeText.classList.remove('text-white', 'text-gray-700');
       
       shiftTimeline.classList.remove('hidden');
       updateCurrentTime();
@@ -349,10 +348,12 @@
     }
     else {
       // Shift tidak aktif
-      badge.classList.remove('bg-emerald-100', 'border-emerald-300', 'bg-gray-100', 'border-gray-300');
+      badge.classList.remove('bg-green-100', 'border-green-300', 'bg-gray-100', 'border-gray-300');
       badge.classList.add('bg-red-100', 'border-red-300');
       badgeDot.className = 'w-2 h-2 rounded-full bg-red-500';
       badgeText.innerText = 'Tidak Aktif';
+      badgeText.classList.remove('text-white', 'text-gray-700', 'text-green-700');
+      badgeText.classList.add('text-red-700', 'font-semibold');
       
       shiftTimeline.classList.add('hidden');
       
