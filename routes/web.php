@@ -12,10 +12,24 @@ Route::get('/owner/dashboard', function () {
     return view('owner.dashboard');
 });
 
+// kasir
 Route::get('/kasir/dashboard', function () {
     return view('kasir.dashboard');
-})->middleware('auth');
+})->middleware('auth')->name('dashboard-kasir');
 
+Route::get('/kasir/shiftkasir', function () {
+    return view('kasir.shiftkasir');
+})->middleware('auth')->name('kasir.shiftkasir');
+
+Route::get('/kasir/riwayattransaksi', function () {
+    return view('kasir.riwayattransaksi');
+})->middleware('auth')->name('kasir.riwayattransaksi');
+
+Route::get('/kasir/laporantransaksi', function () {
+    return view('kasir.laporantransaksi');
+})->middleware('auth')->name('kasir.laporantransaksi');
+
+// karyawan
 Route::get('/karyawan/dashboard', function () {
     return view('karyawan.dashboard');
 })->name('dashboard-karyawan');
@@ -23,15 +37,19 @@ Route::get('/karyawan/dashboard', function () {
 Route::get('/karyawa/absensi', function () {
     return view('karyawan.absensi');
 })->name('absensi');
+
 Route::get('/karyawan/stok-produk', function () {
     return view('karyawan.stok-produk');
 })->middleware('auth')->name('karyawan.stok');
+
 Route::get('/karyawan/profile', function () {
     return view('karyawan.profile');
 })->middleware('auth')->name('karyawan.profile');
+
 Route::get('/karyawan/pusatbantuan', function () {
-    return view('karyawan.pusatbantuan'); // atau view('karyawan.bantuan')
+    return view('karyawan.pusatbantuan'); 
 })->middleware('auth')->name('pusatbantuan');
+
 Route::get('/shift/history', [ShiftController::class, 'getHistory'])->name('shift.history');
 
 Route::get('/katalog', function () {
