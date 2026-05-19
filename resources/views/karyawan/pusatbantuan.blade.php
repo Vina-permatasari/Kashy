@@ -258,33 +258,6 @@
 
     </div><!-- /faqContainer -->
 
-
-    <!-- ── Kategori Bantuan (bonus – hanya muncul di tablet) ── -->
-    <div class="anim anim-5 hidden sm:grid grid-cols-3 gap-3 mb-8">
-      <div class="bg-white rounded-xl p-4 shadow-card text-center hover:shadow-card-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
-        <div class="w-10 h-10 rounded-full bg-kashy-bg flex items-center justify-center mx-auto mb-2.5">
-          <svg width="20" height="20" fill="none" stroke="#C8966C" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        </div>
-        <p class="text-xs font-600 text-kashy-black font-semibold">Sistem & Akun</p>
-        <p class="text-[10px] text-kashy-muted mt-0.5">Login, password, akses</p>
-      </div>
-      <div class="bg-white rounded-xl p-4 shadow-card text-center hover:shadow-card-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
-        <div class="w-10 h-10 rounded-full bg-kashy-bg flex items-center justify-center mx-auto mb-2.5">
-          <svg width="20" height="20" fill="none" stroke="#C8966C" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 2h12v4l-3 16H9L6 6V2z"/><path d="M6 6h12M12 6v4"/></svg>
-        </div>
-        <p class="text-xs font-semibold text-kashy-black">Produk & Stok</p>
-        <p class="text-[10px] text-kashy-muted mt-0.5">Tambah, edit, stok</p>
-      </div>
-      <div class="bg-white rounded-xl p-4 shadow-card text-center hover:shadow-card-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
-        <div class="w-10 h-10 rounded-full bg-kashy-bg flex items-center justify-center mx-auto mb-2.5">
-          <svg width="20" height="20" fill="none" stroke="#C8966C" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
-        <p class="text-xs font-semibold text-kashy-black">Laporan</p>
-        <p class="text-[10px] text-kashy-muted mt-0.5">Penjualan, keuangan</p>
-      </div>
-    </div>
-
-
     <!-- ── Contact card ── -->
     <div class="anim anim-6 contact-card rounded-2xl px-6 py-8 text-center shadow-card-md">
 
