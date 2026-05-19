@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShiftController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('landing');
@@ -10,6 +11,16 @@ Route::get('/', function () {
 
 Route::get('/owner/dashboard', function () {
     return view('owner.dashboard');
+});
+
+//owner
+Route::middleware(['auth'])->group(function () {
+    Route::get('/owner/products', [ProductController::class, 'ownerIndex'])->name('owner.products.index');
+    Route::get('/owner/products/create', [ProductController::class, 'create'])->name('owner.products.create');
+    Route::post('/owner/products', [ProductController::class, 'store'])->name('owner.products.store');
+    Route::get('/owner/products/{product}/edit', [ProductController::class, 'edit'])->name('owner.products.edit');
+    Route::put('/owner/products/{product}', [ProductController::class, 'update'])->name('owner.products.update');
+    Route::delete('/owner/products/{product}', [ProductController::class, 'destroy'])->name('owner.products.destroy');
 });
 
 // kasir
@@ -39,10 +50,13 @@ Route::get('/karyawan/absensi', function () {
     return view('karyawan.absensi');
 })->name('absensi');
 
-Route::get('/karyawan/stok-produk', function () {
-    return view('karyawan.stok-produk');
-})->middleware('auth')->name('karyawan.stok');
+// Route::get('/karyawan/stok-produk', function () {
+//     return view('karyawan.stok-produk');
+// })->middleware('auth')->name('karyawan.stok');
 
+Route::get('/karyawan/stok-produk', [ProductController::class, 'index'])
+    ->middleware('auth')
+    ->name('stok-produk');
 
 // PROFILE KARYAWAN
 Route::middleware('auth')->group(function () {
