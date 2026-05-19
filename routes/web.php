@@ -29,12 +29,13 @@ Route::get('/kasir/laporantransaksi', function () {
     return view('kasir.laporantransaksi');
 })->middleware('auth')->name('kasir.laporantransaksi');
 
+
 // karyawan
 Route::get('/karyawan/dashboard', function () {
     return view('karyawan.dashboard');
 })->name('dashboard-karyawan');
 
-Route::get('/karyawa/absensi', function () {
+Route::get('/karyawan/absensi', function () {
     return view('karyawan.absensi');
 })->name('absensi');
 
@@ -42,9 +43,21 @@ Route::get('/karyawan/stok-produk', function () {
     return view('karyawan.stok-produk');
 })->middleware('auth')->name('karyawan.stok');
 
-Route::get('/karyawan/profile', function () {
-    return view('karyawan.profile');
-})->middleware('auth')->name('karyawan.profile');
+
+// PROFILE KARYAWAN
+Route::middleware('auth')->group(function () {
+
+    Route::get('/karyawan/profile', [ProfileController::class, 'index'])
+        ->name('karyawan.profile');
+
+    Route::put('/karyawan/profile/update', [ProfileController::class, 'updateProfile'])
+        ->name('karyawan.profile.update');
+
+    Route::put('/karyawan/profile/password', [ProfileController::class, 'updatePassword'])
+        ->name('karyawan.password.update');
+
+});
+
 
 Route::get('/karyawan/pusatbantuan', function () {
     return view('karyawan.pusatbantuan'); 
@@ -72,11 +85,14 @@ Route::get('/karyawan/stok-produk', function () {
     return view('karyawan.stok-produk');
 })->middleware('auth')->name('stok-produk');
 
+
+// BAWAAN BREEZE
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 // Route untuk shift/absensi karyawan
 Route::middleware(['auth'])->group(function () {
