@@ -32,6 +32,10 @@ Route::get('/kasir/shiftkasir', function () {
     return view('kasir.shiftkasir');
 })->middleware('auth')->name('kasir.shiftkasir');
 
+Route::get('/kasir/profil', function () {
+    return view('kasir.profil');
+})->middleware('auth')->name('kasir.profil');
+
 Route::get('/kasir/riwayattransaksi', function () {
     return view('kasir.riwayattransaksi');
 })->middleware('auth')->name('kasir.riwayattransaksi');
