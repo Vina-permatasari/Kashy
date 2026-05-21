@@ -50,6 +50,16 @@ class ProfileController extends Controller
     }
 
     /**
+     * Display custom kasir profile page.
+     */
+    public function kasirProfile()
+    {
+        return view('kasir.profil', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    /**
      * Update custom profile data.
      */
     public function updateProfile(Request $request)
