@@ -119,16 +119,115 @@
 </nav>
 
 <script>
-const PRODUCTS = [
-  { id:1,  name:'Kaos Lengan Panjang',  sku:'SKU-001', cat:'Atasan',  stok:24, min:10, img:'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=200&q=80' },
-  { id:2,  name:'Celana Kulot',          sku:'SKU-002', cat:'Bawahan', stok:8,  min:10, img:'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=200&q=80' },
-  { id:3,  name:'Totebag Krem',          sku:'SKU-003', cat:'Aksesori',stok:3,  min:5,  img:'https://images.unsplash.com/photo-1544816155-12df9643f363?w=200&q=80' },
-  { id:4,  name:'Kemeja Silk',           sku:'SKU-004', cat:'Atasan',  stok:0,  min:5,  img:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=200&q=80' },
-  { id:5,  name:'Rok Midi Floral',       sku:'SKU-005', cat:'Bawahan', stok:15, min:8,  img:'https://images.unsplash.com/photo-1551163943-3f6a855d1153?w=200&q=80' },
-  { id:6,  name:'Cardigan Rajut',        sku:'SKU-006', cat:'Atasan',  stok:2,  min:5,  img:'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=200&q=80' },
-  { id:7,  name:'Celana Jeans Slim',     sku:'SKU-007', cat:'Bawahan', stok:20, min:8,  img:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&q=80' },
-  { id:8,  name:'Kemeja Flannel',        sku:'SKU-008', cat:'Atasan',  stok:0,  min:5,  img:'https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=200&q=80' },
-];
+@php
+  $stokProducts = isset($products)
+      ? $products->map(function ($product) {
+          $gambar = $product->gambar;
+
+          if ($gambar) {
+              $img = \Illuminate\Support\Str::startsWith($gambar, ['http://', 'https://'])
+                  ? $gambar
+                  : asset('storage/' . $gambar);
+          } else {
+              $img = 'https://via.placeholder.com/300x350?text=Kashy';
+          }
+
+          return [
+              'id' => $product->id,
+              'name' => $product->nama_produk,
+              'sku' => 'PRD-' . str_pad($product->id, 3, '0', STR_PAD_LEFT),
+              'cat' => $product->category->nama_kategori ?? 'Tanpa Kategori',
+              'stok' => (int) $product->stok,
+              'min' => 5,
+              'price' => (int) $product->harga,
+              'img' => $img,
+          ];
+      })->values()
+      : collect([
+          [
+              'id' => 1,
+              'name' => 'Kaos Lengan Panjang',
+              'sku' => 'SKU-001',
+              'cat' => 'Atasan',
+              'stok' => 24,
+              'min' => 10,
+              'price' => 15000,
+              'img' => 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=200&q=80',
+          ],
+          [
+              'id' => 2,
+              'name' => 'Celana Kulot',
+              'sku' => 'SKU-002',
+              'cat' => 'Bawahan',
+              'stok' => 8,
+              'min' => 10,
+              'price' => 15000,
+              'img' => 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=200&q=80',
+          ],
+          [
+              'id' => 3,
+              'name' => 'Totebag Krem',
+              'sku' => 'SKU-003',
+              'cat' => 'Aksesori',
+              'stok' => 3,
+              'min' => 5,
+              'price' => 15000,
+              'img' => 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=200&q=80',
+          ],
+          [
+              'id' => 4,
+              'name' => 'Kemeja Silk',
+              'sku' => 'SKU-004',
+              'cat' => 'Atasan',
+              'stok' => 0,
+              'min' => 5,
+              'price' => 15000,
+              'img' => 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=200&q=80',
+          ],
+          [
+              'id' => 5,
+              'name' => 'Rok Midi Floral',
+              'sku' => 'SKU-005',
+              'cat' => 'Bawahan',
+              'stok' => 15,
+              'min' => 8,
+              'price' => 15000,
+              'img' => 'https://images.unsplash.com/photo-1551163943-3f6a855d1153?w=200&q=80',
+          ],
+          [
+              'id' => 6,
+              'name' => 'Cardigan Rajut',
+              'sku' => 'SKU-006',
+              'cat' => 'Atasan',
+              'stok' => 2,
+              'min' => 5,
+              'price' => 15000,
+              'img' => 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=200&q=80',
+          ],
+          [
+              'id' => 7,
+              'name' => 'Celana Jeans Slim',
+              'sku' => 'SKU-007',
+              'cat' => 'Bawahan',
+              'stok' => 20,
+              'min' => 8,
+              'price' => 15000,
+              'img' => 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&q=80',
+          ],
+          [
+              'id' => 8,
+              'name' => 'Kemeja Flannel',
+              'sku' => 'SKU-008',
+              'cat' => 'Atasan',
+              'stok' => 0,
+              'min' => 5,
+              'price' => 15000,
+              'img' => 'https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=200&q=80',
+          ],
+      ]);
+@endphp
+
+const PRODUCTS = @json($stokProducts);
 
 const ICONS = {
   Atasan:   `<path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/>`,
@@ -227,8 +326,8 @@ function render() {
               </div>
 
               <p class="text-xs text-muted mt-2">
-                Rp.${p.stok > 0
-                  ? (p.stok * 15000).toLocaleString('id-ID')
+                Rp.${p.price
+                  ? Number(p.price).toLocaleString('id-ID')
                   : '0'}
               </p>
             </div>

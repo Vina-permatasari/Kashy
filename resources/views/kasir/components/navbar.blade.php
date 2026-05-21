@@ -121,4 +121,24 @@
     </span>
   </a>
 
+  <!-- Profil -->
+  <a href="{{ route('kasir.profil') }}"
+     class="bn-item {{ request()->routeIs('kasir.profil') ? 'active' : '' }} flex flex-col items-center gap-1 flex-1">
+
+    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center">
+
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+
+    </div>
+
+    <span class="bn-label text-[10px] font-medium">
+      Profil
+    </span>
+  </a>
+
+</nav>
+
 </nav>
