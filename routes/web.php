@@ -34,9 +34,13 @@ Route::get('/karyawan/dashboard', function () {
     return view('karyawan.dashboard');
 })->name('dashboard-karyawan');
 
-Route::get('/karyawa/absensi', function () {
+Route::get('/karyawan/absensi', function () {
     return view('karyawan.absensi');
 })->name('absensi');
+
+Route::get('/karyawan/historyabsensi', function () {
+    return view('karyawan.historyabsensi');
+})->name('historyabsensi');
 
 Route::get('/karyawan/stok-produk', function () {
     return view('karyawan.stok-produk');
