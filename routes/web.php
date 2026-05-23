@@ -74,6 +74,13 @@ Route::middleware('auth')->group(function () {
         ->name('karyawan.password.update');
 
 });
+Route::get('/karyawan/historyabsensi', function () {
+    return view('karyawan.historyabsensi');
+})->name('historyabsensi');
+
+Route::get('/karyawan/stok-produk', function () {
+    return view('karyawan.stok-produk');
+})->middleware('auth')->name('karyawan.stok');
 
 
 Route::get('/karyawan/pusatbantuan', function () {

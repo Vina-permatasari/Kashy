@@ -96,40 +96,45 @@
   .font-display {
     font-family: 'Poppins', sans-serif;
   }
+  .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
+  .card-hover:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
+  .bn-item.active .bn-icon { background:#F0D7C7; }
+  .bn-item.active .bn-icon svg { stroke:#C8966C; }
+  .bn-item.active .bn-label { color:#C8966C; font-weight:600; }
 </style>
 </head>
 <body class="bg-bg min-h-screen flex flex-col font-poppins">
 
-<!-- TOPBAR -->
+<!-- TOPBAR (sama dengan stok produk & dashboard: judul di tengah) -->
 <nav class="sticky top-0 z-50 bg-gray-900 flex items-center justify-center px-5 shadow-md h-[52px]">
   <span class="font-poppins text-xl font-bold text-white tracking-widest">Kashy</span>
 </nav>
-<!-- MAIN CONTENT -->
-<main class="flex-1 overflow-y-auto">
-  <div class="max-w-md mx-auto px-4 pt-6 pb-28 space-y-5">
 
-    <!-- Session Card -->
-    <div class="bg-white rounded-2xl shadow-sm border border-border overflow-hidden animate-fade-up-1">
+<!-- MAIN CONTENT -->
+<main class="flex-1 overflow-y-auto pb-28">
+  <div class="max-w-md mx-auto px-4 pt-5 space-y-5">
+
+    <!-- Session Card (jam & tanggal) -->
+    <div class="bg-white rounded-2xl border border-border shadow-sm overflow-hidden fade-up-1 card-hover">
       <div class="shimmer-bar h-1 w-full bg-gradient-to-r from-terra via-terra-l via-terra-ll to-terra bg-[length:200%] animate-shimmer-slow"></div>
-      <div class="px-5 py-5 text-center">
-        <p class="text-[10px] font-bold tracking-[.18em] uppercase text-terra mb-1" style="font-family: 'Poppins', sans-serif;"></p>
-        <div class="font-poppins text-4xl sm:text-4xl font-bold text-gray-900 leading-none mb-1" id="liveClock">
-          --<span class="animate-clock-sep">:</span>-- <span class="text-2xl sm:text-3xl font-semibold text-muted">--</span>
+      <div class="px-4 py-4 text-center">
+        <div class="font-poppins text-3xl sm:text-4xl font-bold text-gray-900 leading-none mb-1" id="liveClock">
+          --<span class="animate-clock-sep">:</span>-- <span class="text-xl sm:text-2xl font-semibold text-muted">--</span>
         </div>
-        <p class="text-sm text-muted mt-1" id="liveDate" style="font-family: 'Poppins', sans-serif;">--</p>
+        <p class="text-xs text-muted mt-1" id="liveDate" style="font-family: 'Poppins', sans-serif;">--</p>
       </div>
     </div>
 
     <!-- Fingerprint Scanner Card -->
-    <div class="bg-white rounded-2xl shadow-sm border border-border overflow-hidden animate-fade-up-2">
-      <div class="px-5 py-8 flex flex-col items-center">
-        <div class="relative flex items-center justify-center mb-6 w-[200px] h-[200px]">
+    <div class="bg-white rounded-2xl border border-border shadow-sm overflow-hidden fade-up-2 card-hover">
+      <div class="px-4 py-5 flex flex-col items-center">
+        <div class="relative flex items-center justify-center mb-5 w-[180px] h-[180px]">
           <div class="absolute rounded-full border-2 border-terra/30 inset-0 animate-ring-1"></div>
           <div class="absolute rounded-full border-2 border-terra/20 animate-ring-2" style="inset:-8px;border-radius:9999px;"></div>
           <div class="absolute rounded-full border-2 border-terra/10 animate-ring-3" style="inset:-18px;border-radius:9999px;"></div>
           <div id="fpGlow" class="absolute inset-4 rounded-full transition-all duration-500" style="background:radial-gradient(circle,#E5B18A 0%,#C8966C 60%,#a07050 100%);"></div>
-          <button id="fpBtn" class="relative z-10 w-36 h-36 rounded-full flex flex-col items-center justify-center gap-2 select-none focus:outline-none focus:ring-2 focus:ring-terra" style="background:transparent;" onmousedown="startScan()" ontouchstart="startScan()">
-            <svg id="fpSvg" width="64" height="64" viewBox="0 0 64 64" fill="none" class="drop-shadow-sm">
+          <button id="fpBtn" class="relative z-10 w-32 h-32 rounded-full flex flex-col items-center justify-center gap-2 select-none focus:outline-none focus:ring-2 focus:ring-terra" style="background:transparent;" onmousedown="startScan()" ontouchstart="startScan()">
+            <svg id="fpSvg" width="56" height="56" viewBox="0 0 64 64" fill="none" class="drop-shadow-sm">
               <path class="fp-path" d="M10 40 C8 18, 56 18, 54 40" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
               <path class="fp-path" d="M14 44 C12 24, 52 24, 50 44" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" stroke-dasharray="3 1"/>
               <path class="fp-path" d="M18 47 C16 30, 48 30, 46 47" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
@@ -142,46 +147,52 @@
             </svg>
             <div id="scanLine" class="absolute left-1/2 -translate-x-1/2 rounded-full hidden" style="width:70%;height:2px;background:rgba(255,255,255,0.85);filter:blur(1px);"></div>
             <div class="text-center leading-tight -mt-1">
-              <p id="fpLabel" class="text-xs font-bold text-white tracking-widest uppercase" style="font-family: 'Poppins', sans-serif;">Tekan</p>
-              <p id="fpSub" class="text-[10px] text-white/70 mt-0.5" style="font-family: 'Poppins', sans-serif;">untuk melakukan absensi</p>
+              <p id="fpLabel" class="text-[10px] font-bold text-white tracking-widest uppercase" style="font-family: 'Poppins', sans-serif;">Tekan</p>
+              <p id="fpSub" class="text-[9px] text-white/70 mt-0.5" style="font-family: 'Poppins', sans-serif;">untuk melakukan absensi</p>
             </div>
           </button>
           <div id="successCircle" class="absolute inset-4 rounded-full flex items-center justify-center hidden" style="background:radial-gradient(circle,#34d399 0%,#10b981 60%,#059669 100%);">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><path class="check-draw" d="M14 28 L24 38 L42 18" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="48" height="48" viewBox="0 0 56 56" fill="none"><path class="check-draw" d="M14 28 L24 38 L42 18" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
         </div>
         <div class="text-center space-y-1" id="scanStatus">
           <p class="text-sm font-semibold text-gray-700" id="statusTitle" style="font-family: 'Poppins', sans-serif;">Memuat data...</p>
           <p class="text-xs text-muted" id="statusSub" style="font-family: 'Poppins', sans-serif;">Mohon tunggu</p>
         </div>
-        <div id="progressWrap" class="w-full mt-5 hidden">
+        <div id="progressWrap" class="w-full mt-4 hidden">
           <div class="w-full h-1.5 bg-stone-100 rounded-full overflow-hidden"><div id="progressBar" class="h-full rounded-full transition-none" style="width:0%;background:linear-gradient(90deg,#C8966C,#E5B18A)"></div></div>
-          <p class="text-center text-xs text-muted mt-2" id="progressLabel" style="font-family: 'Poppins', sans-serif;">Memindai...</p>
+          <p class="text-center text-[10px] text-muted mt-1" id="progressLabel" style="font-family: 'Poppins', sans-serif;">Memindai...</p>
         </div>
       </div>
     </div>
 
-    <!-- Shift Times -->
-    <div class="grid grid-cols-2 gap-3 animate-fade-up-3">
-      <div class="bg-white rounded-2xl border border-border shadow-sm p-4"><div class="flex items-end gap-1"><span class="font-poppins text-2xl font-bold text-gray-900 leading-none" id="displayCheckIn">08:00</span><span class="text-xs text-muted mb-0.5">h</span></div><div class="mt-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span class="text-[11px] text-emerald-600 font-medium" style="font-family: 'Poppins', sans-serif;">Shift Pagi</span></div></div>
-      <div class="bg-white rounded-2xl border border-border shadow-sm p-4"><div class="flex items-end gap-1"><span class="font-poppins text-2xl font-bold text-gray-900 leading-none" id="displayCheckOut">16:00</span><span class="text-xs text-muted mb-0.5">h</span></div><div class="mt-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-terra"></span><span class="text-[11px] text-terra font-medium" style="font-family: 'Poppins', sans-serif;">Main Gallery</span></div></div>
-    </div>
-
     <!-- Status Hari Ini -->
-    <div class="bg-white rounded-2xl border border-border shadow-sm overflow-hidden animate-fade-up-4">
-      <div class="px-5 py-4"><p class="text-[10px] font-bold tracking-[.14em] uppercase text-muted mb-3" style="font-family: 'Poppins', sans-serif;">Status Hari Ini</p><div class="grid grid-cols-2 gap-3"><div class="flex items-center gap-2.5 p-3 rounded-xl bg-stone-50 border border-stone-100"><div class="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div><div><p class="text-[10px] text-muted font-medium uppercase tracking-wide" style="font-family: 'Poppins', sans-serif;">Masuk</p><p class="text-sm font-bold text-gray-900" id="todayMasuk" style="font-family: 'Poppins', sans-serif;">—</p></div></div><div class="flex items-center gap-2.5 p-3 rounded-xl bg-stone-50 border border-stone-100"><div class="w-8 h-8 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div><div><p class="text-[10px] text-muted font-medium uppercase tracking-wide" style="font-family: 'Poppins', sans-serif;">Pulang</p><p class="text-sm font-bold text-gray-900" id="todayPulang" style="font-family: 'Poppins', sans-serif;">—</p></div></div></div></div>
+    <div class="bg-white rounded-2xl border border-border shadow-sm overflow-hidden fade-up-3 card-hover">
+      <div class="px-4 py-4">
+        <p class="text-[10px] font-bold tracking-[.14em] uppercase text-muted mb-3">Status Hari Ini</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex items-center gap-2.5 p-2.5 rounded-xl bg-stone-50 border border-stone-100">
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
+            <div><p class="text-[10px] text-muted font-medium uppercase tracking-wide">Masuk</p><p class="text-sm font-bold text-gray-900" id="todayMasuk">—</p></div>
+          </div>
+          <div class="flex items-center gap-2.5 p-2.5 rounded-xl bg-stone-50 border border-stone-100">
+            <div class="w-8 h-8 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+            <div><p class="text-[10px] text-muted font-medium uppercase tracking-wide">Pulang</p><p class="text-sm font-bold text-gray-900" id="todayPulang">—</p></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Recent History -->
-    <div class="bg-white rounded-2xl shadow-sm border border-border overflow-hidden animate-fade-up-4 [animation-delay:0.33s]">
-      <div class="px-5 pt-5 pb-2">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold text-gray-900 text-base" style="font-family: 'Poppins', sans-serif;">Recent History</h3>
-          <button class="text-xs text-terra font-medium hover:underline" style="font-family: 'Poppins', sans-serif;">Lihat semua</button>
+    <div class="bg-white rounded-2xl border border-border shadow-sm overflow-hidden fade-up-4 card-hover">
+      <div class="px-4 pt-4 pb-2">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold text-gray-900 text-sm">Recent History</h3>
+          <button onclick="window.location.href='{{ route('historyabsensi') }}'" class="text-[10px] text-terra font-medium hover:underline">Lihat semua</button>
         </div>
-        <div class="space-y-2.5" id="historyList">
-          <div class="flex justify-center py-8" id="historyLoading">
-            <svg class="animate-spin h-6 w-6 text-terra" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <div class="space-y-2" id="historyList">
+          <div class="flex justify-center py-6" id="historyLoading">
+            <svg class="animate-spin h-5 w-5 text-terra" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
@@ -193,15 +204,15 @@
   </div>
 </main>
 
-<!-- Bottom Nav -->
+<!-- Bottom Nav (sama persis dengan halaman lain) -->
 <nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border flex justify-around py-2 pb-4 shadow-[0_-2px_12px_rgba(28,28,28,0.06)]">
   <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('dashboard-karyawan') }}'">
     <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Beranda</span>
   </button>
   <button class="bn-item active flex flex-col items-center gap-1 flex-1">
-    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Absensi</span>
+    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div><span class="bn-label text-[10px] font-medium text-terra">Absensi</span>
   </button>
-  <button class="bn-item active flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('stok-produk') }}'">
+  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('stok-produk') }}'">
     <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Stok Produk</span>
   </button>
   <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('karyawan.profile') }}'">
@@ -210,7 +221,7 @@
 </nav>
 
 <!-- TOAST -->
-<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-full shadow-xl flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 translate-y-4 bg-gray-900 text-white text-sm font-medium" style="font-family: 'Poppins', sans-serif;"><span id="toastMsg">—</span></div>
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 translate-y-4 bg-gray-900 text-white text-xs font-medium" style="font-family: 'Poppins', sans-serif;"><span id="toastMsg">—</span></div>
 
 <script>
 // Live Clock
@@ -220,7 +231,7 @@ function updateClock() {
   const m = String(now.getMinutes()).padStart(2,'0');
   const ampm = h >= 12 ? 'PM' : 'AM';
   h = h % 12 || 12;
-  document.getElementById('liveClock').innerHTML = `${String(h).padStart(2,'0')}<span class="animate-clock-sep">:</span>${m} <span class="text-2xl sm:text-3xl font-semibold text-muted">${ampm}</span>`;
+  document.getElementById('liveClock').innerHTML = `${String(h).padStart(2,'0')}<span class="animate-clock-sep">:</span>${m} <span class="text-lg sm:text-xl font-semibold text-muted">${ampm}</span>`;
   document.getElementById('liveDate').textContent = now.toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 }
 updateClock();
@@ -244,23 +255,23 @@ async function loadHistory() {
         const loadingEl = document.getElementById('historyLoading');
         
         if (histories.length === 0) {
-            historyContainer.innerHTML = '<p class="text-center text-muted text-sm py-4" style="font-family: Poppins, sans-serif;">Belum ada riwayat absensi</p>';
+            historyContainer.innerHTML = '<p class="text-center text-muted text-xs py-4">Belum ada riwayat absensi</p>';
         } else {
             historyContainer.innerHTML = histories.map(history => `
-                <div class="flex items-center justify-between p-3 rounded-xl bg-stone-50 border border-stone-100">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-terra-xs flex items-center justify-center">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2">
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-stone-50 border border-stone-100">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 rounded-full bg-terra-xs flex items-center justify-center">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2">
                                 <rect x="3" y="4" width="18" height="18" rx="2"/>
                                 <path d="M16 2v4M8 2v4M3 10h18"/>
                             </svg>
                         </div>
                         <div>
-                            <p class="text-sm font-medium text-gray-800" style="font-family: Poppins, sans-serif;">${history.date}</p>
-                            <p class="text-[10px] text-muted" style="font-family: Poppins, sans-serif;">${history.check_in} - ${history.check_out}</p>
+                            <p class="text-xs font-medium text-gray-800">${history.date}</p>
+                            <p class="text-[9px] text-muted">${history.check_in} - ${history.check_out}</p>
                         </div>
                     </div>
-                    <span class="text-[10px] px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium" style="font-family: Poppins, sans-serif;">${history.status === 'hadir' ? 'Hadir' : history.status}</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">${history.status === 'hadir' ? 'Hadir' : history.status}</span>
                 </div>
             `).join('');
         }
@@ -271,7 +282,7 @@ async function loadHistory() {
     } catch (error) {
         console.error('Gagal load history:', error);
         const loadingEl = document.getElementById('historyLoading');
-        loadingEl.innerHTML = '<p class="text-center text-muted text-sm py-4">Gagal memuat riwayat</p>';
+        loadingEl.innerHTML = '<p class="text-center text-muted text-xs py-4">Gagal memuat riwayat</p>';
     }
 }
 
@@ -285,22 +296,11 @@ async function loadData() {
         checkInTime = data.check_in;
         checkOutTime = data.check_out;
         
-        // Update tampilan
-        if (checkInTime) {
-            document.getElementById('todayMasuk').textContent = checkInTime + ' WIB';
-            document.getElementById('displayCheckIn').textContent = checkInTime;
-        }
-        if (checkOutTime) {
-            document.getElementById('todayPulang').textContent = checkOutTime + ' WIB';
-            document.getElementById('displayCheckOut').textContent = checkOutTime;
-        }
+        if (checkInTime) document.getElementById('todayMasuk').textContent = checkInTime + ' WIB';
+        if (checkOutTime) document.getElementById('todayPulang').textContent = checkOutTime + ' WIB';
         
-        // Update UI berdasarkan status dari server
         updateUIByServerStatus();
-        
-        // Load history
         await loadHistory();
-        
     } catch (error) {
         console.error('Gagal load data:', error);
         showToast('Gagal memuat data absensi');
@@ -314,7 +314,7 @@ function updateUIByServerStatus() {
     
     if (shiftStatus === 'tidak_aktif') {
         statusTitle.textContent = 'Shift Belum Aktif';
-        statusSub.textContent = 'Harap aktifkan shift dari dashboard terlebih dahulu';
+        statusSub.textContent = 'Harap aktifkan shift dari dashboard';
         fpBtn.disabled = true;
         fpBtn.style.opacity = '0.5';
         absenType = null;
@@ -328,7 +328,6 @@ function updateUIByServerStatus() {
     }
     else if (shiftStatus === 'aktif') {
         if (checkInTime && !checkOutTime) {
-            // Sudah mulai bekerja, belum selesai
             statusTitle.textContent = 'Siap Absen Pulang';
             statusSub.textContent = 'Tempelkan jari untuk mengakhiri shift';
             fpBtn.disabled = false;
@@ -336,7 +335,6 @@ function updateUIByServerStatus() {
             absenType = 'pulang';
         } 
         else if (!checkInTime) {
-            // Belum mulai bekerja
             statusTitle.textContent = 'Siap Absen Masuk';
             statusSub.textContent = 'Tempelkan jari untuk memulai shift';
             fpBtn.disabled = false;
@@ -373,20 +371,18 @@ async function startScan() {
         return;
     }
     
-    // Tentukan jenis absen
     if (!checkInTime) absenType = 'masuk';
     else if (checkInTime && !checkOutTime) absenType = 'pulang';
     else return;
     
     scanState = 'scanning';
     
-    // Visual feedback
     document.getElementById('scanLine').classList.remove('hidden');
     document.getElementById('progressWrap').classList.remove('hidden');
     document.getElementById('fpLabel').textContent = 'Memindai...';
     document.getElementById('fpSub').textContent = 'Jangan angkat jari';
     document.getElementById('statusTitle').textContent = 'Memindai Sidik Jari';
-    document.getElementById('statusSub').textContent = 'Harap tunggu sebentar...';
+    document.getElementById('statusSub').textContent = 'Harap tunggu...';
     document.getElementById('fpGlow').style.boxShadow = '0 0 40px rgba(200,150,108,.5)';
     document.getElementById('fpBtn').style.pointerEvents = 'none';
     
@@ -403,12 +399,10 @@ async function startScan() {
 
 async function completeScan(progInterval) {
     clearInterval(progInterval);
-    
     const now = new Date();
     const time = now.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
     
     try {
-        // Kirim request ke server
         const response = await fetch('{{ route("shift.handle") }}', {
             method: 'POST',
             headers: {
@@ -417,11 +411,9 @@ async function completeScan(progInterval) {
             },
             body: JSON.stringify({ action: absenType })
         });
-        
         const result = await response.json();
         
         if (result.success) {
-            // Success animation
             document.getElementById('fpGlow').style.opacity = '0';
             const sc = document.getElementById('successCircle');
             sc.classList.remove('hidden');
@@ -434,11 +426,9 @@ async function completeScan(progInterval) {
                 document.getElementById('statusSub').textContent = `Tercatat pukul ${time} WIB`;
                 document.getElementById('fpLabel').textContent = '✓ Terverifikasi';
                 document.getElementById('todayMasuk').textContent = time + ' WIB';
-                document.getElementById('displayCheckIn').textContent = time;
                 checkInTime = time;
                 showToast('✓ Absen masuk: ' + time);
                 absenType = 'pulang';
-                
                 setTimeout(() => {
                     resetAfterSuccess('Siap Absen Pulang', 'Tempelkan jari untuk mengakhiri shift', 'Tekan', 'untuk melakukan absensi');
                 }, 2000);
@@ -448,13 +438,9 @@ async function completeScan(progInterval) {
                 document.getElementById('statusSub').textContent = `Tercatat pukul ${time} WIB`;
                 document.getElementById('fpLabel').textContent = '✓ Terverifikasi';
                 document.getElementById('todayPulang').textContent = time + ' WIB';
-                document.getElementById('displayCheckOut').textContent = time;
                 checkOutTime = time;
                 showToast('✓ Absen pulang: ' + time);
-                
-                // Refresh history setelah pulang
                 await loadHistory();
-                
                 setTimeout(() => {
                     document.getElementById('statusTitle').textContent = 'Absensi Selesai';
                     document.getElementById('statusSub').textContent = 'Terima kasih, Anda sudah absen hari ini';
@@ -516,7 +502,6 @@ function resetScanner() {
     updateUIByServerStatus();
 }
 
-// Load data saat halaman dibuka
 loadData();
 </script>
 </body>
