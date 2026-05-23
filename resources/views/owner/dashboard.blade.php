@@ -266,10 +266,9 @@
   }
 
   navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      setActiveNavItem(link);
-    });
+  link.addEventListener('click', () => {
+    closeSidebar(); 
+  });
     if (link.classList.contains('active')) {
       const svg = link.querySelector('svg');
       if (svg) svg.setAttribute('stroke', '#7B4F2E');

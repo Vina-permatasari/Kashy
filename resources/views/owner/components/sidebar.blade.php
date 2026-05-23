@@ -1,6 +1,6 @@
 <!-- ═══════════════ SIDEBAR (NAVIGASI TERSEMBUNYI) ═══════════════ -->
 <aside id="sidebar">
-  <!-- Logo & brand dalam sidebar -->
+  <!-- Logo &<a href="javascript:void(0)" class="nav-item" data-nav> brand dalam sidebar -->
   <div class="flex items-center gap-3 px-5 py-5 border-b border-kashy-border">
     <span class="font-bold text-kashy-dark text-lg tracking-wide">Kashy</span>
   </div>
@@ -8,7 +8,7 @@
   <!-- Navigasi utama -->
   <nav class="flex-1 px-3 py-5 flex flex-col gap-1.5">
 
-    <a href="javascript:void(0)" class="nav-item active" data-nav>
+    <a href="{{ route('owner.dashboard') }}" class="nav-item {{ request()->routeIs('owner.dashboard') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="#7B4F2E" stroke-width="1.8" viewBox="0 0 24 24">
         <rect x="3" y="3" width="7" height="7" rx="1.5"/>
         <rect x="14" y="3" width="7" height="7" rx="1.5"/>
@@ -18,14 +18,16 @@
       Dashboard Admin
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-  <line x1="18" y1="20" x2="18" y2="10"/>
-  <line x1="12" y1="20" x2="12" y2="4"/>
-  <line x1="6" y1="20" x2="6" y2="14"/>
-</svg>
-      Laporan Keuangan
-    </a>
+    <a href="{{ route('owner.laporan.keuangan') }}" 
+   class="nav-item {{ request()->routeIs('owner.laporan.keuangan') ? 'active' : '' }}" 
+   data-nav>
+  <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+    <line x1="18" y1="20" x2="18" y2="10"/>
+    <line x1="12" y1="20" x2="12" y2="4"/>
+    <line x1="6" y1="20" x2="6" y2="14"/>
+  </svg>
+  Laporan Keuangan
+</a>
 
     <a href="javascript:void(0)" class="nav-item" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -54,7 +56,7 @@
       Manajemen Toko
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('manajemen.diskon') }}" class="nav-item {{ request()->routeIs('manajemen.diskon') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <line x1="19" y1="5" x2="5" y2="19"/>
         <circle cx="6.5" cy="6.5" r="2.5"/>
