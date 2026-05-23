@@ -31,7 +31,16 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/owner/manajemendiskon', 'owner.manajemendiskon')
     ->middleware('auth')
     ->name('manajemen.diskon');
-    
+
+    Route::view('/owner/kustomisasitemplatstruk','owner.kustomisasitemplatstruk')
+    ->name('kustomisasi.template.struk');
+
+    Route::view('/owner/konfigurasi-printer', 'owner.konfigurasiprinter')
+    ->name('konfigurasi.printer');
+
+    Route::view('/owner/pusat-keamanan-data','owner.pusatkeamanandata')
+    ->name('pusat.keamanan.data');
+
     // Products
     Route::get('/owner/products', [ProductController::class, 'ownerIndex'])
         ->name('owner.products.index');
