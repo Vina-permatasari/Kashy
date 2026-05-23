@@ -24,10 +24,14 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/owner/dashboard', function () {
-        return view('owner.dashboard');
-    });
-
+    
+    Route::view('/owner/dashboard', 'owner.dashboard')
+    ->middleware('auth')
+    ->name('owner.dashboard');
+    Route::view('/owner/manajemendiskon', 'owner.manajemendiskon')
+    ->middleware('auth')
+    ->name('manajemen.diskon');
+    
     // Products
     Route::get('/owner/products', [ProductController::class, 'ownerIndex'])
         ->name('owner.products.index');
@@ -46,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/owner/products/{product}', [ProductController::class, 'destroy'])
         ->name('owner.products.destroy');
+    
 });
 
 

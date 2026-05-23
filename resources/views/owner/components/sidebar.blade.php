@@ -8,7 +8,7 @@
   <!-- Navigasi utama -->
   <nav class="flex-1 px-3 py-5 flex flex-col gap-1.5">
 
-    <a href="javascript:void(0)" class="nav-item active" data-nav>
+    <a href="{{ route('owner.dashboard') }}" class="nav-item {{ request()->routeIs('owner.dashboard') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="#7B4F2E" stroke-width="1.8" viewBox="0 0 24 24">
         <rect x="3" y="3" width="7" height="7" rx="1.5"/>
         <rect x="14" y="3" width="7" height="7" rx="1.5"/>
@@ -54,7 +54,7 @@
       Manajemen Toko
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('manajemen.diskon') }}" class="nav-item {{ request()->routeIs('manajemen.diskon') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <line x1="19" y1="5" x2="5" y2="19"/>
         <circle cx="6.5" cy="6.5" r="2.5"/>
