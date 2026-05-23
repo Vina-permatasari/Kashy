@@ -1,6 +1,6 @@
 <!-- ═══════════════ SIDEBAR (NAVIGASI TERSEMBUNYI) ═══════════════ -->
 <aside id="sidebar">
-  <!-- Logo & brand dalam sidebar -->
+  <!-- Logo &<a href="javascript:void(0)" class="nav-item" data-nav> brand dalam sidebar -->
   <div class="flex items-center gap-3 px-5 py-5 border-b border-kashy-border">
     <span class="font-bold text-kashy-dark text-lg tracking-wide">Kashy</span>
   </div>
@@ -18,16 +18,16 @@
       Dashboard Admin
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-  <line x1="18" y1="20" x2="18" y2="10"/>
-  <line x1="12" y1="20" x2="12" y2="4"/>
-  <line x1="6" y1="20" x2="6" y2="14"/>
-</svg>
-      Laporan Keuangan
-    </a>
+    <a href="{{ route('owner.laporan.keuangan') }}" class="nav-item {{ request()->routeIs('owner.laporan.keuangan') ? 'active' : '' }}" data-nav>
+  <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+    <line x1="18" y1="20" x2="18" y2="10"/>
+    <line x1="12" y1="20" x2="12" y2="4"/>
+    <line x1="6" y1="20" x2="6" y2="14"/>
+  </svg>
+  Laporan Keuangan
+</a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('stokopname') }}" class="nav-item {{ request()->routeIs('stokopname') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
         <rect x="9" y="3" width="6" height="4" rx="1"/>
@@ -36,7 +36,7 @@
       Stock Opname
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('manajemen.staff') }}" class="nav-item {{ request()->routeIs('manajemen.staff') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
         <circle cx="9" cy="7" r="4"/>
@@ -71,7 +71,7 @@
       Manajemen Kategori
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('manajemen.produk') }}" class="nav-item {{ request()->routeIs('manajemen.produk') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
         <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>

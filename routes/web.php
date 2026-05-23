@@ -31,6 +31,20 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/owner/manajemendiskon', 'owner.manajemendiskon')
     ->middleware('auth')
     ->name('manajemen.diskon');
+    Route::view('/owner/laporan-keuangan', 'owner.laporankeuangan')
+        ->middleware('auth')
+        ->name('owner.laporan.keuangan');
+    Route::view('/owner/stokopname', 'owner.stokopname')
+    ->middleware('auth')
+    ->name('stokopname');
+    Route::view('/owner/manajemenstaff', 'owner.manajemenstaff')
+    ->middleware('auth')
+    ->name('manajemen.staff');
+    Route::view('/owner/manajemenproduk', 'owner.manajemenproduk')
+    ->middleware('auth')
+    ->name('manajemen.produk');
+    
+        
 
     Route::view('/owner/kustomisasitemplatstruk','owner.kustomisasitemplatstruk')
     ->name('kustomisasi.template.struk');
@@ -59,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/owner/products/{product}', [ProductController::class, 'destroy'])
         ->name('owner.products.destroy');
+    
     
 });
 
