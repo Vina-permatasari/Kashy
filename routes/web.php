@@ -17,6 +17,14 @@ Route::get('/kasir/dashboard', function () {
     return view('kasir.dashboard');
 })->middleware('auth')->name('dashboard-kasir');
 
+Route::get('/kasir/transaksi', function () {
+    return view('kasir.transaksi');
+})->middleware('auth')->name('kasir.transaksi');
+
+Route::get('/kasir/pembayaran', function () {
+    return view('kasir.pembayaran');
+})->middleware('auth')->name('kasir.pembayaran');
+
 Route::get('/kasir/shiftkasir', function () {
     return view('kasir.shiftkasir');
 })->middleware('auth')->name('kasir.shiftkasir');
