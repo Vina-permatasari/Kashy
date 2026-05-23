@@ -176,63 +176,47 @@
       </div>
     </div>
 
-    <!-- Modul Manajemen (grid responsif tablet) -->
-    <div class="fade-up d4 bg-kashy-dark rounded-2xl p-6 mb-6">
-      <p class="text-[11px] font-semibold tracking-widest text-white/50 uppercase mb-4">Modul Manajemen</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <button class="mod-btn">
-          <svg class="w-5 h-5 flex-shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-          Kontrol Inventaris
-        </button>
-        <button class="mod-btn">
-          <svg class="w-5 h-5 flex-shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-          Hubungan Pelanggan
-        </button>
-        <button class="mod-btn">
-          <svg class="w-5 h-5 flex-shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-          </svg>
-          Pemasaran &amp; SEO
-        </button>
-        <button class="mod-btn">
-          <svg class="w-5 h-5 flex-shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <line x1="18" y1="20" x2="18" y2="10"/>
-            <line x1="12" y1="20" x2="12" y2="4"/>
-            <line x1="6"  y1="20" x2="6"  y2="14"/>
-            <rect x="3" y="2" width="18" height="20" rx="2" opacity=".2" fill="currentColor" stroke="none"/>
-          </svg>
-          Rangkaian Analisis Lengkap
-        </button>
-      </div>
-    </div>
-
-    <!-- Dukungan Admin -->
-    <div class="fade-up d5 bg-white rounded-2xl p-6 shadow-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-      <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl bg-kashy-cream flex items-center justify-center flex-shrink-0">
-          <svg class="w-5 h-5 text-kashy-brown" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6.29 6.29l.95-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-        </div>
-        <div>
-          <p class="font-semibold text-kashy-dark text-base">Dukungan Admin</p>
-          <p class="text-sm text-kashy-muted mt-1 max-w-xs leading-relaxed">
-            Akses langsung ke tim dukungan perusahaan kami yang berdedikasi untuk bantuan teknis.
-          </p>
-        </div>
-      </div>
-      <button class="flex-shrink-0 px-6 py-3 border-2 border-kashy-dark rounded-xl font-semibold text-kashy-dark text-sm hover:bg-kashy-dark hover:text-white active:scale-[.97] transition-all duration-200">
-        Hubungi Dukungan
-      </button>
-    </div>
+<!-- Akses Cepat (grid responsif tablet) -->
+<div class="fade-up d4 bg-kashy-dark rounded-2xl p-6 mb-6">
+  <p class="text-[11px] font-semibold tracking-widest text-white/50 uppercase mb-4">Akses Cepat</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <!-- Laporan Keuangan (ikon dari sidebar) -->
+    <button class="mod-btn">
+      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <line x1="18" y1="20" x2="18" y2="10"/>
+        <line x1="12" y1="20" x2="12" y2="4"/>
+        <line x1="6" y1="20" x2="6" y2="14"/>
+      </svg>
+      Laporan Keuangan
+    </button>
+    <!-- Manajemen Toko (ikon dari sidebar) -->
+    <button class="mod-btn">
+      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Manajemen Toko
+    </button>
+    <!-- Manajemen Produk (ikon dari sidebar) -->
+    <button class="mod-btn">
+      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" y1="22.08" x2="12" y2="12"/>
+      </svg>
+      Manajemen Produk
+    </button>
+    <!-- Manajemen Diskon (ikon dari sidebar) -->
+    <button class="mod-btn">
+      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <line x1="19" y1="5" x2="5" y2="19"/>
+        <circle cx="6.5" cy="6.5" r="2.5"/>
+        <circle cx="17.5" cy="17.5" r="2.5"/>
+      </svg>
+      Manajemen Diskon
+    </button>
+  </div>
+</div>
   </div>
 </main>
 

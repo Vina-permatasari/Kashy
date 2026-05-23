@@ -55,15 +55,6 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/owner/products', [ProductController::class, 'ownerIndex'])->name('owner.products.index');
-    Route::get('/owner/products/create', [ProductController::class, 'create'])->name('owner.products.create');
-    Route::post('/owner/products', [ProductController::class, 'store'])->name('owner.products.store');
-    Route::get('/owner/products/{product}/edit', [ProductController::class, 'edit'])->name('owner.products.edit');
-    Route::put('/owner/products/{product}', [ProductController::class, 'update'])->name('owner.products.update');
-    Route::delete('/owner/products/{product}', [ProductController::class, 'destroy'])->name('owner.products.destroy');
-});
-
 // kasir
 Route::get('/kasir/dashboard', function () {
     return view('kasir.dashboard');
@@ -96,7 +87,6 @@ Route::get('/kasir/dashboard', function () {
     Route::get('/kasir/pembayaran', function () {
         return view('kasir.pembayaran');
     })->name('kasir.pembayaran');
-});
 
 
 /*
