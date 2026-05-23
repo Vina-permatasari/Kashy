@@ -34,6 +34,16 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/owner/laporan-keuangan', 'owner.laporankeuangan')
         ->middleware('auth')
         ->name('owner.laporan.keuangan');
+    Route::view('/owner/stokopname', 'owner.stokopname')
+    ->middleware('auth')
+    ->name('stokopname');
+    Route::view('/owner/manajemenstaff', 'owner.manajemenstaff')
+    ->middleware('auth')
+    ->name('manajemen.staff');
+    Route::view('/owner/manajemenproduk', 'owner.manajemenproduk')
+    ->middleware('auth')
+    ->name('manajemen.produk');
+    
         
     // Products
     Route::get('/owner/products', [ProductController::class, 'ownerIndex'])
