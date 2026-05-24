@@ -34,9 +34,6 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/owner/pengaturantransaksi', 'owner.pengaturantransaksi')
     ->middleware('auth')
     ->name('pengaturan.transaksi');
-
-    
-    
     
     // Products
     Route::get('/owner/products', [ProductController::class, 'ownerIndex'])
@@ -56,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/owner/products/{product}', [ProductController::class, 'destroy'])
         ->name('owner.products.destroy');
+    
     
 });
 

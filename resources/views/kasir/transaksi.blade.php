@@ -53,31 +53,49 @@
 
 <main class="max-w-2xl mx-auto w-full px-4 pt-6 pb-28">
   
-  <!-- SEARCH BAR + TOMBOL SEARCH -->
-  <div class="flex items-center gap-2 mb-5">
+<!-- MEMBER SECTION -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-5">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="font-bold text-lg text-gray-900">Member</h2>
+  </div>
+
+  <!-- Search -->
+  <div class="flex items-center gap-2 mb-4">
     <div class="flex-1 relative">
-      <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+        width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+
         <circle cx="11" cy="11" r="8"/>
         <path d="m21 21-4.35-4.35"/>
       </svg>
+
       <input 
-        type="text" 
+        type="text"
         id="searchMemberInput"
-        class="w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terra/30 focus:border-terra transition" 
-        placeholder="Cari nama / no. HP member..."
-        autocomplete="off"
+        class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm"
+        placeholder="Cari nama / no HP member..."
       >
     </div>
-    <button id="searchButton" class="w-12 h-12 bg-terra hover:bg-terra-l rounded-xl flex items-center justify-center shadow-md transition shrink-0">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+
+    <button id="searchButton"
+      class="w-11 h-11 bg-terra hover:bg-terra-l rounded-xl flex items-center justify-center">
+      
+      <svg width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="white" stroke-width="2.5">
+
         <circle cx="11" cy="11" r="8"/>
         <path d="m21 21-4.35-4.35"/>
       </svg>
     </button>
   </div>
 
-  <!-- HASIL PENCARIAN MEMBER -->
-  <div id="searchResultsContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-5 hidden"></div>
+  <!-- HASIL MEMBER -->
+  <div id="searchResultsContainer"></div>
+
+</div>
 
   <!-- KERANJANG SECTION -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
@@ -252,7 +270,7 @@
   let nextMemberId = 5;
   let currentSelectedMember = null;
   let cart = [];
-  let currentDiscountPercent = 0; // menyimpan diskon yang sedang aktif
+  let currentDiscountPercent = 0;
 
   function formatRupiah(angka) {
     return 'Rp ' + angka.toLocaleString('id-ID');
@@ -277,7 +295,119 @@
     return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
   }
 
-  // Render keranjang
+  // ======================= MEMBER CARD DEFAULT (TAMBAH MEMBER) =======================
+  function showDefaultMemberCard() {
+    const container = document.getElementById('searchResultsContainer');
+    container.innerHTML = `
+      <div class="text-center py-3">
+        <p class="text-sm text-gray-500 mb-3">Tambah member baru untuk mendapatkan poin & promo</p>
+        <button onclick="openAddMemberModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-terra hover:bg-terra-l text-white font-semibold rounded-xl transition shadow-sm text-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Tambah Member Baru
+        </button>
+      </div>
+    `;
+  }
+
+  // ======================= MEMBER SEARCH =======================
+  function performSearch() {
+    const query = document.getElementById('searchMemberInput').value.trim();
+    const resultsContainer = document.getElementById('searchResultsContainer');
+    
+    // Jika query kosong, tampilkan card tambah member
+    if (query === "") {
+      showDefaultMemberCard();
+      return;
+    }
+    
+    const lowerQuery = query.toLowerCase();
+    const filtered = members.filter(m => m.name.toLowerCase().includes(lowerQuery) || m.phone.includes(query));
+    
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="text-center py-3">
+          <p class="text-sm text-gray-500 mb-3">Tidak ditemukan member dengan kata "${escapeHtml(query)}"</p>
+          <button onclick="openAddMemberModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-terra hover:bg-terra-l text-white font-semibold rounded-xl transition shadow-sm text-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Member Baru
+          </button>
+        </div>
+      `;
+      return;
+    }
+    
+    let html = `<div class="space-y-3"><p class="text-xs font-medium text-gray-500 mb-1">📋 ${filtered.length} member ditemukan:</p>`;
+    filtered.forEach(member => {
+      html += `
+        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
+          <div class="flex-1">
+            <p class="font-semibold text-gray-900 text-sm">${escapeHtml(member.name)}</p>
+            <p class="text-xs text-gray-500">${escapeHtml(member.phone)}</p>
+          </div>
+          <button onclick="selectMember(${member.id})" class="px-4 py-2 bg-terra/10 hover:bg-terra/20 text-terra font-semibold text-sm rounded-lg">Pilih</button>
+        </div>
+      `;
+    });
+    html += `</div>`;
+    resultsContainer.innerHTML = html;
+  }
+
+  function selectMember(memberId) {
+    const member = members.find(m => m.id === memberId);
+    if (member) {
+      currentSelectedMember = member;
+      document.getElementById('customerName').textContent = member.name;
+      showToast(`✅ Member ${member.name} dipilih`);
+      // Reset search input dan tampilkan default card
+      document.getElementById('searchMemberInput').value = '';
+      showDefaultMemberCard();
+    }
+  }
+
+  function openAddMemberModal() {
+    const modal = document.getElementById('addMemberModal');
+    document.getElementById('modalMemberName').value = '';
+    document.getElementById('modalMemberPhone').value = '';
+    modal.classList.remove('invisible', 'opacity-0');
+    modal.classList.add('opacity-100', 'visible');
+  }
+  function closeAddMemberModal() {
+    const modal = document.getElementById('addMemberModal');
+    modal.classList.remove('opacity-100', 'visible');
+    modal.classList.add('invisible', 'opacity-0');
+  }
+  function saveNewMemberFromModal() {
+    const name = document.getElementById('modalMemberName').value.trim();
+    const phone = document.getElementById('modalMemberPhone').value.trim();
+    if (!name || !phone) {
+      showToast('⚠️ Nama dan nomor HP wajib diisi!', true);
+      return;
+    }
+    if (members.find(m => m.phone === phone)) {
+      showToast(`Nomor ${phone} sudah terdaftar`, true);
+      return;
+    }
+    const newMember = { id: nextMemberId++, name, phone };
+    members.push(newMember);
+    currentSelectedMember = newMember;
+    document.getElementById('customerName').textContent = newMember.name;
+    showToast(`🎉 Member ${newMember.name} berhasil ditambahkan & dipilih`);
+    closeAddMemberModal();
+    // Reset search input dan tampilkan default card
+    document.getElementById('searchMemberInput').value = '';
+    showDefaultMemberCard();
+  }
+
+  function editCustomer() {
+    const newName = prompt('Edit nama pelanggan:', document.getElementById('customerName').textContent);
+    if (newName?.trim()) {
+      document.getElementById('customerName').textContent = newName.trim();
+      currentSelectedMember = null;
+      showToast('✅ Nama pelanggan diperbarui');
+    }
+  }
+
+  // ======================= KERANJANG =======================
   function renderCart() {
     const container = document.getElementById('cartItems');
     if (!cart.length) {
@@ -335,7 +465,6 @@
     document.getElementById('subtotal').textContent = formatRupiah(subtotal);
     document.getElementById('total').textContent = formatRupiah(Math.round(total));
     
-    // Update tampilan diskon
     const discountRow = document.getElementById('discountRow');
     const discountPercentLabel = document.getElementById('discountPercentLabel');
     const discountAmountSpan = document.getElementById('discountAmount');
@@ -414,96 +543,6 @@
     modal.classList.add('invisible', 'opacity-0');
   }
 
-  // ======================= MEMBER SEARCH =======================
-  function performSearch() {
-    const query = document.getElementById('searchMemberInput').value.trim();
-    const resultsContainer = document.getElementById('searchResultsContainer');
-    if (!query) {
-      resultsContainer.classList.add('hidden');
-      return;
-    }
-    const lowerQuery = query.toLowerCase();
-    const filtered = members.filter(m => m.name.toLowerCase().includes(lowerQuery) || m.phone.includes(query));
-    if (filtered.length === 0) {
-      resultsContainer.innerHTML = `
-        <div class="text-center py-3">
-          <p class="text-sm text-gray-500 mb-3">Tidak ditemukan member dengan kata "${escapeHtml(query)}"</p>
-          <button onclick="openAddMemberModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-terra hover:bg-terra-l text-white font-semibold rounded-xl transition shadow-sm text-sm">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Tambah Member Baru
-          </button>
-        </div>
-      `;
-      resultsContainer.classList.remove('hidden');
-      return;
-    }
-    let html = `<div class="space-y-3"><p class="text-xs font-medium text-gray-500 mb-1">📋 ${filtered.length} member ditemukan:</p>`;
-    filtered.forEach(member => {
-      html += `
-        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
-          <div class="flex-1">
-            <p class="font-semibold text-gray-900 text-sm">${escapeHtml(member.name)}</p>
-            <p class="text-xs text-gray-500">${escapeHtml(member.phone)}</p>
-          </div>
-          <button onclick="selectMember(${member.id})" class="px-4 py-2 bg-terra/10 hover:bg-terra/20 text-terra font-semibold text-sm rounded-lg">Pilih</button>
-        </div>
-      `;
-    });
-    html += `</div>`;
-    resultsContainer.innerHTML = html;
-    resultsContainer.classList.remove('hidden');
-  }
-  function selectMember(memberId) {
-    const member = members.find(m => m.id === memberId);
-    if (member) {
-      currentSelectedMember = member;
-      document.getElementById('customerName').textContent = member.name;
-      showToast(`✅ Member ${member.name} dipilih`);
-      document.getElementById('searchMemberInput').value = '';
-      document.getElementById('searchResultsContainer').classList.add('hidden');
-    }
-  }
-  function openAddMemberModal() {
-    const modal = document.getElementById('addMemberModal');
-    document.getElementById('modalMemberName').value = '';
-    document.getElementById('modalMemberPhone').value = '';
-    modal.classList.remove('invisible', 'opacity-0');
-    modal.classList.add('opacity-100', 'visible');
-  }
-  function closeAddMemberModal() {
-    const modal = document.getElementById('addMemberModal');
-    modal.classList.remove('opacity-100', 'visible');
-    modal.classList.add('invisible', 'opacity-0');
-  }
-  function saveNewMemberFromModal() {
-    const name = document.getElementById('modalMemberName').value.trim();
-    const phone = document.getElementById('modalMemberPhone').value.trim();
-    if (!name || !phone) {
-      showToast('⚠️ Nama dan nomor HP wajib diisi!', true);
-      return;
-    }
-    if (members.find(m => m.phone === phone)) {
-      showToast(`Nomor ${phone} sudah terdaftar`, true);
-      return;
-    }
-    const newMember = { id: nextMemberId++, name, phone };
-    members.push(newMember);
-    currentSelectedMember = newMember;
-    document.getElementById('customerName').textContent = newMember.name;
-    showToast(`🎉 Member ${newMember.name} berhasil ditambahkan & dipilih`);
-    closeAddMemberModal();
-    document.getElementById('searchMemberInput').value = '';
-    document.getElementById('searchResultsContainer').classList.add('hidden');
-  }
-  function editCustomer() {
-    const newName = prompt('Edit nama pelanggan:', document.getElementById('customerName').textContent);
-    if (newName?.trim()) {
-      document.getElementById('customerName').textContent = newName.trim();
-      currentSelectedMember = null;
-      showToast('✅ Nama pelanggan diperbarui');
-    }
-  }
-
   // ======================= DISKON MODAL =======================
   function openDiscountModal() {
     const modal = document.getElementById('discountModal');
@@ -521,7 +560,7 @@
     if (isNaN(percent)) percent = 0;
     percent = Math.min(100, Math.max(0, percent));
     currentDiscountPercent = percent;
-    calculateTotal(); // ulang total dengan diskon baru
+    calculateTotal();
     showToast(`✅ Diskon ${percent}% diterapkan`);
     closeDiscountModal();
   }
@@ -544,9 +583,20 @@
     document.getElementById('customerName').textContent = "Pelanggan Umum";
     cart = [];
     renderCart();
+    // Tampilkan card tambah member dari awal
+    showDefaultMemberCard();
+    
     document.getElementById('searchButton').addEventListener('click', performSearch);
     document.getElementById('searchMemberInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') performSearch();
+    });
+    document.getElementById('searchMemberInput').addEventListener('input', (e) => {
+      // Jika input kosong, tampilkan default card
+      if (e.target.value.trim() === '') {
+        showDefaultMemberCard();
+      } else {
+        performSearch();
+      }
     });
     setupProductSearch();
     document.getElementById('addProductModal').addEventListener('click', (e) => {
