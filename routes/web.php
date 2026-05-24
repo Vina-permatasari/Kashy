@@ -186,25 +186,49 @@ Route::middleware(['auth'])->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| SHIFT / ABSENSI
+| SHIFT / ABSENSI (UPDATED)
 |--------------------------------------------------------------------------
 */
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::post('/shift/aktifkan', [ShiftController::class, 'aktifkanShift'])
-        ->name('shift.aktifkan');
-
+    // Handle absensi (satu tombol untuk mulai & selesai)
     Route::post('/shift/handle', [ShiftController::class, 'handleAbsensi'])
         ->name('shift.handle');
 
+    // Cek status shift untuk dashboard & absensi
     Route::get('/shift/status', [ShiftController::class, 'cekStatus'])
         ->name('shift.status');
+
+    // Recent history (5 data) untuk halaman absensi
+    Route::get('/shift/recent-history', [ShiftController::class, 'getRecentHistory'])
+        ->name('shift.recent-history');
+
+    // FULL history + filter + statistik untuk halaman historyabsensi
+    Route::get('/shift/full-history', [ShiftController::class, 'getFullHistory'])
+        ->name('shift.full-history');
 });
 
-Route::get('/shift/history', [ShiftController::class, 'getHistory'])
-    ->name('shift.history');
 
+/*
+|--------------------------------------------------------------------------
+| SERVER TIME
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/server-time', function() {
+    return response()->json([
+        'server_time' => now()->toIso8601String(),
+        'timezone' => config('app.timezone')
+    ]);
+})->name('server.time');
+Route::get('/test-time', function() {
+    return [
+        'server_time' => now()->format('Y-m-d H:i:s'),
+        'timezone' => config('app.timezone'),
+        'php_timezone' => date_default_timezone_get()
+    ];
+});
 
 /*
 |--------------------------------------------------------------------------

@@ -8,37 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ShiftController extends Controller
 {
-    // Aktifkan shift dari dashboard
-    public function aktifkanShift(Request $request)
-    {
-        $user = Auth::user();
-        $today = date('Y-m-d');
-        
-        // Cari attendance hari ini
-        $attendance = Attendance::where('user_id', $user->id)
-                                ->whereDate('created_at', $today)
-                                ->first();
-        
-        if (!$attendance) {
-            // Buat baru dengan shift_status = aktif
-            Attendance::create([
-                'user_id' => $user->id,
-                'check_in' => null,
-                'check_out' => null,
-                'shift_status' => 'aktif'
-            ]);
-        } else {
-            // Update shift_status jadi aktif
-            $attendance->update([
-                'shift_status' => 'aktif'
-            ]);
-        }
-        
-        // Langsung redirect ke halaman absensi
-        return redirect()->route('absensi')->with('success', 'Shift berhasil diaktifkan');
-    }
-    
-    // Handle tombol sidik jari (TEKAN untuk absensi)
+    /**
+     * Handle absensi (satu tombol untuk mulai & selesai)
+     */
     public function handleAbsensi(Request $request)
     {
         $user = Auth::user();
@@ -48,40 +20,45 @@ class ShiftController extends Controller
                                 ->whereDate('created_at', $today)
                                 ->first();
         
-        // Cek apakah shift aktif
-        if (!$attendance || $attendance->shift_status !== 'aktif') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Shift belum diaktifkan'
-            ], 400);
-        }
-        
-        // Jika sudah selesai
-        if ($attendance->shift_status === 'selesai') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Shift sudah selesai'
-            ], 400);
-        }
-        
-        // Jika belum check_in
-        if (!$attendance->check_in) {
-            // MULAI BEKERJA
-            $attendance->update([
-                'check_in' => now()
-            ]);
+        // KASUS 1: BELUM ADA DATA ATAU BELUM CHECK_IN
+        if (!$attendance || !$attendance->check_in) {
+            $checkInTime = now();
+            $shiftInfo = $this->getShiftFromTime($checkInTime);
+            
+            if (!$attendance) {
+                $attendance = Attendance::create([
+                    'user_id' => $user->id,
+                    'check_in' => $checkInTime,
+                    'check_out' => null,
+                    'shift_status' => 'aktif'
+                ]);
+            } else {
+                $attendance->update([
+                    'check_in' => $checkInTime,
+                    'shift_status' => 'aktif'
+                ]);
+            }
+            
+            $message = $shiftInfo['terlambat'] 
+                ? "⚠️ Shift {$shiftInfo['type_nama']} dimulai! Anda terlambat {$shiftInfo['terlambat_menit']} menit."
+                : "✅ Shift {$shiftInfo['type_nama']} dimulai! Tepat waktu.";
             
             return response()->json([
                 'success' => true,
                 'action' => 'mulai',
-                'message' => 'Selamat bekerja!',
-                'check_in' => date('H:i:s', strtotime($attendance->check_in))
+                'message' => $message,
+                'check_in' => $checkInTime->format('H:i:s'),
+                'shift_type' => $shiftInfo['type'],
+                'shift_type_nama' => $shiftInfo['type_nama'],
+                'shift_start' => $shiftInfo['start'],
+                'shift_end' => $shiftInfo['end'],
+                'terlambat' => $shiftInfo['terlambat'],
+                'terlambat_menit' => $shiftInfo['terlambat_menit']
             ]);
         }
         
-        // Jika sudah check_in tapi belum check_out
+        // KASUS 2: SUDAH CHECK_IN, BELUM CHECK_OUT
         if ($attendance->check_in && !$attendance->check_out) {
-            // SELESAI BEKERJA
             $attendance->update([
                 'check_out' => now(),
                 'shift_status' => 'selesai'
@@ -90,18 +67,21 @@ class ShiftController extends Controller
             return response()->json([
                 'success' => true,
                 'action' => 'selesai',
-                'message' => 'Shift selesai!',
-                'check_out' => date('H:i:s', strtotime($attendance->check_out))
+                'message' => '✅ Shift selesai! Terima kasih.',
+                'check_out' => $attendance->check_out->format('H:i:s'),
+                'check_in' => $attendance->check_in->format('H:i:s')
             ]);
         }
         
         return response()->json([
             'success' => false,
-            'message' => 'Status tidak diketahui'
+            'message' => 'Shift hari ini sudah selesai'
         ], 400);
     }
     
-    // Cek status shift untuk tampilan
+    /**
+     * Cek status shift untuk tampilan
+     */
     public function cekStatus()
     {
         $user = Auth::user();
@@ -111,27 +91,112 @@ class ShiftController extends Controller
                                 ->whereDate('created_at', $today)
                                 ->first();
         
-        if (!$attendance) {
+        if (!$attendance || !$attendance->check_in) {
             return response()->json([
                 'shift_status' => 'tidak_aktif',
                 'check_in' => null,
-                'check_out' => null
+                'check_out' => null,
+                'shift_type' => null,
+                'shift_type_nama' => null,
+                'shift_start' => null,
+                'shift_end' => null,
+                'terlambat' => false
             ]);
         }
         
+        $shiftInfo = $this->getShiftFromTime($attendance->check_in);
+        
         return response()->json([
             'shift_status' => $attendance->shift_status,
-            'check_in' => $attendance->check_in ? date('H:i:s', strtotime($attendance->check_in)) : null,
-            'check_out' => $attendance->check_out ? date('H:i:s', strtotime($attendance->check_out)) : null
+            'check_in' => $attendance->check_in->format('H:i:s'),
+            'check_out' => $attendance->check_out ? $attendance->check_out->format('H:i:s') : null,
+            'shift_type' => $shiftInfo['type'],
+            'shift_type_nama' => $shiftInfo['type_nama'],
+            'shift_start' => $shiftInfo['start'],
+            'shift_end' => $shiftInfo['end'],
+            'terlambat' => $shiftInfo['terlambat'],
+            'terlambat_menit' => $shiftInfo['terlambat_menit']
         ]);
     }
     
-    // Ambil history absensi karyawan
-    public function getHistory()
+    /**
+     * Ambil riwayat absensi lengkap dengan filter
+     */
+    public function getFullHistory(Request $request)
     {
         $user = Auth::user();
         
-        // Ambil 5 history terakhir (selain hari ini, urut dari terbaru)
+        $query = Attendance::where('user_id', $user->id)
+                           ->whereNotNull('check_in');
+        
+        // Filter tanggal spesifik
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+        // Filter bulan & tahun
+        elseif ($request->filled('year') && $request->filled('month')) {
+            $query->whereYear('created_at', $request->year)
+                  ->whereMonth('created_at', $request->month);
+        }
+        
+        $histories = $query->orderBy('created_at', 'desc')->get();
+        
+        $result = [];
+        foreach ($histories as $history) {
+            $shiftInfo = $this->getShiftFromTime($history->check_in);
+            
+            $result[] = [
+                'id' => $history->id,
+                'date' => $history->created_at->translatedFormat('l, d F Y'),
+                'date_raw' => $history->created_at->format('Y-m-d'),
+                'check_in' => $history->check_in->format('H:i'),
+                'check_out' => $history->check_out ? $history->check_out->format('H:i') : '-',
+                'status' => $shiftInfo['terlambat'] ? 'Terlambat' : 'Hadir',
+                'shift_type' => $shiftInfo['type'],
+                'shift_type_nama' => $shiftInfo['type_nama'],
+                'shift_start' => $shiftInfo['start'],
+                'shift_end' => $shiftInfo['end']
+            ];
+        }
+        
+        // Filter status
+        if ($request->filled('status') && $request->status != 'semua') {
+            $result = array_values(array_filter($result, function($item) use ($request) {
+                $statusMap = ['hadir' => 'Hadir', 'terlambat' => 'Terlambat', 'tidak_hadir' => 'Tidak Hadir'];
+                return $item['status'] === ($statusMap[$request->status] ?? '');
+            }));
+        }
+        
+        // Statistik
+        $stats = ['hadir' => 0, 'terlambat' => 0, 'tidak_hadir' => 0];
+        $allHistories = Attendance::where('user_id', $user->id)->get();
+        
+        foreach ($allHistories as $history) {
+            if (!$history->check_in) {
+                $stats['tidak_hadir']++;
+            } else {
+                $shiftInfo = $this->getShiftFromTime($history->check_in);
+                if ($shiftInfo['terlambat']) {
+                    $stats['terlambat']++;
+                } else {
+                    $stats['hadir']++;
+                }
+            }
+        }
+        
+        return response()->json([
+            'histories' => $result,
+            'stats' => $stats
+        ]);
+    }
+    
+    /**
+     * Ambil 5 history terbaru
+     */
+    public function getRecentHistory()
+    {
+        $user = Auth::user();
+        
         $histories = Attendance::where('user_id', $user->id)
             ->whereNotNull('check_in')
             ->orderBy('created_at', 'desc')
@@ -140,13 +205,51 @@ class ShiftController extends Controller
         
         $result = [];
         foreach ($histories as $history) {
+            $shiftInfo = $this->getShiftFromTime($history->check_in);
+            
             $result[] = [
                 'date' => $history->created_at->translatedFormat('d M Y'),
-                'check_in' => $history->check_in ? date('H:i', strtotime($history->check_in)) : '--',
-                'check_out' => $history->check_out ? date('H:i', strtotime($history->check_out)) : '--',
+                'check_in' => $history->check_in->format('H:i'),
+                'check_out' => $history->check_out ? $history->check_out->format('H:i') : '--',
+                'status' => $shiftInfo['terlambat'] ? 'Terlambat' : 'Hadir'
             ];
         }
         
         return response()->json($result);
+    }
+    
+    /**
+     * Helper: Tentukan shift berdasarkan jam check_in
+     */
+    private function getShiftFromTime($checkInTime)
+    {
+        $hour = (int) $checkInTime->format('H');
+        $checkInHourMin = $checkInTime->format('H:i:s');
+        
+        if ($hour >= 6 && $hour < 14) {
+            // Shift Pagi
+            $shiftStart = '09:00:00';
+            $shiftEnd = '17:00:00';
+            $shiftType = 'pagi';
+            $shiftTypeNama = 'Pagi';
+        } else {
+            // Shift Malam
+            $shiftStart = '15:00:00';
+            $shiftEnd = '23:00:00';
+            $shiftType = 'malam';
+            $shiftTypeNama = 'Malam';
+        }
+        
+        $terlambatMenit = (strtotime($checkInHourMin) - strtotime($shiftStart)) / 60;
+        $terlambat = $terlambatMenit > 30;
+        
+        return [
+            'type' => $shiftType,
+            'type_nama' => $shiftTypeNama,
+            'start' => substr($shiftStart, 0, 5),
+            'end' => substr($shiftEnd, 0, 5),
+            'terlambat' => $terlambat,
+            'terlambat_menit' => $terlambat ? round($terlambatMenit) : 0
+        ];
     }
 }

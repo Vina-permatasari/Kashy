@@ -53,14 +53,6 @@
             '0%':   { transform: 'scale(0.7)', opacity: '0' },
             '65%':  { transform: 'scale(1.12)' },
             '100%': { transform: 'scale(1)',   opacity: '1' }
-          },
-          scanLine: {
-            '0%':   { top: '20%',   opacity: '1' },
-            '45%':  { top: '78%',   opacity: '1' },
-            '50%':  { top: '78%',   opacity: '0' },
-            '51%':  { top: '20%',   opacity: '0' },
-            '55%':  { top: '20%',   opacity: '1' },
-            '100%': { top: '20%',   opacity: '1' }
           }
         },
         animation: {
@@ -75,8 +67,7 @@
           'shimmer-slow': 'shimmer 4s linear infinite',
           'draw-fp': 'drawFp 1.8s ease-out forwards',
           'check-draw': 'checkDraw 0.4s 0.3s ease forwards',
-          'success-pop': 'successPop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards',
-          'scan-slide': 'scanLine 2.4s ease-in-out infinite'
+          'success-pop': 'successPop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards'
         }
       }
     }
@@ -105,7 +96,7 @@
 </head>
 <body class="bg-bg min-h-screen flex flex-col font-poppins">
 
-<!-- TOPBAR (sama dengan stok produk & dashboard: judul di tengah) -->
+<!-- TOPBAR (judul di tengah) -->
 <nav class="sticky top-0 z-50 bg-gray-900 flex items-center justify-center px-5 shadow-md h-[52px]">
   <span class="font-poppins text-xl font-bold text-white tracking-widest">Kashy</span>
 </nav>
@@ -121,7 +112,7 @@
         <div class="font-poppins text-3xl sm:text-4xl font-bold text-gray-900 leading-none mb-1" id="liveClock">
           --<span class="animate-clock-sep">:</span>-- <span class="text-xl sm:text-2xl font-semibold text-muted">--</span>
         </div>
-        <p class="text-xs text-muted mt-1" id="liveDate" style="font-family: 'Poppins', sans-serif;">--</p>
+        <p class="text-xs text-muted mt-1" id="liveDate">--</p>
       </div>
     </div>
 
@@ -133,7 +124,7 @@
           <div class="absolute rounded-full border-2 border-terra/20 animate-ring-2" style="inset:-8px;border-radius:9999px;"></div>
           <div class="absolute rounded-full border-2 border-terra/10 animate-ring-3" style="inset:-18px;border-radius:9999px;"></div>
           <div id="fpGlow" class="absolute inset-4 rounded-full transition-all duration-500" style="background:radial-gradient(circle,#E5B18A 0%,#C8966C 60%,#a07050 100%);"></div>
-          <button id="fpBtn" class="relative z-10 w-32 h-32 rounded-full flex flex-col items-center justify-center gap-2 select-none focus:outline-none focus:ring-2 focus:ring-terra" style="background:transparent;" onmousedown="startScan()" ontouchstart="startScan()">
+          <button id="fpBtn" class="relative z-10 w-32 h-32 rounded-full flex flex-col items-center justify-center gap-2 select-none focus:outline-none focus:ring-2 focus:ring-terra" style="background:transparent;" onclick="startScan()" ontouchstart="startScan()">
             <svg id="fpSvg" width="56" height="56" viewBox="0 0 64 64" fill="none" class="drop-shadow-sm">
               <path class="fp-path" d="M10 40 C8 18, 56 18, 54 40" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
               <path class="fp-path" d="M14 44 C12 24, 52 24, 50 44" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" stroke-dasharray="3 1"/>
@@ -145,7 +136,6 @@
               <path class="fp-path" d="M54 40 C54 50, 50 56, 46 58" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
               <path class="fp-path" d="M26 16 Q32 8 38 16" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
             </svg>
-            <div id="scanLine" class="absolute left-1/2 -translate-x-1/2 rounded-full hidden" style="width:70%;height:2px;background:rgba(255,255,255,0.85);filter:blur(1px);"></div>
             <div class="text-center leading-tight -mt-1">
               <p id="fpLabel" class="text-[10px] font-bold text-white tracking-widest uppercase" style="font-family: 'Poppins', sans-serif;">Tekan</p>
               <p id="fpSub" class="text-[9px] text-white/70 mt-0.5" style="font-family: 'Poppins', sans-serif;">untuk melakukan absensi</p>
@@ -156,12 +146,18 @@
           </div>
         </div>
         <div class="text-center space-y-1" id="scanStatus">
-          <p class="text-sm font-semibold text-gray-700" id="statusTitle" style="font-family: 'Poppins', sans-serif;">Memuat data...</p>
-          <p class="text-xs text-muted" id="statusSub" style="font-family: 'Poppins', sans-serif;">Mohon tunggu</p>
+          <p class="text-sm font-semibold text-gray-700" id="statusTitle">Memuat data...</p>
+          <p class="text-xs text-muted" id="statusSub">Mohon tunggu</p>
         </div>
+        <!-- SPINNER DI BAWAH (pengganti progress bar) -->
         <div id="progressWrap" class="w-full mt-4 hidden">
-          <div class="w-full h-1.5 bg-stone-100 rounded-full overflow-hidden"><div id="progressBar" class="h-full rounded-full transition-none" style="width:0%;background:linear-gradient(90deg,#C8966C,#E5B18A)"></div></div>
-          <p class="text-center text-[10px] text-muted mt-1" id="progressLabel" style="font-family: 'Poppins', sans-serif;">Memindai...</p>
+          <div class="flex justify-center items-center gap-2">
+            <svg class="animate-spin h-5 w-5 text-terra" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <p class="text-center text-[10px] text-muted" id="progressLabel">Memindai...</p>
+          </div>
         </div>
       </div>
     </div>
@@ -204,7 +200,7 @@
   </div>
 </main>
 
-<!-- Bottom Nav (sama persis dengan halaman lain) -->
+<!-- Bottom Nav -->
 <nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border flex justify-around py-2 pb-4 shadow-[0_-2px_12px_rgba(28,28,28,0.06)]">
   <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('dashboard-karyawan') }}'">
     <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Beranda</span>
@@ -221,17 +217,16 @@
 </nav>
 
 <!-- TOAST -->
-<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 translate-y-4 bg-gray-900 text-white text-xs font-medium" style="font-family: 'Poppins', sans-serif;"><span id="toastMsg">—</span></div>
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 translate-y-4 bg-gray-900 text-white text-xs font-medium"><span id="toastMsg">—</span></div>
 
 <script>
-// Live Clock
+// Live Clock (24 jam)
 function updateClock() {
   const now = new Date();
-  let h = now.getHours();
-  const m = String(now.getMinutes()).padStart(2,'0');
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  h = h % 12 || 12;
-  document.getElementById('liveClock').innerHTML = `${String(h).padStart(2,'0')}<span class="animate-clock-sep">:</span>${m} <span class="text-lg sm:text-xl font-semibold text-muted">${ampm}</span>`;
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  document.getElementById('liveClock').innerHTML = `${hours}:${minutes}:${seconds}`;
   document.getElementById('liveDate').textContent = now.toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 }
 updateClock();
@@ -242,13 +237,12 @@ let shiftStatus = 'tidak_aktif';
 let checkInTime = null;
 let checkOutTime = null;
 let scanState = 'idle';
-let scanTimer = null;
 let absenType = null;
 
 // Load history dari server
 async function loadHistory() {
     try {
-        const response = await fetch('{{ route("shift.history") }}');
+        const response = await fetch('{{ route("shift.recent-history") }}');
         const histories = await response.json();
         
         const historyContainer = document.getElementById('historyContent');
@@ -271,7 +265,7 @@ async function loadHistory() {
                             <p class="text-[9px] text-muted">${history.check_in} - ${history.check_out}</p>
                         </div>
                     </div>
-                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">${history.status === 'hadir' ? 'Hadir' : history.status}</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full ${history.status === 'Terlambat' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'} font-medium">${history.status}</span>
                 </div>
             `).join('');
         }
@@ -314,9 +308,9 @@ function updateUIByServerStatus() {
     
     if (shiftStatus === 'tidak_aktif') {
         statusTitle.textContent = 'Shift Belum Aktif';
-        statusSub.textContent = 'Harap aktifkan shift dari dashboard';
-        fpBtn.disabled = true;
-        fpBtn.style.opacity = '0.5';
+        statusSub.textContent = 'Tekan tombol untuk memulai shift';
+        fpBtn.disabled = false;
+        fpBtn.style.opacity = '1';
         absenType = null;
     } 
     else if (shiftStatus === 'selesai') {
@@ -329,14 +323,14 @@ function updateUIByServerStatus() {
     else if (shiftStatus === 'aktif') {
         if (checkInTime && !checkOutTime) {
             statusTitle.textContent = 'Siap Absen Pulang';
-            statusSub.textContent = 'Tempelkan jari untuk mengakhiri shift';
+            statusSub.textContent = 'Tekan untuk mengakhiri shift';
             fpBtn.disabled = false;
             fpBtn.style.opacity = '1';
             absenType = 'pulang';
         } 
         else if (!checkInTime) {
             statusTitle.textContent = 'Siap Absen Masuk';
-            statusSub.textContent = 'Tempelkan jari untuk memulai shift';
+            statusSub.textContent = 'Tekan untuk memulai shift';
             fpBtn.disabled = false;
             fpBtn.style.opacity = '1';
             absenType = 'masuk';
@@ -360,14 +354,12 @@ function showToast(msg) {
     }, 2600);
 }
 
+// ========== ABSENSI LANGSUNG (PAKAI WAKTU SERVER) ==========
 async function startScan() {
-    if (scanState === 'scanning' || scanState === 'done') return;
-    if (shiftStatus !== 'aktif') {
-        showToast('⚠️ Shift belum aktif. Aktifkan dari dashboard.');
-        return;
-    }
+    if (scanState === 'scanning') return;
+    
     if (checkInTime && checkOutTime) {
-        showToast('✅ Anda sudah absen masuk dan pulang hari ini.');
+        showToast('✅ Anda sudah absen hari ini.');
         return;
     }
     
@@ -377,7 +369,7 @@ async function startScan() {
     
     scanState = 'scanning';
     
-    document.getElementById('scanLine').classList.remove('hidden');
+    // Tampilkan spinner di bawah
     document.getElementById('progressWrap').classList.remove('hidden');
     document.getElementById('fpLabel').textContent = 'Memindai...';
     document.getElementById('fpSub').textContent = 'Jangan angkat jari';
@@ -386,22 +378,11 @@ async function startScan() {
     document.getElementById('fpGlow').style.boxShadow = '0 0 40px rgba(200,150,108,.5)';
     document.getElementById('fpBtn').style.pointerEvents = 'none';
     
-    let pct = 0;
-    const progInterval = setInterval(() => {
-        pct += Math.random() * 12 + 4;
-        if (pct >= 100) { pct = 100; clearInterval(progInterval); }
-        document.getElementById('progressBar').style.width = pct + '%';
-        document.getElementById('progressLabel').textContent = pct < 100 ? `Memindai... ${Math.round(pct)}%` : 'Verifikasi berhasil!';
-    }, 120);
-    
-    scanTimer = setTimeout(() => completeScan(progInterval), 1900);
+    // Request ke server (tanpa progress bar palsu)
+    setTimeout(() => completeScan(), 500);
 }
 
-async function completeScan(progInterval) {
-    clearInterval(progInterval);
-    const now = new Date();
-    const time = now.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
-    
+async function completeScan() {
     try {
         const response = await fetch('{{ route("shift.handle") }}', {
             method: 'POST',
@@ -418,28 +399,34 @@ async function completeScan(progInterval) {
             const sc = document.getElementById('successCircle');
             sc.classList.remove('hidden');
             sc.classList.add('animate-success-pop');
-            document.getElementById('scanLine').classList.add('hidden');
-            document.getElementById('progressLabel').textContent = 'Selesai ✓';
+            document.getElementById('progressWrap').classList.add('hidden');
             
             if (absenType === 'masuk') {
+                const serverTime = result.check_in;
+                
                 document.getElementById('statusTitle').textContent = '✓ Absen Masuk Berhasil';
-                document.getElementById('statusSub').textContent = `Tercatat pukul ${time} WIB`;
+                document.getElementById('statusSub').textContent = `Tercatat pukul ${serverTime} WIB`;
                 document.getElementById('fpLabel').textContent = '✓ Terverifikasi';
-                document.getElementById('todayMasuk').textContent = time + ' WIB';
-                checkInTime = time;
-                showToast('✓ Absen masuk: ' + time);
+                document.getElementById('todayMasuk').textContent = serverTime + ' WIB';
+                checkInTime = serverTime;
+                showToast(result.message);
+                
+                localStorage.setItem('shift_updated', Date.now());
+                
                 absenType = 'pulang';
                 setTimeout(() => {
-                    resetAfterSuccess('Siap Absen Pulang', 'Tempelkan jari untuk mengakhiri shift', 'Tekan', 'untuk melakukan absensi');
-                }, 2000);
+                    resetAfterSuccess('Siap Absen Pulang', 'Tekan untuk mengakhiri shift', 'Tekan', 'untuk melakukan absensi');
+                }, 1000);
             } 
             else if (absenType === 'pulang') {
+                const serverTime = result.check_out;
+                
                 document.getElementById('statusTitle').textContent = '✓ Absen Pulang Berhasil';
-                document.getElementById('statusSub').textContent = `Tercatat pukul ${time} WIB`;
+                document.getElementById('statusSub').textContent = `Tercatat pukul ${serverTime} WIB`;
                 document.getElementById('fpLabel').textContent = '✓ Terverifikasi';
-                document.getElementById('todayPulang').textContent = time + ' WIB';
-                checkOutTime = time;
-                showToast('✓ Absen pulang: ' + time);
+                document.getElementById('todayPulang').textContent = serverTime + ' WIB';
+                checkOutTime = serverTime;
+                showToast(result.message);
                 await loadHistory();
                 setTimeout(() => {
                     document.getElementById('statusTitle').textContent = 'Absensi Selesai';
@@ -448,7 +435,7 @@ async function completeScan(progInterval) {
                     document.getElementById('fpSub').textContent = '';
                     document.getElementById('fpBtn').disabled = true;
                     document.getElementById('fpBtn').style.opacity = '0.5';
-                }, 2000);
+                }, 1000);
             }
         } else {
             showToast(result.message || 'Terjadi kesalahan');
@@ -466,12 +453,11 @@ async function completeScan(progInterval) {
     
     setTimeout(() => {
         document.getElementById('progressWrap').classList.add('hidden');
-        document.getElementById('progressBar').style.width = '0%';
         document.getElementById('successCircle').classList.add('hidden');
         document.getElementById('successCircle').classList.remove('animate-success-pop');
         document.getElementById('fpGlow').style.opacity = '1';
         scanState = 'idle';
-    }, 2500);
+    }, 1000);
 }
 
 function resetAfterSuccess(title, sub, label, sublabel) {
@@ -484,7 +470,6 @@ function resetAfterSuccess(title, sub, label, sublabel) {
     document.getElementById('fpLabel').textContent = label;
     document.getElementById('fpSub').textContent = sublabel;
     document.getElementById('progressWrap').classList.add('hidden');
-    document.getElementById('progressBar').style.width = '0%';
     document.getElementById('fpBtn').disabled = false;
     document.getElementById('fpBtn').style.opacity = '1';
     document.getElementById('fpGlow').style.boxShadow = '';
@@ -495,13 +480,13 @@ function resetScanner() {
     document.getElementById('fpGlow').style.opacity = '1';
     document.getElementById('successCircle').classList.add('hidden');
     document.getElementById('progressWrap').classList.add('hidden');
-    document.getElementById('progressBar').style.width = '0%';
     document.getElementById('fpBtn').disabled = false;
     document.getElementById('fpBtn').style.opacity = '1';
     document.getElementById('fpGlow').style.boxShadow = '';
     updateUIByServerStatus();
 }
 
+// Load data saat halaman dibuka
 loadData();
 </script>
 </body>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>History Absensi – Kashy</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -83,94 +84,101 @@
     <div class="fade-up delay-1">
       <p class="text-xs text-muted font-medium uppercase tracking-wide">Riwayat Absensi Karyawan</p>
       <h1 class="font-display text-2xl font-bold text-gray-900 mt-0.5">
-        Selamat Pagi, <span class="text-terra">Budi Santoso</span>
+        Selamat Pagi, <span class="text-terra" id="userName">{{ Auth::user()->name }}</span>
       </h1>
       <p class="text-xs text-muted mt-1 leading-relaxed">Berikut adalah riwayat absensi Anda.</p>
     </div>
     
-<!-- Summary Stats (mobile friendly) -->
-<div class="grid grid-cols-3 gap-2 fade-up delay-1">
-  <div class="bg-white rounded-xl border border-border shadow-sm p-2 flex items-center gap-1.5">
-    <div class="w-6 h-6 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-        <polyline points="22 4 12 14.01 9 11.01"/>
-      </svg>
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-3 gap-2 fade-up delay-1">
+      <div class="bg-white rounded-xl border border-border shadow-sm p-2 flex items-center gap-1.5">
+        <div class="w-6 h-6 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-base font-bold text-gray-900 leading-tight" id="totalHadir">0</p>
+          <p class="text-[8px] text-muted font-medium uppercase tracking-wide">Hadir</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl border border-border shadow-sm p-2 flex items-center gap-1.5">
+        <div class="w-6 h-6 bg-yellow-50 rounded-lg flex items-center justify-center flex-shrink-0">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-base font-bold text-gray-900 leading-tight" id="totalTerlambat">0</p>
+          <p class="text-[8px] text-muted font-medium uppercase tracking-wide">Terlambat</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl border border-border shadow-sm p-2 flex items-center gap-1.5">
+        <div class="w-6 h-6 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-base font-bold text-gray-900 leading-tight" id="totalTidakHadir">0</p>
+          <p class="text-[8px] text-muted font-medium uppercase tracking-wide">Tidak Hadir</p>
+        </div>
+      </div>
     </div>
-    <div>
-      <p class="text-base font-bold text-gray-900 leading-tight" id="totalHadir">24</p>
-      <p class="text-[8px] text-muted font-medium uppercase tracking-wide">Hadir</p>
-    </div>
-  </div>
-  <div class="bg-white rounded-xl border border-border shadow-sm p-2 flex items-center gap-1.5">
-    <div class="w-6 h-6 bg-yellow-50 rounded-lg flex items-center justify-center flex-shrink-0">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
-      </svg>
-    </div>
-    <div>
-      <p class="text-base font-bold text-gray-900 leading-tight" id="totalTerlambat">3</p>
-      <p class="text-[8px] text-muted font-medium uppercase tracking-wide">Terlambat</p>
-    </div>
-  </div>
-  <div class="bg-white rounded-xl border border-border shadow-sm p-2 flex items-center gap-1.5">
-    <div class="w-6 h-6 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="15" y1="9" x2="9" y2="15"/>
-        <line x1="9" y1="9" x2="15" y2="15"/>
-      </svg>
-    </div>
-    <div>
-      <p class="text-base font-bold text-gray-900 leading-tight" id="totalAbsen">1</p>
-      <p class="text-[8px] text-muted font-medium uppercase tracking-wide">Tidak Hadir</p>
-    </div>
-  </div>
-</div>
 
     <!-- Filter Section -->
     <div class="bg-white rounded-2xl border border-border shadow-sm p-4 space-y-3 fade-up delay-2">
       <!-- Filter Buttons (Status) -->
-<div class="flex items-center gap-2 overflow-x-auto pb-1">
-  <button onclick="setFilter('semua')" class="filter-btn active px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition bg-terra text-white hover:bg-terra-l">
-    Semua
-  </button>
-  <button onclick="setFilter('hadir')" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition bg-stone-100 text-muted hover:bg-terra-xs">
-    Hadir
-  </button>
-  <button onclick="setFilter('terlambat')" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition bg-stone-100 text-muted hover:bg-terra-xs">
-    Terlambat
-  </button>
-  <button onclick="setFilter('tidak_hadir')" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition bg-stone-100 text-muted hover:bg-terra-xs">
-    Tidak Hadir
-  </button>
-</div>
+      <div class="flex items-center gap-2 overflow-x-auto pb-1">
+        <button onclick="setFilter('semua')" id="filterSemua" class="filter-btn active px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition bg-terra text-white hover:bg-terra-l">
+          Semua
+        </button>
+        <button onclick="setFilter('hadir')" id="filterHadir" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition bg-stone-100 text-muted hover:bg-terra-xs">
+          Hadir
+        </button>
+        <button onclick="setFilter('terlambat')" id="filterTerlambat" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition bg-stone-100 text-muted hover:bg-terra-xs">
+          Terlambat
+        </button>
+        <button onclick="setFilter('tidak_hadir')" id="filterTidakHadir" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition bg-stone-100 text-muted hover:bg-terra-xs">
+          Tidak Hadir
+        </button>
+      </div>
 
-<div class="flex flex-wrap items-center gap-2 pt-2 border-t border-stone-100">
-  <!-- Kolom preview (seperti search bar) -->
-  <div class="relative flex-1 min-w-[150px]">
-    <input type="text" id="filterPreviewInput" readonly 
-      class="w-full pl-9 pr-3 py-2.5 border border-border rounded-xl text-sm font-medium text-gray-700 bg-stone-50 cursor-default"
-      placeholder="Tanggal">
-    <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/>
-    </svg>
-  </div>
-  <!-- Tombol ikon kalender (tanpa teks) -->
-  <button id="openCalendarBtn" class="flex-shrink-0 w-10 h-10 bg-terra text-white rounded-xl flex items-center justify-center hover:bg-terra-l transition shadow-sm">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-      <rect x="3" y="4" width="18" height="18" rx="2"/>
-      <path d="M8 2v4M16 2v4M3 10h18"/>
-    </svg>
-  </button>
-  <!-- Tombol Reset -->
-  <button id="resetCalendarFilter" class="flex-shrink-0 px-3 py-2.5 bg-stone-100 rounded-xl text-xs font-semibold text-muted hover:bg-stone-200 transition">Reset</button>
-</div>
+      <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-stone-100">
+        <div class="relative flex-1 min-w-[150px]">
+          <input type="text" id="filterPreviewInput" readonly 
+            class="w-full pl-9 pr-3 py-2.5 border border-border rounded-xl text-sm font-medium text-gray-700 bg-stone-50 cursor-default"
+            placeholder="Pilih Tanggal / Bulan & Tahun">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/>
+          </svg>
+        </div>
+        
+        <button id="openCalendarBtn" class="flex-shrink-0 w-10 h-10 bg-terra text-white rounded-xl flex items-center justify-center hover:bg-terra-l transition shadow-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <path d="M8 2v4M16 2v4M3 10h18"/>
+          </svg>
+        </button>
+        
+        <button id="resetCalendarFilter" class="flex-shrink-0 px-3 py-2.5 bg-stone-100 rounded-xl text-xs font-semibold text-muted hover:bg-stone-200 transition">Reset</button>
+      </div>
     </div>
 
     <!-- History List -->
-    <div class="space-y-3 fade-up delay-3" id="historyContainer"></div>
+    <div class="space-y-3 fade-up delay-3" id="historyContainer">
+      <div class="flex justify-center py-8" id="historyLoading">
+        <svg class="animate-spin h-6 w-6 text-terra" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+      </div>
+      <div id="historyContent" class="hidden"></div>
+    </div>
 
     <!-- Empty State -->
     <div id="emptyState" class="hidden bg-white rounded-2xl border border-border shadow-sm p-8 text-center">
@@ -188,21 +196,21 @@
 
 <!-- Bottom Nav -->
 <nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border flex justify-around py-2 pb-4 shadow-[0_-2px_12px_rgba(28,28,28,0.06)]">
-  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='dashboard-karyawan'">
+  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('dashboard-karyawan') }}'">
     <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Beranda</span>
   </button>
-  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='absensi'">
+  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('absensi') }}'">
     <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Absensi</span>
   </button>
-  <button class="bn-item active flex flex-col items-center gap-1 flex-1" onclick="window.location.href='stok-produk'">
-    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><span class="bn-label text-[10px] font-medium text-terra">Stok Produk</span>
+  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('stok-produk') }}'">
+    <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Stok Produk</span>
   </button>
-  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='profil'">
+  <button class="bn-item flex flex-col items-center gap-1 flex-1" onclick="window.location.href='{{ route('karyawan.profile') }}'">
     <div class="bn-icon w-10 h-10 rounded-xl flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="bn-label text-[10px] font-medium text-muted">Profil</span>
   </button>
 </nav>
 
-<!-- MODAL KALENDER (grid tanggal) -->
+<!-- MODAL KALENDER -->
 <div id="calendarModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden transition-all duration-300">
   <div class="bg-white rounded-2xl w-[90%] max-w-sm mx-4 shadow-2xl transform transition-all">
     <div class="p-5 pb-2 text-center">
@@ -243,98 +251,141 @@
 </div>
 
 <script>
-  // DATA RIWAYAT
-  const historyData = [
-    { date: 'Senin, 20 Mei 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Selasa, 21 Mei 2024', check_in: '08:15', check_out: '16:05', status: 'terlambat' },
-    { date: 'Rabu, 22 Mei 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Kamis, 23 Mei 2024', check_in: '-', check_out: '-', status: 'tidak_hadir' },
-    { date: 'Jumat, 24 Mei 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Senin, 27 Mei 2024', check_in: '08:05', check_out: '16:00', status: 'hadir' },
-    { date: 'Selasa, 28 Mei 2024', check_in: '08:20', check_out: '16:10', status: 'terlambat' },
-    { date: 'Rabu, 29 Mei 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Kamis, 30 Mei 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Jumat, 31 Mei 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Senin, 3 Juni 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Selasa, 4 Juni 2024', check_in: '08:30', check_out: '16:15', status: 'terlambat' },
-    { date: 'Rabu, 5 Juni 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Jumat, 7 Juni 2024', check_in: '08:00', check_out: '16:00', status: 'hadir' },
-    { date: 'Senin, 10 Juli 2023', check_in: '08:00', check_out: '16:00', status: 'hadir' }
-  ];
+// ========== GLOBAL VARIABLES ==========
+let currentStatus = 'semua';
+let currentYear = null;
+let currentMonth = null;
+let currentDate = null;
+let selectedYear = new Date().getFullYear();
+let selectedMonth = new Date().getMonth();
+let selectedDay = new Date().getDate();
+const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
-  let currentFilter = 'semua';
-  let currentMonthYear = null; // format "YYYY-MM" untuk filter
-  let selectedYear = new Date().getFullYear();
-  let selectedMonth = new Date().getMonth();
-  let selectedDay = new Date().getDate();
-  const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-
-  // Helper
-  function getMonthYearFromDateString(dateStr) {
-    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    for (let i = 0; i < monthNames.length; i++) {
-      const regex = new RegExp(`${monthNames[i]} (\\d{4})`);
-      const match = dateStr.match(regex);
-      if (match) return `${match[1]}-${String(i+1).padStart(2,'0')}`;
+// ========== LOAD DATA DARI SERVER ==========
+async function loadData() {
+    try {
+        let url = '{{ route("shift.full-history") }}';
+        let params = [];
+        
+        if (currentDate) {
+            params.push(`date=${currentDate}`);
+        } else if (currentYear !== null && currentMonth !== null) {
+            params.push(`year=${currentYear}`);
+            params.push(`month=${currentMonth + 1}`);
+        }
+        
+        if (currentStatus !== 'semua') {
+            params.push(`status=${currentStatus}`);
+        }
+        
+        if (params.length > 0) {
+            url += '?' + params.join('&');
+        }
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        document.getElementById('totalHadir').textContent = data.stats.hadir || 0;
+        document.getElementById('totalTerlambat').textContent = data.stats.terlambat || 0;
+        document.getElementById('totalTidakHadir').textContent = data.stats.tidak_hadir || 0;
+        
+        renderHistory(data.histories);
+        
+    } catch (error) {
+        console.error('Gagal load data:', error);
+        showToast('Gagal memuat riwayat absensi');
     }
-    return null;
-  }
+}
 
-  function filterHistory() {
-    let filtered = [...historyData];
-    if (currentFilter !== 'semua') filtered = filtered.filter(h => h.status === currentFilter);
-    if (currentMonthYear) filtered = filtered.filter(h => getMonthYearFromDateString(h.date) === currentMonthYear);
-    renderHistory(filtered);
-  }
-
-  function renderHistory(data) {
-    const container = document.getElementById('historyContainer');
+function renderHistory(histories) {
+    const container = document.getElementById('historyContent');
+    const loadingEl = document.getElementById('historyLoading');
     const emptyState = document.getElementById('emptyState');
-    if (!data.length) { container.innerHTML = ''; emptyState.classList.remove('hidden'); return; }
+    
+    loadingEl.classList.add('hidden');
+    
+    if (histories.length === 0) {
+        container.innerHTML = '';
+        container.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        return;
+    }
+    
     emptyState.classList.add('hidden');
-    container.innerHTML = data.map(history => {
-      const statusConfig = getStatusConfig(history.status);
-      return `
+    container.classList.remove('hidden');
+    
+    container.innerHTML = histories.map(history => {
+        let statusConfig = getStatusConfig(history.status);
+        return `
         <div class="bg-white rounded-xl border border-border shadow-sm p-3 card-hover">
           <div class="flex items-start justify-between gap-2">
-            <div class="w-9 h-9 ${statusConfig.bgColor} rounded-lg flex items-center justify-center flex-shrink-0">${statusConfig.icon}</div>
+            <div class="w-9 h-9 ${statusConfig.bgColor} rounded-lg flex items-center justify-center flex-shrink-0">
+              ${statusConfig.icon}
+            </div>
             <div class="flex-1 min-w-0">
               <p class="text-xs font-bold text-gray-900">${history.date}</p>
               <div class="flex items-center gap-2 mt-1.5">
-                <div class="flex items-center gap-1"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg><span class="text-[10px] font-medium text-gray-800">${history.check_in}</span></div>
+                <div class="flex items-center gap-1">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                    <polyline points="10 17 15 12 10 7"/>
+                    <line x1="15" y1="12" x2="3" y2="12"/>
+                  </svg>
+                  <span class="text-[10px] font-medium text-gray-800">${history.check_in}</span>
+                </div>
                 <span class="text-muted text-[8px]">→</span>
-                <div class="flex items-center gap-1"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="text-[10px] font-medium text-gray-800">${history.check_out}</span></div>
+                <div class="flex items-center gap-1">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                  </svg>
+                  <span class="text-[10px] font-medium text-gray-800">${history.check_out}</span>
+                </div>
               </div>
+              ${history.shift_type ? `<p class="text-[9px] text-muted mt-1">Shift ${history.shift_type === 'pagi' ? 'Pagi' : 'Malam'} (${history.shift_start} - ${history.shift_end})</p>` : ''}
             </div>
             <span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${statusConfig.badgeClass}">${statusConfig.label}</span>
           </div>
-        </div>
-      `;
+        </div>`;
     }).join('');
-  }
+}
 
-  function getStatusConfig(status) {
+function getStatusConfig(status) {
     const configs = {
-      'hadir': { label: 'Hadir', badgeClass: 'bg-green-100 text-green-700', bgColor: 'bg-green-50', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
-      'terlambat': { label: 'Terlambat', badgeClass: 'bg-yellow-100 text-yellow-700', bgColor: 'bg-yellow-50', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' },
-      'tidak_hadir': { label: 'Tidak Hadir', badgeClass: 'bg-red-100 text-red-700', bgColor: 'bg-red-50', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>' }
+        'Hadir': { label: 'Hadir', badgeClass: 'bg-green-100 text-green-700', bgColor: 'bg-green-50', 
+            icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
+        'Terlambat': { label: 'Terlambat', badgeClass: 'bg-yellow-100 text-yellow-700', bgColor: 'bg-yellow-50', 
+            icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' },
+        'Tidak Hadir': { label: 'Tidak Hadir', badgeClass: 'bg-red-100 text-red-700', bgColor: 'bg-red-50', 
+            icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>' }
     };
-    return configs[status] || configs['hadir'];
-  }
+    return configs[status] || configs['Hadir'];
+}
 
-  function setFilter(filter) {
-    currentFilter = filter;
+// ========== FILTER FUNCTIONS ==========
+function setFilter(status) {
+    currentStatus = status;
+    
     document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.classList.remove('active', 'bg-terra', 'text-white');
-      btn.classList.add('bg-stone-100', 'text-muted');
+        btn.classList.remove('active', 'bg-terra', 'text-white');
+        btn.classList.add('bg-stone-100', 'text-muted');
     });
-    event.target.classList.remove('bg-stone-100', 'text-muted');
-    event.target.classList.add('active', 'bg-terra', 'text-white');
-    filterHistory();
-  }
+    
+    let activeBtn = document.getElementById(`filter${status.charAt(0).toUpperCase() + status.slice(1)}`);
+    if (status === 'semua') activeBtn = document.getElementById('filterSemua');
+    if (status === 'tidak_hadir') activeBtn = document.getElementById('filterTidakHadir');
+    
+    if (activeBtn) {
+        activeBtn.classList.remove('bg-stone-100', 'text-muted');
+        activeBtn.classList.add('active', 'bg-terra', 'text-white');
+    }
+    
+    loadData();
+}
 
-  // ========== KALENDER LENGKAP DENGAN TANGGAL ==========
-  function buildCalendar(year, month) {
+// ========== CALENDAR FUNCTIONS ==========
+function buildCalendar(year, month) {
     const firstDayOfMonth = new Date(year, month, 1);
     let startWeekday = firstDayOfMonth.getDay();
     let startOffset = (startWeekday + 6) % 7;
@@ -343,158 +394,158 @@
     for (let i = 0; i < startOffset; i++) daysGrid.push(null);
     for (let d = 1; d <= daysInMonth; d++) daysGrid.push(d);
     return daysGrid;
-  }
+}
 
-  function renderCalendarGrid(year, month) {
+function renderCalendarGrid(year, month) {
     const grid = buildCalendar(year, month);
     const container = document.getElementById('calendarDaysGrid');
     container.innerHTML = '';
     grid.forEach(day => {
-      const div = document.createElement('div');
-      div.className = 'calendar-day';
-      if (day === null) {
-        div.innerHTML = '';
-        div.classList.add('opacity-0', 'cursor-default', 'hover:bg-transparent');
-      } else {
-        div.innerHTML = day;
-        if (day === selectedDay && year === selectedYear && month === selectedMonth) div.classList.add('selected');
-        div.addEventListener('click', () => {
-          document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
-          div.classList.add('selected');
-          selectedDay = day;
-          selectedMonth = month;
-          selectedYear = year;
-          updatePreviewDate();
-        });
-      }
-      container.appendChild(div);
+        const div = document.createElement('div');
+        div.className = 'calendar-day';
+        if (day === null) {
+            div.innerHTML = '';
+            div.classList.add('opacity-0', 'cursor-default', 'hover:bg-transparent');
+        } else {
+            div.innerHTML = day;
+            if (day === selectedDay && year === selectedYear && month === selectedMonth) div.classList.add('selected');
+            div.addEventListener('click', () => {
+                document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                div.classList.add('selected');
+                selectedDay = day;
+                selectedMonth = month;
+                selectedYear = year;
+                updatePreviewDate();
+            });
+        }
+        container.appendChild(div);
     });
-  }
+}
 
-  function updatePreviewDate() {
+function updatePreviewDate() {
     const dateObj = new Date(selectedYear, selectedMonth, selectedDay);
-    const options = { weekday: 'short', day: 'numeric', month: 'short' };
-    const preview = dateObj.toLocaleDateString('id-ID', options).replace(/\./g, '');
-    document.getElementById('previewDate').innerHTML = preview;
-  }
+    const formattedDate = `${selectedDay} ${monthNames[selectedMonth]} ${selectedYear}`;
+    document.getElementById('previewDate').innerHTML = formattedDate;
+}
 
-  function populateYearSelect() {
+function populateYearSelect() {
     const currentYear = new Date().getFullYear();
     const select = document.getElementById('yearSelect');
     select.innerHTML = '';
     for (let y = currentYear - 5; y <= currentYear + 5; y++) {
-      const option = document.createElement('option');
-      option.value = y;
-      option.textContent = y;
-      if (y === selectedYear) option.selected = true;
-      select.appendChild(option);
+        const option = document.createElement('option');
+        option.value = y;
+        option.textContent = y;
+        if (y === selectedYear) option.selected = true;
+        select.appendChild(option);
     }
-  }
+}
 
-  function openCalendarModal() {
+function openCalendarModal() {
     const modal = document.getElementById('calendarModal');
     modal.classList.remove('hidden');
     document.getElementById('monthSelect').value = selectedMonth;
     document.getElementById('yearSelect').value = selectedYear;
     renderCalendarGrid(selectedYear, selectedMonth);
     updatePreviewDate();
-  }
+}
 
-  function closeCalendarModal() { document.getElementById('calendarModal').classList.add('hidden'); }
-
-  // Format tanggal lengkap untuk ditampilkan di input preview
-  function formatFullDate(year, month, day) {
-    const date = new Date(year, month, day);
-    const dayNum = date.getDate();
-    const monthName = monthNames[month];
-    const yearNum = date.getFullYear();
-    return `${dayNum} ${monthName} ${yearNum}`;
-  }
+function closeCalendarModal() {
+    document.getElementById('calendarModal').classList.add('hidden');
+}
 
 function applyCalendarSelection() {
-  const month = parseInt(document.getElementById('monthSelect').value);
-  const year = parseInt(document.getElementById('yearSelect').value);
-  // Ambil tanggal yang dipilih user (selectedDay)
-  const day = selectedDay;
-  const dateObj = new Date(year, month, day);
-  const formattedDate = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-  // Contoh: "20 Mei 2026"
-  document.getElementById('filterPreviewInput').value = formattedDate;
-  
-  // Filter tetap berdasarkan bulan & tahun (abaikan tanggal)
-  const monthStr = String(month + 1).padStart(2, '0');
-  currentMonthYear = `${year}-${monthStr}`;
-  filterHistory();
-  closeCalendarModal();
-  showToast(`Menampilkan data ${monthNames[month]} ${year}`);
+    const month = parseInt(document.getElementById('monthSelect').value);
+    const year = parseInt(document.getElementById('yearSelect').value);
+    
+    // Kirim sebagai filter tanggal (bukan bulan/tahun)
+    const selectedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
+    
+    currentDate = selectedDate;
+    currentYear = null;
+    currentMonth = null;
+    
+    document.getElementById('filterPreviewInput').value = `${selectedDay} ${monthNames[month]} ${year}`;
+    
+    loadData();
+    closeCalendarModal();
+    showToast(`Menampilkan data tanggal ${selectedDay} ${monthNames[month]} ${year}`);
 }
 
 function resetCalendarFilter() {
-  currentMonthYear = null;
-  selectedYear = new Date().getFullYear();
-  selectedMonth = new Date().getMonth();
-  selectedDay = new Date().getDate();
-  document.getElementById('filterPreviewInput').value = ''; // kosongkan
-  filterHistory();
-  showToast('Filter bulan direset');
+    currentYear = null;
+    currentMonth = null;
+    currentDate = null;
+    selectedYear = new Date().getFullYear();
+    selectedMonth = new Date().getMonth();
+    selectedDay = new Date().getDate();
+    document.getElementById('filterPreviewInput').value = '';
+    loadData();
+    showToast('Filter direset');
 }
 
-  function initCalendar() {
+function initCalendar() {
     populateYearSelect();
     document.getElementById('openCalendarBtn').addEventListener('click', openCalendarModal);
     document.getElementById('resetCalendarFilter').addEventListener('click', resetCalendarFilter);
     document.getElementById('cancelCalendarBtn').addEventListener('click', closeCalendarModal);
     document.getElementById('selectCalendarBtn').addEventListener('click', applyCalendarSelection);
+    
     document.getElementById('monthSelect').addEventListener('change', () => {
-      const month = parseInt(document.getElementById('monthSelect').value);
-      const year = parseInt(document.getElementById('yearSelect').value);
-      renderCalendarGrid(year, month);
-      const tempDate = new Date(year, month, 1);
-      const options = { weekday: 'short', day: 'numeric', month: 'short' };
-      const preview = tempDate.toLocaleDateString('id-ID', options).replace(/\./g, '');
-      document.getElementById('previewDate').innerHTML = preview;
+        const month = parseInt(document.getElementById('monthSelect').value);
+        const year = parseInt(document.getElementById('yearSelect').value);
+        renderCalendarGrid(year, month);
+        updatePreviewDate();
     });
+    
     document.getElementById('yearSelect').addEventListener('change', () => {
-      const month = parseInt(document.getElementById('monthSelect').value);
-      const year = parseInt(document.getElementById('yearSelect').value);
-      renderCalendarGrid(year, month);
-      const tempDate = new Date(year, month, 1);
-      const options = { weekday: 'short', day: 'numeric', month: 'short' };
-      const preview = tempDate.toLocaleDateString('id-ID', options).replace(/\./g, '');
-      document.getElementById('previewDate').innerHTML = preview;
+        const month = parseInt(document.getElementById('monthSelect').value);
+        const year = parseInt(document.getElementById('yearSelect').value);
+        renderCalendarGrid(year, month);
+        updatePreviewDate();
     });
+    
     document.getElementById('calendarModal').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('calendarModal')) closeCalendarModal();
+        if (e.target === document.getElementById('calendarModal')) closeCalendarModal();
     });
-  }
+}
 
-  function calculateStats() {
-    const hadir = historyData.filter(h => h.status === 'hadir').length;
-    const terlambat = historyData.filter(h => h.status === 'terlambat').length;
-    const tidakHadir = historyData.filter(h => h.status === 'tidak_hadir').length;
-    document.getElementById('totalHadir').textContent = hadir;
-    document.getElementById('totalTerlambat').textContent = terlambat;
-    document.getElementById('totalAbsen').textContent = tidakHadir;
-  }
+function goBack() {
+    window.history.back();
+}
 
-  function goBack() { window.history.back(); }
-  function showToast(msg) {
+function showToast(msg) {
     const toast = document.getElementById('toast');
     document.getElementById('toastMsg').innerText = msg;
     toast.style.opacity = '1';
     toast.style.transform = 'translateX(-50%) translateY(0)';
     setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(-50%) translateY(16px)';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(16px)';
     }, 2600);
-  }
+}
 
-  function init() {
-    calculateStats();
-    renderHistory(historyData);
+// ========== GREETING ==========
+(function() {
+    const h = new Date().getHours();
+    let greet = 'Selamat Pagi';
+    if (h >= 11 && h < 15) greet = 'Selamat Siang';
+    else if (h >= 15 && h < 18) greet = 'Selamat Sore';
+    else if (h >= 18) greet = 'Selamat Malam';
+    const greetingElement = document.querySelector('.font-display');
+    if (greetingElement) {
+        const userName = document.getElementById('userName')?.innerText || 'Karyawan';
+        greetingElement.innerHTML = `${greet}, <span class="text-terra">${userName}</span>`;
+    }
+})();
+
+// ========== INIT ==========
+function init() {
     initCalendar();
-  }
-  init();
+    loadData();
+}
+
+init();
 </script>
 </body>
 </html>
