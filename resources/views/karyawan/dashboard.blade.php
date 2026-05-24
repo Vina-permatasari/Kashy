@@ -75,7 +75,7 @@
       <p class="text-xs text-muted mt-1 leading-relaxed">Berikut ringkasan hari ini.</p>
     </div>
 
-    <!-- SHIFT CARD (tanpa timeline) -->
+    <!-- SHIFT CARD -->
     <div class="bg-white rounded-2xl border border-border shadow-sm overflow-hidden fade-up delay-2 card-hover">
       <div class="shimmer-bar h-1 w-full"></div>
       <div class="p-4">
@@ -92,26 +92,23 @@
               <p class="text-[10px] text-muted" id="shiftHariTanggal"></p>
             </div>
           </div>
-          <!-- Badge Status -->
           <div id="shiftBadge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border">
             <span id="badgeDot" class="w-2 h-2 rounded-full"></span>
             <span id="badgeText" class="text-[10px] font-semibold">Memuat...</span>
           </div>
         </div>
 
-        <!-- Waktu Mulai dan Berakhir -->
         <div class="grid grid-cols-2 gap-3 mb-3">
           <div>
             <p class="text-[9px] text-muted uppercase tracking-wide">Mulai</p>
-            <p class="text-sm font-semibold text-gray-900" id="shiftMulai">08:00</p>
+            <p class="text-sm font-semibold text-gray-900" id="shiftMulai">--:--</p>
           </div>
           <div>
             <p class="text-[9px] text-muted uppercase tracking-wide">Berakhir</p>
-            <p class="text-sm font-semibold text-gray-900" id="shiftBerakhir">16:00</p>
+            <p class="text-sm font-semibold text-gray-900" id="shiftBerakhir">--:--</p>
           </div>
         </div>
 
-        <!-- Informasi Nama, Posisi -->
         <div class="flex flex-col gap-2 text-xs text-muted border-t border-border pt-3 mt-1">
           <div class="flex flex-wrap gap-3">
             <div class="flex items-center gap-1.5">
@@ -133,7 +130,7 @@
       </div>
     </div>
 
-    <!-- TO-DO LIST (konsisten ukuran card) -->
+    <!-- TO-DO LIST -->
     <div class="bg-white rounded-2xl border border-border shadow-sm overflow-hidden fade-up delay-3 card-hover">
       <div class="p-4">
         <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
@@ -158,7 +155,6 @@
           </div>
         </div>
 
-        <!-- Form tambah tugas (hidden) -->
         <div id="todoForm" class="hidden mb-4 p-3 bg-stone-50 rounded-xl border border-stone-200">
           <div class="flex flex-col gap-2">
             <textarea id="todoInput" rows="2" placeholder="Tulis tugas baru..." class="w-full px-3 py-2 border border-border rounded-xl text-sm focus:outline-none focus:border-terra focus:ring-1 focus:ring-terra bg-white resize-none"></textarea>
@@ -169,7 +165,6 @@
           </div>
         </div>
 
-        <!-- Daftar tugas -->
         <div id="todoListContainer" class="space-y-2 max-h-64 overflow-y-auto"></div>
         <p id="todoEmpty" class="text-center text-muted text-xs py-4 hidden">Belum ada tugas. Klik "Tambah" untuk membuat daftar.</p>
       </div>
@@ -227,111 +222,121 @@
 </div>
 
 <script>
-  // ========== SHIFT (tanpa timeline) ==========
-  const SHIFT_STORAGE_KEY = 'kashy_shift';
-  const SHIFT_DURATION_MIN = 480;
-  const DEFAULT_START = "08:00";
-  const DEFAULT_END = "16:00";
+// ========== AMBIL STATUS SHIFT DARI DATABASE ==========
+let shiftStatus = 'tidak_aktif';
 
-  let shiftOpen = false;
-  let shiftStartTime = null;
-
-  const shiftBadge = document.getElementById('shiftBadge');
-  const badgeDot = document.getElementById('badgeDot');
-  const badgeText = document.getElementById('badgeText');
-  const shiftHariTanggal = document.getElementById('shiftHariTanggal');
-
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  shiftHariTanggal.innerText = new Date().toLocaleDateString('id-ID', options);
-
-  function loadShiftFromStorage() {
-    const saved = localStorage.getItem(SHIFT_STORAGE_KEY);
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        shiftOpen = data.active || false;
-        if (data.startTime) {
-          shiftStartTime = new Date(data.startTime);
-          if (shiftOpen && shiftStartTime) {
-            const now = new Date();
-            const diffMinutes = (now - shiftStartTime) / 60000;
-            if (diffMinutes >= SHIFT_DURATION_MIN) {
-              shiftOpen = false;
-              shiftStartTime = null;
-              localStorage.removeItem(SHIFT_STORAGE_KEY);
+async function loadShiftStatus() {
+    try {
+        const response = await fetch('{{ route("shift.status") }}');
+        const data = await response.json();
+        
+        shiftStatus = data.shift_status;
+        
+        updateShiftUI();
+        
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('shiftHariTanggal').innerText = new Date().toLocaleDateString('id-ID', options);
+        
+        // Tampilkan jam shift sesuai data dari server
+        if (data.shift_type === 'pagi') {
+            document.getElementById('shiftMulai').innerText = data.shift_start || '09:00';
+            document.getElementById('shiftBerakhir').innerText = data.shift_end || '17:00';
+            if (data.shift_status === 'aktif') {
+                document.getElementById('badgeText').innerText = `Aktif (Shift Pagi)`;
             }
-          }
+        } else if (data.shift_type === 'malam') {
+            document.getElementById('shiftMulai').innerText = data.shift_start || '15:00';
+            document.getElementById('shiftBerakhir').innerText = data.shift_end || '23:00';
+            if (data.shift_status === 'aktif') {
+                document.getElementById('badgeText').innerText = `Aktif (Shift Malam)`;
+            }
         } else {
-          shiftStartTime = null;
+            // Belum absen, tampilkan default shift pagi
+            document.getElementById('shiftMulai').innerText = '09:00';
+            document.getElementById('shiftBerakhir').innerText = '17:00';
         }
-      } catch(e) { console.warn(e); }
-    } else {
-      shiftOpen = false;
-      shiftStartTime = null;
+        
+        // Notifikasi terlambat
+        if (data.terlambat && data.shift_status === 'aktif') {
+            showToast(`⚠️ Perhatian: Anda terlambat!`);
+        }
+        
+    } catch (error) {
+        console.error('Gagal load shift status:', error);
+        showToast('Gagal memuat status shift');
     }
-    updateShiftUI();
-  }
+}
 
-  function updateShiftUI() {
-    if (shiftOpen && shiftStartTime) {
-      badgeDot.className = "w-2 h-2 rounded-full bg-green-500 pulse-dot";
-      badgeText.innerText = "Aktif";
-      shiftBadge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-green-300 text-green-500 bg-green-100";
-      
-      const startH = shiftStartTime.getHours().toString().padStart(2,'0');
-      const startM = shiftStartTime.getMinutes().toString().padStart(2,'0');
-      const endDate = new Date(shiftStartTime.getTime() + SHIFT_DURATION_MIN * 60000);
-      const endH = endDate.getHours().toString().padStart(2,'0');
-      const endM = endDate.getMinutes().toString().padStart(2,'0');
-      
-      document.getElementById('shiftMulai') && (document.getElementById('shiftMulai').innerText = `${startH}:${startM}`);
-      document.getElementById('shiftBerakhir') && (document.getElementById('shiftBerakhir').innerText = `${endH}:${endM}`);
-    } else {
-      badgeDot.className = "w-2 h-2 rounded-full bg-red-500";
-      badgeText.innerText = "Tidak Aktif";
-      shiftBadge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-300 text-red-500 bg-red-100";
-      
-      document.getElementById('shiftMulai') && (document.getElementById('shiftMulai').innerText = DEFAULT_START);
-      document.getElementById('shiftBerakhir') && (document.getElementById('shiftBerakhir').innerText = DEFAULT_END);
+function updateShiftUI() {
+    const badge = document.getElementById('shiftBadge');
+    const badgeDot = document.getElementById('badgeDot');
+    const badgeText = document.getElementById('badgeText');
+    
+    if (shiftStatus === 'aktif') {
+        badgeDot.className = "w-2 h-2 rounded-full bg-green-500 pulse-dot";
+        badgeText.innerText = "Aktif";
+        badge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-green-300 bg-green-100";
+    } 
+    else if (shiftStatus === 'selesai') {
+        badgeDot.className = "w-2 h-2 rounded-full bg-gray-500";
+        badgeText.innerText = "Selesai";
+        badge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-300 bg-gray-100";
     }
-  }
-
-  window.addEventListener('storage', (event) => {
-    if (event.key === SHIFT_STORAGE_KEY) {
-      loadShiftFromStorage();
+    else {
+        badgeDot.className = "w-2 h-2 rounded-full bg-red-500";
+        badgeText.innerText = "Tidak Aktif";
+        badge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-300 bg-red-100";
     }
-  });
+}
 
-  loadShiftFromStorage();
+// ========== LISTENER UPDATE DARI ABSENSI ==========
+window.addEventListener('storage', function(e) {
+    if (e.key === 'shift_updated') {
+        console.log('Dashboard update dari absensi');
+        loadShiftStatus();
+    }
+});
 
-  // ========== TO-DO LIST ==========
-  let todos = [];
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMsg').innerText = msg;
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    clearTimeout(window.toastTimeout);
+    window.toastTimeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(16px)';
+    }, 2600);
+}
 
-  function loadTodos() {
+// ========== TO-DO LIST ==========
+let todos = [];
+
+function loadTodos() {
     const stored = localStorage.getItem('kashy_todos');
     if (stored) {
-      try {
-        todos = JSON.parse(stored);
-      } catch(e) { todos = []; }
+        try {
+            todos = JSON.parse(stored);
+        } catch(e) { todos = []; }
     } else {
-      todos = [];
+        todos = [];
     }
     renderTodos();
-  }
+}
 
-  function saveTodos() {
+function saveTodos() {
     localStorage.setItem('kashy_todos', JSON.stringify(todos));
-  }
+}
 
-  function renderTodos() {
+function renderTodos() {
     const container = document.getElementById('todoListContainer');
     const emptyMsg = document.getElementById('todoEmpty');
     if (!container) return;
     
     if (todos.length === 0) {
-      container.innerHTML = '';
-      emptyMsg.classList.remove('hidden');
-      return;
+        container.innerHTML = '';
+        emptyMsg.classList.remove('hidden');
+        return;
     }
     emptyMsg.classList.add('hidden');
     
@@ -346,58 +351,58 @@
         </button>
       </div>
     `).join('');
-  }
+}
 
-  function showTodoForm() {
+function showTodoForm() {
     document.getElementById('todoForm').classList.remove('hidden');
     document.getElementById('showTodoFormBtn').classList.add('hidden');
     document.getElementById('todoInput').focus();
-  }
+}
 
-  function hideTodoForm() {
+function hideTodoForm() {
     document.getElementById('todoForm').classList.add('hidden');
     document.getElementById('showTodoFormBtn').classList.remove('hidden');
     document.getElementById('todoInput').value = '';
-  }
+}
 
-  function tambahTugas() {
+function tambahTugas() {
     const input = document.getElementById('todoInput');
     const text = input.value.trim();
     if (text === '') {
-      showToast('Tugas tidak boleh kosong!');
-      return;
+        showToast('Tugas tidak boleh kosong!');
+        return;
     }
     todos.push({
-      id: Date.now(),
-      text: text,
-      completed: false
+        id: Date.now(),
+        text: text,
+        completed: false
     });
     saveTodos();
     renderTodos();
     hideTodoForm();
     showToast('Tugas berhasil ditambahkan');
-  }
+}
 
-  function toggleTodo(id) {
+function toggleTodo(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
-      todo.completed = !todo.completed;
-      saveTodos();
-      renderTodos();
+        todo.completed = !todo.completed;
+        saveTodos();
+        renderTodos();
     }
-  }
+}
 
-  function deleteTodo(id) {
+function deleteTodo(id) {
     todos = todos.filter(t => t.id !== id);
     saveTodos();
     renderTodos();
     showToast('Tugas dihapus');
-  }
+}
 
-  function deleteAllTodos() {
+function deleteAllTodos() {
     if (todos.length === 0) {
-      showToast('Tidak ada tugas untuk dihapus');
-      return;
+        showToast('Tidak ada tugas untuk dihapus');
+        return;
     }
     const modal = document.getElementById('confirmDeleteAllModal');
     modal.classList.remove('hidden');
@@ -405,65 +410,56 @@
     const cancelBtn = document.getElementById('cancelDeleteAllBtn');
     
     const handleConfirm = () => {
-      todos = [];
-      saveTodos();
-      renderTodos();
-      showToast('Semua tugas dihapus');
-      modal.classList.add('hidden');
-      cleanup();
+        todos = [];
+        saveTodos();
+        renderTodos();
+        showToast('Semua tugas dihapus');
+        modal.classList.add('hidden');
+        cleanup();
     };
     const handleCancel = () => {
-      modal.classList.add('hidden');
-      cleanup();
+        modal.classList.add('hidden');
+        cleanup();
     };
     const cleanup = () => {
-      confirmBtn.removeEventListener('click', handleConfirm);
-      cancelBtn.removeEventListener('click', handleCancel);
+        confirmBtn.removeEventListener('click', handleConfirm);
+        cancelBtn.removeEventListener('click', handleCancel);
     };
     confirmBtn.addEventListener('click', handleConfirm);
     cancelBtn.addEventListener('click', handleCancel);
-  }
+}
 
-  function escapeHtml(str) {
+function escapeHtml(str) {
     return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
     });
-  }
+}
 
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    loadShiftStatus();
+    loadTodos();
+    
     const showBtn = document.getElementById('showTodoFormBtn');
     if (showBtn) showBtn.onclick = showTodoForm;
     const deleteAllBtn = document.getElementById('deleteAllBtn');
     if (deleteAllBtn) deleteAllBtn.onclick = deleteAllTodos;
-    loadTodos();
-  });
+});
 
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    document.getElementById('toastMsg').innerText = msg;
-    toast.style.opacity = '1';
-    toast.style.transform = 'translateX(-50%) translateY(0)';
-    clearTimeout(window.toastTimeout);
-    window.toastTimeout = setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(-50%) translateY(16px)';
-    }, 2600);
-  }
+// Refresh status setiap 30 detik
+setInterval(loadShiftStatus, 30000);
 
-  // GREETING DINAMIS
-  (function() {
+// GREETING DINAMIS
+(function() {
     const h = new Date().getHours();
     let greet = 'Selamat Pagi';
     if (h >= 11 && h < 15) greet = 'Selamat Siang';
     else if (h >= 15 && h < 18) greet = 'Selamat Sore';
     else if (h >= 18) greet = 'Selamat Malam';
     document.getElementById('greetTime').innerHTML = `${greet}, <span class="text-terra">{{ Auth::user()->name }}</span>`;
-  })();
-
-  loadTodos();
+})();
 </script>
 </body>
 </html>
