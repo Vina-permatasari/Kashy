@@ -14,7 +14,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Display the user's profile form bawaan Breeze.
      */
     public function edit(Request $request): View
     {
@@ -24,7 +24,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Update user's profile bawaan Breeze.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
@@ -60,7 +60,17 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update custom profile data.
+     * Display custom owner profile page.
+     */
+    public function ownerProfile()
+    {
+        return view('owner.profile', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    /**
+     * Update profile universal: owner, kasir, karyawan.
      */
     public function updateProfile(Request $request)
     {
@@ -68,14 +78,14 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('profile_photo')) {
-            if ($user->profile_photo) {
+            if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
 
@@ -89,7 +99,31 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update custom profile password.
+     * Update foto profil universal.
+     */
+    public function updatePhoto(Request $request)
+    {
+        $request->validate([
+            'profile_photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+            Storage::disk('public')->delete($user->profile_photo);
+        }
+
+        $path = $request->file('profile_photo')->store('profile-photos', 'public');
+
+        $user->update([
+            'profile_photo' => $path,
+        ]);
+
+        return back()->with('success', 'Foto profil berhasil diperbarui.');
+    }
+
+    /**
+     * Update password universal: owner, kasir, karyawan.
      */
     public function updatePassword(Request $request)
     {
@@ -114,7 +148,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
+     * Delete user's account bawaan Breeze.
      */
     public function destroy(Request $request): RedirectResponse
     {

@@ -6,12 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    // public function up(): void
+    // {
+    //     Schema::table('users', function (Blueprint $table) {
+    //         $table->string('phone')->nullable();
+    //         $table->text('address')->nullable();
+    //         $table->string('profile_photo')->nullable();
+    //     });
+    // }
+
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone')->nullable();
-            $table->text('address')->nullable();
+            $table->string('address')->nullable();
             $table->string('profile_photo')->nullable();
+            $table->string('role')->default('karyawan');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['phone', 'address', 'profile_photo', 'role']);
         });
     }
 

@@ -28,38 +28,61 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/owner/dashboard', 'owner.dashboard')
     ->middleware('auth')
     ->name('owner.dashboard');
+
     Route::view('/owner/manajemendiskon', 'owner.manajemendiskon')
     ->middleware('auth')
     ->name('manajemen.diskon');
+
     Route::view('/owner/laporan-keuangan', 'owner.laporankeuangan')
     ->middleware('auth')
     ->name('owner.laporan.keuangan');
+
     Route::view('/owner/stokopname', 'owner.stokopname')
     ->middleware('auth')
     ->name('stokopname');
+
     Route::view('/owner/manajemenstaff', 'owner.manajemenstaff')
     ->middleware('auth')
     ->name('manajemen.staff');
+
     Route::view('/owner/manajemenproduk', 'owner.manajemenproduk')
     ->middleware('auth')
     ->name('manajemen.produk');
+
     Route::view('/owner/pengaturantransaksi', 'owner.pengaturantransaksi')
     ->middleware('auth')
     ->name('pengaturan.transaksi');
+
     Route::view('/owner/kustomisasitemplatstruk','owner.kustomisasitemplatstruk')
     ->name('kustomisasi.template.struk');
+
     Route::view('/owner/konfigurasi-printer', 'owner.konfigurasiprinter')
     ->name('konfigurasi.printer');
+
     Route::view('/owner/pusat-keamanan-data','owner.pusatkeamanandata')
     ->name('pusat.keamanan.data');
+
     Route::delete('/owner/products/{product}', [ProductController::class, 'destroy'])
     ->name('owner.products.destroy');
+
     Route::view('/owner/manajemenkategori', 'owner.manajemenkategori')
     ->middleware('auth')
     ->name('manajemen.kategori');
+
     Route::view('/owner/manajementoko', 'owner.manajementoko')
     ->middleware('auth')
     ->name('manajemen.toko');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROFILE OWNER
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/owner/profile', [ProfileController::class, 'ownerProfile'])
+        ->middleware('auth')
+        ->name('owner.profile');
     
     
 });
@@ -76,33 +99,29 @@ Route::get('/kasir/dashboard', function () {
     return view('kasir.dashboard');
 })->middleware('auth')->name('dashboard-kasir');
 
-    Route::get('/kasir/shiftkasir', function () {
-        return view('kasir.shiftkasir');
-    })->name('kasir.shiftkasir');
+Route::get('/kasir/shiftkasir', function () {
+    return view('kasir.shiftkasir');
+})->name('kasir.shiftkasir');
 
-    Route::get('/kasir/profil', [ProfileController::class, 'kasirProfile'])
-    ->middleware('auth')
-    ->name('kasir.profil');
+Route::get('/kasir/profil', [ProfileController::class, 'kasirProfile'])
+->middleware('auth')
+->name('kasir.profil');
 
-    Route::get('/kasir/profil', [ProfileController::class, 'kasirProfile'])
-    ->middleware('auth')
-    ->name('kasir.profil');
+Route::get('/kasir/riwayattransaksi', function () {
+    return view('kasir.riwayattransaksi');
+})->name('kasir.riwayattransaksi');
 
-    Route::get('/kasir/riwayattransaksi', function () {
-        return view('kasir.riwayattransaksi');
-    })->name('kasir.riwayattransaksi');
+Route::get('/kasir/laporantransaksi', function () {
+    return view('kasir.laporantransaksi');
+})->name('kasir.laporantransaksi');
 
-    Route::get('/kasir/laporantransaksi', function () {
-        return view('kasir.laporantransaksi');
-    })->name('kasir.laporantransaksi');
+Route::get('/kasir/transaksi', function () {
+    return view('kasir.transaksi');
+})->name('kasir.transaksi');
 
-    Route::get('/kasir/transaksi', function () {
-        return view('kasir.transaksi');
-    })->name('kasir.transaksi');
-
-    Route::get('/kasir/pembayaran', function () {
-        return view('kasir.pembayaran');
-    })->name('kasir.pembayaran');
+Route::get('/kasir/pembayaran', function () {
+    return view('kasir.pembayaran');
+})->name('kasir.pembayaran');
 
 
 /*
@@ -146,6 +165,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('/karyawan/profile/password', [ProfileController::class, 'updatePassword'])
         ->name('karyawan.password.update');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROFILE UNIVERSAL UPDATE
+    |--------------------------------------------------------------------------
+    */
+
+    Route::put('/profile/update', [ProfileController::class, 'updateProfile'])
+        ->name('profile.updateProfile');
+
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])
+        ->name('profile.updatePassword');
+
+    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])
+        ->name('profile.updatePhoto');
 });
 
 
