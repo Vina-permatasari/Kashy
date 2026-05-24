@@ -99,6 +99,33 @@
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:transparent; }
     ::-webkit-scrollbar-thumb { background:#C49A6C; border-radius:10px; }
+    
+    /* ── PENYESUAIAN UKURAN KARTU AGAR "SEUKURAN TAB" (TABLET FRIENDLY) ── */
+    /* Membuat stat card lebih proporsional di tablet & desktop */
+    @media (min-width: 768px) {
+      .stat-card {
+        min-height: 170px;
+        padding: 1.5rem !important;   /* p-6 setara */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .stat-card .text-3xl {
+        font-size: 1.9rem; /* sedikit lebih besar agar nyaman dibaca di tablet */
+      }
+    }
+    /* Pastikan di layar kecil tetap nyaman */
+    @media (max-width: 640px) {
+      .stat-card {
+        padding: 1.25rem;
+      }
+    }
+    /* Penanganan angka Rupiah agar tidak patah */
+    .rupiah-number {
+      word-break: break-word;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
   </style>
 </head>
 @include('owner.components.sidebar')
@@ -131,7 +158,7 @@
 
     <!-- Stat Cards Grid (grid responsif: 1 kolom mobile, 2 tablet, 3 desktop) -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-      <!-- Total Pendapatan -->
+      <!-- Total Pendapatan (DIUBAH MENJADI RUPIAH) -->
       <div class="fade-up d1 stat-card bg-white rounded-2xl p-5 shadow-card">
         <div class="flex items-start justify-between mb-3">
           <span class="text-[11px] font-semibold tracking-widest text-kashy-muted uppercase">Total Pendapatan</span>
@@ -143,10 +170,11 @@
             </svg>
           </div>
         </div>
-        <p class="text-3xl font-bold text-kashy-dark">$142,850<span class="text-lg">.00</span></p>
+        <!-- Nilai Rupiah (format Indonesia, tanpa desimal) -->
+        <p class="text-3xl font-bold text-kashy-dark rupiah-number">Rp 2.150.000.000</p>
       </div>
 
-      <!-- Total Pesanan -->
+      <!-- Total Pesanan (tidak diubah) -->
       <div class="fade-up d2 stat-card bg-white rounded-2xl p-5 shadow-card">
         <div class="flex items-start justify-between mb-3">
           <span class="text-[11px] font-semibold tracking-widest text-kashy-muted uppercase">Total Pesanan</span>
@@ -161,7 +189,7 @@
         <p class="text-3xl font-bold text-kashy-dark">1,284</p>
       </div>
 
-      <!-- Diskon Aktif -->
+      <!-- Diskon Aktif (tidak diubah) -->
       <div class="fade-up d3 stat-card bg-white rounded-2xl p-5 shadow-card">
         <div class="flex items-start justify-between mb-3">
           <span class="text-[11px] font-semibold tracking-widest text-kashy-muted uppercase">Diskon Aktif</span>
@@ -176,47 +204,47 @@
       </div>
     </div>
 
-<!-- Akses Cepat (grid responsif tablet) -->
-<div class="fade-up d4 bg-kashy-dark rounded-2xl p-6 mb-6">
-  <p class="text-[11px] font-semibold tracking-widest text-white/50 uppercase mb-4">Akses Cepat</p>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-    <!-- Laporan Keuangan (ikon dari sidebar) -->
-    <button class="mod-btn">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-        <line x1="18" y1="20" x2="18" y2="10"/>
-        <line x1="12" y1="20" x2="12" y2="4"/>
-        <line x1="6" y1="20" x2="6" y2="14"/>
-      </svg>
-      Laporan Keuangan
-    </button>
-    <!-- Manajemen Toko (ikon dari sidebar) -->
-    <button class="mod-btn">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-      Manajemen Toko
-    </button>
-    <!-- Manajemen Produk (ikon dari sidebar) -->
-    <button class="mod-btn">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-        <line x1="12" y1="22.08" x2="12" y2="12"/>
-      </svg>
-      Manajemen Produk
-    </button>
-    <!-- Manajemen Diskon (ikon dari sidebar) -->
-    <button class="mod-btn">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-        <line x1="19" y1="5" x2="5" y2="19"/>
-        <circle cx="6.5" cy="6.5" r="2.5"/>
-        <circle cx="17.5" cy="17.5" r="2.5"/>
-      </svg>
-      Manajemen Diskon
-    </button>
-  </div>
-</div>
+    <!-- Akses Cepat (grid responsif tablet) -->
+    <div class="fade-up d4 bg-kashy-dark rounded-2xl p-6 mb-6">
+      <p class="text-[11px] font-semibold tracking-widest text-white/50 uppercase mb-4">Akses Cepat</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Laporan Keuangan -->
+        <button class="mod-btn">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          Laporan Keuangan
+        </button>
+        <!-- Manajemen Toko -->
+        <button class="mod-btn">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Manajemen Toko
+        </button>
+        <!-- Manajemen Produk -->
+        <button class="mod-btn">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+          Manajemen Produk
+        </button>
+        <!-- Manajemen Diskon -->
+        <button class="mod-btn">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <line x1="19" y1="5" x2="5" y2="19"/>
+            <circle cx="6.5" cy="6.5" r="2.5"/>
+            <circle cx="17.5" cy="17.5" r="2.5"/>
+          </svg>
+          Manajemen Diskon
+        </button>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -266,9 +294,9 @@
   }
 
   navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    closeSidebar(); 
-  });
+    link.addEventListener('click', () => {
+      closeSidebar(); 
+    });
     if (link.classList.contains('active')) {
       const svg = link.querySelector('svg');
       if (svg) svg.setAttribute('stroke', '#7B4F2E');
