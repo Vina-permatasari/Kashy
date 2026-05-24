@@ -32,8 +32,8 @@ Route::middleware(['auth'])->group(function () {
     ->middleware('auth')
     ->name('manajemen.diskon');
     Route::view('/owner/laporan-keuangan', 'owner.laporankeuangan')
-        ->middleware('auth')
-        ->name('owner.laporan.keuangan');
+    ->middleware('auth')
+    ->name('owner.laporan.keuangan');
     Route::view('/owner/stokopname', 'owner.stokopname')
     ->middleware('auth')
     ->name('stokopname');
@@ -43,26 +43,23 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/owner/manajemenproduk', 'owner.manajemenproduk')
     ->middleware('auth')
     ->name('manajemen.produk');
-    
-        
-    // Products
-    Route::get('/owner/products', [ProductController::class, 'ownerIndex'])
-        ->name('owner.products.index');
-
-    Route::get('/owner/products/create', [ProductController::class, 'create'])
-        ->name('owner.products.create');
-
-    Route::post('/owner/products', [ProductController::class, 'store'])
-        ->name('owner.products.store');
-
-    Route::get('/owner/products/{product}/edit', [ProductController::class, 'edit'])
-        ->name('owner.products.edit');
-
-    Route::put('/owner/products/{product}', [ProductController::class, 'update'])
-        ->name('owner.products.update');
-
+    Route::view('/owner/pengaturantransaksi', 'owner.pengaturantransaksi')
+    ->middleware('auth')
+    ->name('pengaturan.transaksi');
+    Route::view('/owner/kustomisasitemplatstruk','owner.kustomisasitemplatstruk')
+    ->name('kustomisasi.template.struk');
+    Route::view('/owner/konfigurasi-printer', 'owner.konfigurasiprinter')
+    ->name('konfigurasi.printer');
+    Route::view('/owner/pusat-keamanan-data','owner.pusatkeamanandata')
+    ->name('pusat.keamanan.data');
     Route::delete('/owner/products/{product}', [ProductController::class, 'destroy'])
-        ->name('owner.products.destroy');
+    ->name('owner.products.destroy');
+    Route::view('/owner/manajemenkategori', 'owner.manajemenkategori')
+    ->middleware('auth')
+    ->name('manajemen.kategori');
+    Route::view('/owner/manajementoko', 'owner.manajementoko')
+    ->middleware('auth')
+    ->name('manajemen.toko');
     
     
 });

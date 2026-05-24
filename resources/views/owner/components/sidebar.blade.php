@@ -46,7 +46,8 @@
       Manajemen Staff
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+
+    <a href="{{ route('manajemen.toko') }}" class="nav-item {{ request()->routeIs('manajemen.toko') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
         <polyline points="9 22 9 12 15 12 15 22"/>
@@ -62,8 +63,7 @@
     </svg>
       Manajemen Diskon
     </a>
-
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('manajemen.kategori') }}" class="nav-item {{ request()->routeIs('manajemen.kategori') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
         <line x1="7" y1="7" x2="7.01" y2="7"/>
@@ -80,7 +80,7 @@
       Manajemen Produk
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('pengaturan.transaksi') }}" class="nav-item {{ request()->routeIs('pengaturan.transaksi') ? 'active' : '' }}" data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <line x1="4" y1="21" x2="4" y2="14"/>
         <line x1="4" y1="10" x2="4" y2="3"/>
@@ -95,7 +95,7 @@
       Pengaturan Transaksi
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('kustomisasi.template.struk') }}"class="nav-item {{ request()->routeIs('kustomisasi.template.struk') ? 'active' : '' }}"data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
         <polyline points="14 2 14 8 20 8"/>
@@ -106,7 +106,7 @@
       Struk
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('konfigurasi.printer') }}"class="nav-item {{ request()->routeIs('konfigurasi.printer') ? 'active' : '' }}"data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <polyline points="6 9 6 2 18 2 18 9"/>
         <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
@@ -115,7 +115,8 @@
       Konfigurasi Printer
     </a>
 
-    <a href="javascript:void(0)" class="nav-item" data-nav>
+    <a href="{{ route('pusat.keamanan.data') }}"class="nav-item {{ request()->routeIs('pusat.keamanan.data') ? 'active' : '' }}"data-nav>
+
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <polyline points="1 4 1 10 7 10"/>
         <polyline points="23 20 23 14 17 14"/>
