@@ -165,8 +165,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kasir/shift/buka', [KasirShiftController::class, 'bukaShift'])->name('kasir.shift.buka');
     Route::post('/kasir/shift/tutup', [KasirShiftController::class, 'tutupShift'])->name('kasir.shift.tutup');
 });
-
-
+/*
+|--------------------------------------------------------------------------
+| LAPORAN KASIR API
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kasir/laporan/hari-ini', [App\Http\Controllers\LaporanController::class, 'getLaporanHariIni'])->name('kasir.laporan.hari-ini');
+});
+Route::get('/kasir/laporan/hari-ini', [App\Http\Controllers\LaporanController::class, 'getLaporanHariIni'])->name('kasir.laporan.hari-ini');
+Route::get('/kasir/laporan/export-pdf', [App\Http\Controllers\LaporanController::class, 'exportPDF'])->name('kasir.laporan.export-pdf');
 /*
 |--------------------------------------------------------------------------
 | KARYAWAN
