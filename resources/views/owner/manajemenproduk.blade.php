@@ -35,7 +35,7 @@
     * { font-family:'Poppins',sans-serif; box-sizing:border-box; }
     body { background:#F5F0EB; margin:0; }
 
-    /* Sidebar tersembunyi (sama seperti manajemen diskon) */
+    /* Sidebar (sama persis) */
     #sidebar {
       position:fixed; top:0; left:0; height:100vh; width:280px;
       background:#fff; box-shadow:2px 0 24px rgba(60,40,10,.12);
@@ -50,15 +50,6 @@
     }
     #overlay.show { display:block; }
 
-    /* Desktop: sidebar selalu terlihat */
-    /* @media(min-width:1024px) {
-      #sidebar { transform:translateX(0)!important; }
-      #main    { margin-left:280px; }
-      #overlay { display:none!important; }
-      #global-menu-toggle { display:none!important; }
-    } */
-
-    /* Animasi */
     @keyframes fadeUp {
       from { opacity:0; transform:translateY(18px); }
       to   { opacity:1; transform:translateY(0); }
@@ -66,9 +57,9 @@
     .fade-up { animation:fadeUp .4s ease both; }
     .d1 { animation-delay:.05s; } .d2 { animation-delay:.10s; }
     .d3 { animation-delay:.15s; } .d4 { animation-delay:.20s; }
-    .d5 { animation-delay:.25s; } .d6 { animation-delay:.30s; }
+    .d5 { animation-delay:.25s; }
 
-    /* Navigasi */
+    /* Navigasi sidebar */
     .nav-item {
       display:flex; align-items:center; gap:12px; padding:11px 18px;
       border-radius:12px; cursor:pointer; transition:all .15s;
@@ -79,43 +70,13 @@
     .nav-item.active { background:#F7EFE5; color:#7B4F2E; font-weight:600; }
     .nav-item.active svg { stroke:#7B4F2E; }
 
-    /* Tab */
+    /* Tab kategori */
     .tab-btn {
       padding:10px 4px; font-size:13px; font-weight:600; color:#8A7968;
       border-bottom:2px solid transparent; cursor:pointer;
       transition:all .2s; background:none;
     }
     .tab-btn.active { color:#1a1a1a; border-bottom-color:#C49A6C; }
-
-    /* Product card */
-    .prod-img-wrap {
-      width:100%; height:160px; border-radius:14px; overflow:hidden;
-      position:relative; margin-bottom:12px;
-    }
-    .prod-img-wrap img { width:100%; height:100%; object-fit:cover; }
-    .badge-stok {
-      position:absolute; top:10px; right:10px;
-      font-size:10px; font-weight:700; letter-spacing:.05em;
-      padding:3px 10px; border-radius:20px;
-      background:#fff; color:#1a1a1a;
-    }
-    .badge-stok.tersedia { background:#C49A6C; color:#fff; }
-    .badge-stok.rendah   { background:#F59E0B; color:#fff; }
-    .badge-stok.habis    { background:#D94F4F; color:#fff; }
-
-    /* Chip */
-    .chip {
-      display:inline-flex; align-items:center; gap:5px;
-      padding:5px 12px; border-radius:8px;
-      font-size:12px; font-weight:600;
-      background:#F5F0EB; color:#8A7968; border:1.5px solid #E0D8CE;
-    }
-    .chip-terra { background:#FDF1E8; color:#C49A6C; border-color:#C49A6C; }
-    .chip-remove {
-      background:none; border:none; cursor:pointer;
-      color:#8A7968; font-size:14px; line-height:1;
-      padding:0;
-    }
 
     /* Form */
     .form-input {
@@ -135,6 +96,44 @@
       text-transform:uppercase; letter-spacing:.07em; margin-bottom:6px;
       display:block;
     }
+
+    /* Produk card grid */
+    .prod-img-wrap {
+      width:100%; height:220px; border-radius:14px; overflow:hidden;
+      position:relative; margin-bottom:12px;
+    }
+    .prod-img-wrap img { width:100%; height:100%; object-fit:cover; }
+    .chip {
+      display:inline-flex; align-items:center; gap:5px;
+      padding:5px 12px; border-radius:8px;
+      font-size:12px; font-weight:600;
+      background:#F5F0EB; color:#8A7968; border:1.5px solid #E0D8CE;
+    }
+    .chip-terra { background:#FDF1E8; color:#C49A6C; border-color:#C49A6C; }
+    .chip-remove {
+      background:none; border:none; cursor:pointer;
+      color:#8A7968; font-size:14px; line-height:1;
+      padding:0;
+    }
+    .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    .badge-produk {
+      position: absolute; top: 12px; right: 12px;
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 10px; font-weight: bold;
+      background: #1a1a1a; color: white;
+    }
+    .badge-sale { background: #ef4444; }
+    .badge-new { background: #3a9e6f; }
+    .badge-branded { background: #c49a6c; }
+
+    @keyframes fadeIn {
+      from { opacity:0; transform:scale(0.96); }
+      to   { opacity:1; transform:scale(1); }
+    }
+    .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
+
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:transparent; }
     ::-webkit-scrollbar-thumb { background:#C49A6C; border-radius:10px; }
@@ -143,10 +142,9 @@
 @include('owner.components.sidebar')
 <body>
 
-
-<!-- ========== MAIN CONTENT ========== -->
 <main id="main" class="min-h-screen bg-kashy-cream transition-all duration-300">
-    @include('owner.components.topbar')
+  @include('owner.components.topbar')
+
   <div class="px-5 md:px-8 py-6 max-w-2xl mx-auto">
 
     <!-- Header -->
@@ -155,50 +153,122 @@
       <p class="text-sm text-kashy-muted mt-1">Kelola dan pantau inventaris produk Anda.</p>
     </div>
 
-    <!-- Tombol Tambah Produk -->
+    <!-- Tombol Tambah Produk (buka modal) -->
     <div class="fade-up d2 mb-5">
-      <button onclick="document.getElementById('formSection').scrollIntoView({behavior:'smooth'})" class="w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm tracking-widest text-white uppercase transition-all duration-200 hover:opacity-90 active:scale-[.98]" style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">
+      <button onclick="openProductModal()" class="w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm tracking-widest text-white uppercase transition-all duration-200 hover:opacity-90 active:scale-[.98]" style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Tambah Produk
       </button>
     </div>
-
-    <!-- Tabs Filter -->
-    <div class="fade-up d2 flex gap-6 border-b border-kashy-border mb-5">
-      <button class="tab-btn active" onclick="filterTab('semua', this)">SEMUA <span id="countSemua">(0)</span></button>
-      <button class="tab-btn" onclick="filterTab('rendah', this)">STOK RENDAH <span id="countRendah">(0)</span></button>
-      <button class="tab-btn" onclick="filterTab('habis', this)">STOK HABIS <span id="countHabis">(0)</span></button>
+    <!-- Tabs Kategori -->
+    <div class="fade-up d2 flex gap-6 border-b border-kashy-border mb-5 overflow-x-auto whitespace-nowrap">
+      <button class="tab-btn active" onclick="filterTab('semua', this)">Semua <span id="countSemua">(0)</span></button>
+      <button class="tab-btn" onclick="filterTab('Dress', this)">Dress</button>
+      <button class="tab-btn" onclick="filterTab('Cardigan', this)">Cardigan</button>
+      <button class="tab-btn" onclick="filterTab('Kemeja', this)">Kemeja</button>
+      <button class="tab-btn" onclick="filterTab('Celana', this)">Celana</button>
+      <button class="tab-btn" onclick="filterTab('Aksesoris', this)">Aksesoris</button>
     </div>
 
     <!-- Search -->
     <div class="fade-up d2 mb-4">
       <div class="relative">
-        <span class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A7968" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A7968" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
         <input type="text" id="searchProduct" class="form-input" style="padding-left:36px;" placeholder="Cari nama produk atau SKU..."/>
       </div>
     </div>
-
-    <!-- Daftar Produk (Card) -->
-    <div id="productContainer" class="flex flex-col gap-4"></div>
-
-    <!-- Form Tambah Produk -->
-    <div id="formSection" class="fade-up d6 bg-white rounded-2xl p-5 mt-6 shadow-card">
-      <h2 class="text-xl font-bold text-kashy-dark mb-5">Produk Baru</h2>
-      <div class="mb-4"><label class="form-label">Nama Produk</label><input type="text" id="prodName" class="form-input" placeholder="nama produk..."/></div>
-      <div class="grid grid-cols-2 gap-3 mb-4"><div><label class="form-label">SKU</label><input type="text" id="prodSku" class="form-input" placeholder="EG-XXX-000"/></div><div><label class="form-label">Kategori</label><select id="prodCategory" class="form-input form-select"><option>Dress</option><option>Cardigan</option><option>Kemeja</option><option>Celana</option><option>Aksesoris</option></select></div></div>
-      <div class="grid grid-cols-2 gap-3 mb-4"><div><label class="form-label">Harga</label><input type="text" id="prodPrice" class="form-input" placeholder="Rp 0"/></div><div><label class="form-label">Stok</label><input type="number" id="prodStock" class="form-input" placeholder="0"/></div></div>
-      <div class="mb-4"><label class="form-label">Batas Stok Rendah</label><input type="number" id="prodLowStock" class="form-input" placeholder="10"/></div>
-      <div class="mb-4"><label class="form-label">Deskripsi</label><textarea id="prodDesc" rows="3" class="form-input resize-none" placeholder="Deskripsi produk..."></textarea></div>
-      <div class="mb-5"><label class="form-label">Varian / Ukuran</label><div class="flex flex-wrap gap-2 mb-3" id="variantContainer"><span class="chip chip-terra">S<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button></span><span class="chip chip-terra">M<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button></span></div><input type="text" id="variantInput" class="form-input" placeholder="Tambah varian (tekan Enter)" onkeydown="addVariant(event)"/></div>
-      <div class="mb-5"><label class="form-label">Status</label><select id="prodStatus" class="form-input form-select"><option>Tersedia</option><option>Stok Rendah</option><option>Tidak Tersedia</option></select></div>
-      <button id="createProductBtn" class="w-full py-4 rounded-2xl font-bold text-white text-sm tracking-wide mb-3 transition-all duration-200 hover:opacity-90 active:scale-[.98]" style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">Simpan Produk</button>
+    
+    <!-- Ringkasan Stok per Kategori (diperkecil ukurannya) -->
+    <div class="fade-up d2 mb-5" id="categoryStatsContainer">
+      <p class="text-[11px] font-bold tracking-widest text-kashy-muted uppercase mb-3">Ringkasan Stok</p>
+      <div id="categoryStatsGrid" class="grid grid-cols-1 gap-3">
+        <!-- akan diisi javascript -->
+      </div>
     </div>
+
+    <!-- Grid Produk (2 kolom) -->
+    <div id="productContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
 
   </div>
 </main>
 
+<!-- MODAL TAMBAH/EDIT PRODUK -->
+<div id="productModal" class="hidden fixed inset-0 z-[999] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative animate-fadeIn">
+    <h2 id="modalTitle" class="text-2xl font-bold text-kashy-dark mb-6">Tambah Produk</h2>
+    <input type="hidden" id="editId" value="">
+
+    <div class="mb-4">
+      <label class="form-label">Foto Produk (Opsional)</label>
+      <input type="file" id="prodImage" accept="image/*" class="form-input"/>
+    </div>
+    <div class="mb-4">
+      <label class="form-label">Nama Produk <span class="text-red-500">*</span></label>
+      <input type="text" id="prodName" class="form-input" placeholder="Nama produk..."/>
+    </div>
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div><label class="form-label">Kategori</label><select id="prodCategory" class="form-input form-select"><option>Dress</option><option>Cardigan</option><option>Kemeja</option><option>Celana</option><option>Aksesoris</option></select></div>
+      <div><label class="form-label">Harga (Rp)</label><input type="text" id="prodPrice" class="form-input" placeholder="0"/></div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div><label class="form-label">Harga Coret (opsional)</label><input type="text" id="prodOldPrice" class="form-input" placeholder="Contoh: 120000"/></div>
+      <div><label class="form-label">Badge</label>
+        <select id="prodBadge" class="form-input form-select">
+          <option value="">Tanpa Badge</option>
+          <option value="new">New</option>
+          <option value="sale">Sale</option>
+          <option value="branded">Branded</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div><label class="form-label">Bahan</label><input type="text" id="prodBahan" class="form-input" placeholder="Contoh: Katun Premium"/></div>
+      <div><label class="form-label">Warna</label><input type="text" id="prodWarna" class="form-input" placeholder="Contoh: Cream"/></div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-3 mb-4">
+      <div><label class="form-label">Kondisi</label>
+        <select id="prodKondisi" class="form-input form-select">
+          <option value="">Pilih</option>
+          <option>Baru</option><option>Like New</option><option>Second</option>
+        </select>
+      </div>
+      <div><label class="form-label">Lingkar Dada</label><input type="text" id="prodLingkarDada" class="form-input" placeholder="96 cm"/></div>
+      <div><label class="form-label">Panjang Baju</label><input type="text" id="prodPanjangBaju" class="form-input" placeholder="72 cm"/></div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div><label class="form-label">Stok</label><input type="number" id="prodStock" class="form-input" placeholder="0"/></div>
+      <div><label class="form-label">Ukuran (varian)</label>
+        <div class="flex flex-wrap gap-2 mb-2" id="variantContainer">
+          <span class="chip chip-terra">S<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button></span>
+          <span class="chip chip-terra">M<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button></span>
+        </div>
+        <input type="text" id="variantInput" class="form-input" placeholder="Tambah ukuran lalu Enter" onkeydown="addVariant(event)"/>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label">Deskripsi</label>
+      <textarea id="prodDesc" rows="3" class="form-input resize-none" placeholder="Deskripsi produk..."></textarea>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <button id="saveProductBtn" class="flex-1 py-4 rounded-2xl font-bold text-white text-sm tracking-wide transition-all duration-200 hover:opacity-90 active:scale-[.98]" style="background:#C49A6C; box-shadow:0 4px 14px rgba(196,154,108,.35);">Simpan Produk</button>
+      <button onclick="closeProductModal()" class="flex-1 py-4 rounded-2xl font-bold text-kashy-dark text-sm tracking-wide border-2 border-kashy-border transition-all duration-200 hover:bg-kashy-cream active:scale-[.98] bg-white">Batal</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // ========== SIDEBAR TOGGLE (Hidden menu) ==========
+  // ========= SIDEBAR TOGGLE =========
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   const menuBtn = document.getElementById('global-menu-toggle');
@@ -211,13 +281,11 @@
   if (overlay) overlay.addEventListener('click', closeSidebar);
   document.addEventListener('keydown', e => { if (e.key==='Escape') closeSidebar(); });
 
-  // ========== DATA PRODUK ==========
+  // ========= DATA PRODUK =========
   let products = [
-    { id:1, name:"Artisan Linen Midi Dress", sku:"EG-DR-2024-001", category:"Dress", price:"Rp 1.450.000", stock:142, lowStockThreshold:10, desc:"Linen alam, bersumber dari peternakan berkelanjutan.", variants:["S","M","L"], status:"Tersedia", img:"https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600&q=80" },
-    { id:2, name:"Uniqlo Cardigan Pink", sku:"EG-ACC-Cardigan-88", category:"Cardigan", price:"Rp 3.890.000", stock:8, lowStockThreshold:10, desc:"Cardigan rajut lembut dengan warna pink dusty.", variants:["M","L"], status:"Stok Rendah", img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80" },
-    { id:3, name:"Organic Cotton Oxford", sku:"EG-TSH-WHT-21", category:"Kemeja", price:"Rp 890.000", stock:56, lowStockThreshold:10, desc:"Kemeja Oxford berbahan katun organik.", variants:["S","M","L","XL"], status:"Tersedia", img:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80" },
-    { id:4, name:"Cashmere Blend Sweater", sku:"EG-KW-OOL-402", category:"Cardigan", price:"Rp 2.450.000", stock:0, lowStockThreshold:5, desc:"Sweater cashmere premium.", variants:["M","L"], status:"Tidak Tersedia", img:"https://images.unsplash.com/photo-1614676471928-2ed0ad1061a4?w=600&q=80" },
-    { id:5, name:"Silk Evening Gown", sku:"EG-GWN-EVE-019", category:"Dress", price:"Rp 3.250.000", stock:24, lowStockThreshold:10, desc:"Gaun malam sutra premium.", variants:["S","M"], status:"Tersedia", img:"https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=600&q=80" }
+    { id:1, name:"Artisan Linen Midi Dress", sku:"EG-001", category:"Dress", price:"1450000", oldPrice:"", badge:"", bahan:"Linen", warna:"Cream", kondisi:"Baru", lingkar_dada:"96 cm", panjang_baju:"110 cm", stock:142, desc:"Linen premium modern.", variants:["S","M","L"], img:"https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600&q=80" },
+    { id:2, name:"Uniqlo Cardigan Pink", sku:"EG-002", category:"Cardigan", price:"890000", oldPrice:"", badge:"", bahan:"Rajut", warna:"Pink", kondisi:"Like New", lingkar_dada:"100 cm", panjang_baju:"60 cm", stock:22, desc:"Cardigan rajut pink.", variants:["M","L"], img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80" },
+    { id:3, name:"Organic Cotton Oxford", sku:"EG-003", category:"Kemeja", price:"780000", oldPrice:"", badge:"new", bahan:"Katun Organik", warna:"Putih", kondisi:"Baru", lingkar_dada:"104 cm", panjang_baju:"72 cm", stock:0, desc:"Kemeja katun organik.", variants:["S","M","L"], img:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80" }
   ];
 
   let currentFilter = "semua";
@@ -225,75 +293,252 @@
 
   function updateCounters() {
     document.getElementById("countSemua").innerHTML = `(${products.length})`;
-    const rendah = products.filter(p => p.stock > 0 && p.stock <= (p.lowStockThreshold||10)).length;
-    const habis = products.filter(p => p.stock === 0).length;
-    document.getElementById("countRendah").innerHTML = `(${rendah})`;
-    document.getElementById("countHabis").innerHTML = `(${habis})`;
   }
 
-  function getStockStatus(p) {
-    if (p.stock === 0) return "habis";
-    if (p.stock <= (p.lowStockThreshold||10)) return "rendah";
-    return "tersedia";
+  // RINGKASAN STOK DIPERKECIL UKURANNYA
+  function renderCategoryStats() {
+    const container = document.getElementById('categoryStatsGrid');
+    if (!container) return;
+
+    if (currentFilter === "semua") {
+      const totalHabis = products.filter(p => p.stock === 0).length;
+      const totalMenipis = products.filter(p => p.stock > 0 && p.stock <= 5).length;
+
+      container.innerHTML = `
+        <div class="bg-white rounded-xl p-1.5 shadow-card border border-kashy-border">
+          <div class="grid grid-cols-2 gap-2">
+            <div class="rounded-lg bg-red-50 border border-red-200 p-2 text-center">
+              <p class="text-[10px] text-red-500 font-semibold">Stok Habis</p>
+              <p class="text-xl font-extrabold text-red-600">${totalHabis}</p>
+            </div>
+            <div class="rounded-lg bg-orange-50 border border-orange-200 p-2 text-center">
+              <p class="text-[10px] text-orange-500 font-semibold">Stok Menipis</p>
+              <p class="text-xl font-extrabold text-orange-600">${totalMenipis}</p>
+            </div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // kategori tertentu
+    const kategoriProduk = products.filter(p => p.category === currentFilter);
+    const habis = kategoriProduk.filter(p => p.stock === 0).length;
+    const menipis = kategoriProduk.filter(p => p.stock > 0 && p.stock <= 5).length;
+
+    container.innerHTML = `
+      <div class="bg-white rounded-xl p-1.5 shadow-card border border-kashy-border">
+        <div class="grid grid-cols-2 gap-2">
+          <div class="rounded-lg bg-red-50 border border-red-200 p-2 text-center">
+            <p class="text-[10px] text-red-500 font-semibold">Stok Habis</p>
+            <p class="text-xl font-extrabold text-red-600">${habis}</p>
+          </div>
+          <div class="rounded-lg bg-orange-50 border border-orange-200 p-2 text-center">
+            <p class="text-[10px] text-orange-500 font-semibold">Stok Menipis</p>
+            <p class="text-xl font-extrabold text-orange-600">${menipis}</p>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
   function renderProducts() {
     let filtered = [...products];
-    if (currentFilter === "rendah") filtered = filtered.filter(p => p.stock > 0 && p.stock <= (p.lowStockThreshold||10));
-    if (currentFilter === "habis") filtered = filtered.filter(p => p.stock === 0);
+    if (currentFilter !== "semua") {
+      filtered = filtered.filter(p => p.category === currentFilter);
+    }
     if (searchKeyword.trim()) {
       const kw = searchKeyword.toLowerCase();
-      filtered = filtered.filter(p => p.name.toLowerCase().includes(kw) || p.sku.toLowerCase().includes(kw));
+      filtered = filtered.filter(p => p.name.toLowerCase().includes(kw) || (p.sku && p.sku.toLowerCase().includes(kw)));
     }
     const container = document.getElementById("productContainer");
-    if (!container) return;
     container.innerHTML = "";
     if (filtered.length === 0) {
-      container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center shadow-card"><p class="text-kashy-muted">Tidak ada produk ditemukan.</p></div>`;
+      container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center shadow-card col-span-2"><p class="text-kashy-muted">Tidak ada produk ditemukan.</p></div>`;
+      updateCounters();
+      renderCategoryStats();
       return;
     }
     filtered.forEach(p => {
-      const statusKey = getStockStatus(p);
-      let badgeClass = "", badgeText = "";
-      if (statusKey === "tersedia") { badgeClass = "tersedia"; badgeText = "Tersedia"; }
-      else if (statusKey === "rendah") { badgeClass = "rendah"; badgeText = "Stok Rendah"; }
-      else { badgeClass = "habis"; badgeText = "Stok Habis"; }
-      const stockColor = p.stock === 0 ? "text-red-500" : (statusKey === "rendah" ? "text-amber-500" : "text-kashy-dark");
+      const formattedPrice = `Rp ${parseInt(p.price).toLocaleString('id-ID')}`;
+      let oldPriceHtml = p.oldPrice ? `<span class="text-xs text-muted line-through">Rp ${parseInt(p.oldPrice).toLocaleString('id-ID')}</span>` : '';
+      let badgeHtml = '';
+      if (p.badge === 'sale') badgeHtml = `<span class="badge-produk badge-sale">SALE</span>`;
+      else if (p.badge === 'new') badgeHtml = `<span class="badge-produk badge-new">NEW</span>`;
+      else if (p.badge === 'branded') badgeHtml = `<span class="badge-produk badge-branded">BRANDED</span>`;
+      
       const card = document.createElement("div");
-      card.className = "bg-white rounded-2xl p-4 shadow-card fade-up";
+      card.className = "bg-white rounded-2xl p-3 shadow-card fade-up";
       card.innerHTML = `
-        <div class="prod-img-wrap"><img src="${p.img}" loading="lazy"><span class="badge-stok ${badgeClass}">${badgeText}</span></div>
-        <p class="text-[10px] font-semibold text-kashy-muted uppercase mb-1">${p.sku}</p>
-        <h3 class="text-lg font-bold text-kashy-dark mb-1">${p.name}</h3>
-        <p class="text-sm text-kashy-muted mb-3">${p.desc.substring(0,80)}${p.desc.length>80?'…':''}</p>
-        <div class="flex gap-6 mb-3"><div><p class="text-[10px] font-semibold text-kashy-muted uppercase mb-1">Stok</p><p class="text-base font-bold ${stockColor}">${p.stock} Unit</p></div><div><p class="text-[10px] font-semibold text-kashy-muted uppercase mb-1">Harga</p><p class="text-base font-bold text-kashy-brown">${p.price}</p></div></div>
-        <div class="flex items-center gap-4 pt-3 border-t border-kashy-border">
-          <button class="flex items-center gap-1.5 text-sm font-semibold text-kashy-muted hover:text-kashy-dark" onclick="editProduct(${p.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</button>
-          <button class="flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:text-red-700" onclick="deleteProduct(${p.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>Hapus</button>
+        <div class="prod-img-wrap relative h-[220px]">
+          <img src="${p.img}" loading="lazy">
+          ${badgeHtml}
+        </div>
+        <p class="text-[10px] font-semibold text-kashy-muted uppercase mb-1">${p.category}</p>
+        <h3 class="text-base font-bold text-kashy-dark line-clamp-1 mb-1">${p.name}</h3>
+        <div class="flex items-center gap-2 mb-1">
+          <p class="text-lg font-extrabold text-kashy-brown">${formattedPrice}</p>
+          ${oldPriceHtml}
+        </div>
+        <p class="text-xs text-kashy-muted line-clamp-2 mb-3">${p.desc}</p>
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="text-xs text-kashy-muted">Stok: ${p.stock}</p>
+            ${p.stock === 0 ? `<p class="text-[10px] font-bold text-red-600 mt-1">⚠ Stok Habis</p>` : (p.stock <= 5 ? `<p class="text-[10px] font-bold text-orange-500 mt-1">⚠ Stok Menipis</p>` : '')}
+          </div>
+          <div class="flex flex-wrap gap-1">
+            ${p.variants.map(v => `<span class="chip text-xs py-0 px-2">${v}</span>`).join('')}
+          </div>
+        </div>
+        <div class="flex items-center gap-3 pt-3 border-t border-kashy-border">
+          <button class="flex items-center gap-1 text-xs font-semibold text-kashy-muted hover:text-kashy-dark" onclick="editProduct(${p.id})">Edit</button>
+          <button class="flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-700" onclick="deleteProduct(${p.id})">Hapus</button>
         </div>
       `;
       container.appendChild(card);
     });
     updateCounters();
+    renderCategoryStats();
   }
 
   function filterTab(tab, btn) {
     currentFilter = tab;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
     renderProducts();
   }
 
-  function editProduct(id) {
-    const p = products.find(x => x.id === id);
-    if (!p) return;
-    let newName = prompt("Edit nama:", p.name);
-    if (newName?.trim()) p.name = newName.trim();
-    let newPrice = prompt("Edit harga:", p.price);
-    if (newPrice?.trim()) p.price = newPrice.trim();
-    let newStock = prompt("Edit stok:", p.stock);
-    if (newStock !== null && !isNaN(parseInt(newStock))) p.stock = parseInt(newStock);
+  document.getElementById("searchProduct")?.addEventListener("input", e => { searchKeyword = e.target.value; renderProducts(); });
+
+  function addVariant(e) {
+    if (e.key !== "Enter") return;
+    const val = e.target.value.trim();
+    if (!val) return;
+    const chip = document.createElement("span");
+    chip.className = "chip chip-terra";
+    chip.innerHTML = `${val}<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button>`;
+    document.getElementById("variantContainer").appendChild(chip);
+    e.target.value = "";
+  }
+
+  // ========= MODAL TAMBAH/EDIT =========
+  let editMode = false;
+
+  function openProductModal(id = null) {
+    const modal = document.getElementById("productModal");
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    
+    if (id) {
+      editMode = true;
+      const product = products.find(p => p.id === id);
+      if (product) {
+        document.getElementById("modalTitle").innerText = "Edit Produk";
+        document.getElementById("editId").value = product.id;
+        document.getElementById("prodName").value = product.name;
+        document.getElementById("prodCategory").value = product.category;
+        document.getElementById("prodPrice").value = product.price;
+        document.getElementById("prodOldPrice").value = product.oldPrice || "";
+        document.getElementById("prodBadge").value = product.badge || "";
+        document.getElementById("prodBahan").value = product.bahan || "";
+        document.getElementById("prodWarna").value = product.warna || "";
+        document.getElementById("prodKondisi").value = product.kondisi || "";
+        document.getElementById("prodLingkarDada").value = product.lingkar_dada || "";
+        document.getElementById("prodPanjangBaju").value = product.panjang_baju || "";
+        document.getElementById("prodStock").value = product.stock;
+        document.getElementById("prodDesc").value = product.desc;
+        const variantContainer = document.getElementById("variantContainer");
+        variantContainer.innerHTML = "";
+        product.variants.forEach(v => {
+          const chip = document.createElement("span");
+          chip.className = "chip chip-terra";
+          chip.innerHTML = `${v}<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button>`;
+          variantContainer.appendChild(chip);
+        });
+        document.getElementById("prodImage").value = "";
+      }
+    } else {
+      editMode = false;
+      document.getElementById("modalTitle").innerText = "Tambah Produk";
+      document.getElementById("editId").value = "";
+      document.getElementById("prodName").value = "";
+      document.getElementById("prodCategory").value = "Dress";
+      document.getElementById("prodPrice").value = "";
+      document.getElementById("prodOldPrice").value = "";
+      document.getElementById("prodBadge").value = "";
+      document.getElementById("prodBahan").value = "";
+      document.getElementById("prodWarna").value = "";
+      document.getElementById("prodKondisi").value = "";
+      document.getElementById("prodLingkarDada").value = "";
+      document.getElementById("prodPanjangBaju").value = "";
+      document.getElementById("prodStock").value = "";
+      document.getElementById("prodDesc").value = "";
+      document.getElementById("variantContainer").innerHTML = `<span class="chip chip-terra">S<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button></span><span class="chip chip-terra">M<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button></span>`;
+      document.getElementById("prodImage").value = "";
+    }
+  }
+
+  function closeProductModal() {
+    document.getElementById("productModal").classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  function getVariants() {
+    const chips = document.querySelectorAll("#variantContainer .chip");
+    return Array.from(chips).map(ch => ch.innerText.replace("×","").trim());
+  }
+
+  document.getElementById("saveProductBtn")?.addEventListener("click", () => {
+    const name = document.getElementById("prodName").value.trim();
+    if (!name) {
+      alert("Nama produk wajib diisi.");
+      return;
+    }
+    let image = "https://images.unsplash.com/photo-1594938298603-c8148c4b4057?w=600&q=80";
+    const fileInput = document.getElementById("prodImage");
+    if (fileInput.files[0]) {
+      image = URL.createObjectURL(fileInput.files[0]);
+    }
+
+    const editId = document.getElementById("editId").value;
+    const productData = {
+      name: name,
+      category: document.getElementById("prodCategory").value,
+      price: document.getElementById("prodPrice").value.replace(/[^0-9]/g, '') || "0",
+      oldPrice: document.getElementById("prodOldPrice").value.replace(/[^0-9]/g, '') || "",
+      badge: document.getElementById("prodBadge").value,
+      bahan: document.getElementById("prodBahan").value,
+      warna: document.getElementById("prodWarna").value,
+      kondisi: document.getElementById("prodKondisi").value,
+      lingkar_dada: document.getElementById("prodLingkarDada").value,
+      panjang_baju: document.getElementById("prodPanjangBaju").value,
+      stock: parseInt(document.getElementById("prodStock").value) || 0,
+      desc: document.getElementById("prodDesc").value || "Deskripsi produk",
+      variants: getVariants(),
+      img: image,
+      sku: "SKU-" + Date.now()
+    };
+
+    if (editId) {
+      const index = products.findIndex(p => p.id == editId);
+      if (index !== -1) {
+        productData.id = parseInt(editId);
+        productData.sku = products[index].sku;
+        products[index] = productData;
+        alert(`Produk "${name}" berhasil diperbarui.`);
+      }
+    } else {
+      const newId = Date.now();
+      productData.id = newId;
+      products.unshift(productData);
+      alert(`Produk "${name}" berhasil ditambahkan.`);
+    }
     renderProducts();
+    closeProductModal();
+  });
+
+  function editProduct(id) {
+    openProductModal(id);
   }
 
   function deleteProduct(id) {
@@ -303,46 +548,7 @@
     }
   }
 
-  document.getElementById("searchProduct")?.addEventListener("input", e => { searchKeyword = e.target.value; renderProducts(); });
-
-  function addVariant(e) {
-    if (e.key !== 'Enter') return;
-    const val = e.target.value.trim();
-    if (!val) return;
-    const container = document.getElementById("variantContainer");
-    const chip = document.createElement("span");
-    chip.className = "chip";
-    chip.innerHTML = `${val}<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button>`;
-    container.appendChild(chip);
-    e.target.value = "";
-  }
-
-  document.getElementById("createProductBtn")?.addEventListener("click", () => {
-    const name = document.getElementById("prodName").value.trim();
-    const sku = document.getElementById("prodSku").value.trim();
-    if (!name || !sku) { alert("Nama dan SKU wajib diisi."); return; }
-    const category = document.getElementById("prodCategory").value;
-    let price = document.getElementById("prodPrice").value.trim();
-    if (!price.startsWith("Rp")) price = `Rp ${price}`;
-    const stock = parseInt(document.getElementById("prodStock").value) || 0;
-    const lowStock = parseInt(document.getElementById("prodLowStock").value) || 10;
-    const desc = document.getElementById("prodDesc").value.trim() || "Produk baru";
-    const variants = Array.from(document.querySelectorAll("#variantContainer .chip")).map(ch => ch.innerText.replace('×', '').trim());
-    const status = document.getElementById("prodStatus").value;
-    const newId = Date.now();
-    products.push({ id:newId, name, sku, category, price, stock, lowStockThreshold:lowStock, desc, variants, status, img:"https://images.unsplash.com/photo-1594938298603-c8148c4b4057?w=600&q=80" });
-    renderProducts();
-    // reset form
-    document.getElementById("prodName").value = "";
-    document.getElementById("prodSku").value = "";
-    document.getElementById("prodPrice").value = "";
-    document.getElementById("prodStock").value = "";
-    document.getElementById("prodLowStock").value = "10";
-    document.getElementById("prodDesc").value = "";
-    document.getElementById("variantContainer").innerHTML = `<span class="chip chip-terra">S<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button></span><span class="chip chip-terra">M<button class="chip-remove" onclick="this.closest('.chip').remove()">×</button></span>`;
-    alert(`Produk "${name}" berhasil ditambahkan.`);
-  });
-
+  // ========= INISIALISASI =========
   renderProducts();
 </script>
 </body>

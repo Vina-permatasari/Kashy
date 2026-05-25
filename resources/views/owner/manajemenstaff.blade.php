@@ -36,7 +36,7 @@
     * { font-family:'Poppins',sans-serif; box-sizing:border-box; }
     body { background:#F5F0EB; margin:0; }
 
-    /* ── Sidebar (sama persis dengan manajemen diskon) ── */
+    /* Sidebar */
     #sidebar {
       position:fixed; top:0; left:0; height:100vh; width:280px;
       background:#fff; box-shadow:2px 0 24px rgba(60,40,10,.12);
@@ -48,7 +48,7 @@
     #overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:55; backdrop-filter:blur(3px); }
     #overlay.show { display:block; }
 
-    /* ── Animations ── */
+    /* Animations */
     @keyframes fadeUp {
       from { opacity:0; transform:translateY(18px); }
       to   { opacity:1; transform:translateY(0); }
@@ -58,7 +58,7 @@
     .d3 { animation-delay:.15s; } .d4 { animation-delay:.20s; }
     .d5 { animation-delay:.25s; } .d6 { animation-delay:.30s; }
 
-    /* ── Nav items ── */
+    /* Nav items */
     .nav-item {
       display:flex; align-items:center; gap:12px; padding:11px 18px;
       border-radius:12px; cursor:pointer; transition:all .15s;
@@ -69,7 +69,7 @@
     .nav-item.active { background:#F7EFE5; color:#7B4F2E; font-weight:600; }
     .nav-item.active svg { stroke:#7B4F2E; }
 
-    /* ── Tab underline ── */
+    /* Tab underline */
     .tab-btn {
       padding:10px 4px; font-size:13px; font-weight:600; color:#8A7968;
       border-bottom:2px solid transparent; cursor:pointer;
@@ -78,7 +78,7 @@
     }
     .tab-btn.active { color:#1a1a1a; border-bottom-color:#C49A6C; }
 
-    /* ── Staff card (mirip promo card) ── */
+    /* Staff card */
     .staff-avatar {
       width: 48px; height: 48px; border-radius: 60px;
       background: #F5F0EB; display: flex; align-items: center; justify-content: center;
@@ -90,10 +90,8 @@
       padding: 3px 12px; border-radius: 20px;
       font-size: 10px; font-weight: 700; letter-spacing: .04em;
     }
-    .badge-owner   { background:#1a1a1a; color:#fff; }
-    .badge-kasir   { background:#C49A6C; color:#fff; }
-    .badge-gudang  { background:#7B4F2E; color:#fff; }
-    .badge-manajer { background:#2C5F2D; color:#fff; }
+    .badge-kasir   { background:#1a1a1a; color:#fff; }
+    .badge-karyawan  { background:#C49A6C; color:#fff; }
     .status-badge {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 3px 10px; border-radius: 20px;
@@ -102,7 +100,7 @@
     .status-aktif   { background:#E8F5EA; color:#3A9E6F; }
     .status-nonaktif{ background:#FEF2F2; color:#D94F4F; }
 
-    /* ── Form input (sama) ── */
+    /* Form input */
     .form-input {
       width:100%; padding:12px 14px; border:1.5px solid #E0D8CE;
       border-radius:12px; font-size:13px; font-family:'Poppins',sans-serif;
@@ -121,8 +119,6 @@
       text-transform:uppercase; letter-spacing:.07em; margin-bottom:6px;
       display:block;
     }
-
-    /* ── Search wrapper ── */
     .search-icon {
       position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
       pointer-events: none;
@@ -130,6 +126,97 @@
     ::-webkit-scrollbar { width:4px; }
     ::-webkit-scrollbar-track { background:transparent; }
     ::-webkit-scrollbar-thumb { background:#C49A6C; border-radius:10px; }
+
+    /* Toast notification (atas kanan) */
+    .toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1000;
+      background: white;
+      border-radius: 16px;
+      padding: 12px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      animation: slideInDown 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+      transform-origin: top;
+      max-width: 340px;
+    }
+    .toast-success { border-left: 5px solid #3A9E6F; color: #1a1a1a; }
+    .toast-error   { border-left: 5px solid #D94F4F; color: #1a1a1a; }
+    @keyframes slideInDown {
+      from { opacity: 0; transform: translateY(-100%); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    /* Modal Konfirmasi Hijau */
+    .modal-confirm {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.2s;
+    }
+    .modal-confirm.show { visibility: visible; opacity: 1; }
+    .modal-confirm .modal-card {
+      background: white;
+      max-width: 380px;
+      width: 90%;
+      border-radius: 28px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 20px 35px -8px rgba(0,0,0,0.2);
+      transform: scale(0.95);
+      transition: transform 0.2s;
+    }
+    .modal-confirm.show .modal-card { transform: scale(1); }
+    .modal-icon {
+      background: #E8F5EA;
+      width: 64px;
+      height: 64px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .modal-icon svg { width: 32px; height: 32px; stroke: #3A9E6F; stroke-width: 1.8; }
+    .modal-title { font-size: 20px; font-weight: 800; color: #1a1a1a; margin-bottom: 12px; }
+    .modal-message { font-size: 14px; color: #6B5E52; margin-bottom: 24px; line-height: 1.5; }
+    .modal-buttons { display: flex; gap: 12px; }
+    .modal-btn {
+      flex: 1; padding: 12px; border-radius: 40px; font-weight: 700; font-size: 14px;
+      cursor: pointer; transition: all 0.2s; border: none;
+    }
+    .modal-btn-cancel { background: #F5F0EB; color: #1a1a1a; }
+    .modal-btn-confirm { background: #3A9E6F; color: white; box-shadow: 0 4px 10px rgba(58,158,111,0.3); }
+    .modal-btn-confirm:hover { background: #2e7d57; transform: scale(0.97); }
+    .modal-btn-cancel:hover { background: #EDE5DB; transform: scale(0.97); }
+
+    /* Shimmer bar untuk modal */
+    @keyframes shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+    .shimmer-bar {
+      background: linear-gradient(90deg, #C49A6C, #E5B18A, #F0D7C7, #E5B18A, #C49A6C);
+      background-size: 200%; animation: shimmer 4s linear infinite;
+      height: 3px;
+    }
   </style>
 </head>
 
@@ -142,26 +229,21 @@
 
   <div class="px-5 md:px-8 py-6 max-w-2xl mx-auto">
 
-    <!-- ── Header ── -->
+    <!-- Header -->
     <div class="fade-up d1 mb-5">
       <h1 class="text-3xl font-extrabold text-kashy-dark">Manajemen Staff</h1>
       <p class="text-sm text-kashy-muted mt-1">Kelola akses, peran, dan status karyawan toko Anda.</p>
     </div>
 
-    <!-- ── Tambah Staff Button (sama seperti Create Promotion) ── -->
+    <!-- Tombol Tambah Staff (buka modal) -->
     <div class="fade-up d2 mb-5">
-      <button
-        onclick="document.getElementById('formSection').scrollIntoView({behavior:'smooth'})"
-        class="w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm tracking-widest text-white uppercase transition-all duration-200 hover:opacity-90 active:scale-[.98]"
-        style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
+      <button onclick="openStaffModal()" class="w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm tracking-widest text-white uppercase transition-all duration-200 hover:opacity-90 active:scale-[.98]" style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Tambah Staff Baru
       </button>
     </div>
 
-    <!-- ── Tabs (Semua / Aktif / Nonaktif) ── -->
+    <!-- Tabs -->
     <div class="fade-up d2 flex gap-6 border-b border-kashy-border mb-5">
       <button class="tab-btn active" data-tab="semua" onclick="filterTab('semua', this)">
         SEMUA <span id="countSemua" class="text-kashy-brown">(0)</span>
@@ -174,120 +256,151 @@
       </button>
     </div>
 
-    <!-- ── Search & Filter (seperti pada diskon ada input cari, tapi kita tambah filter role) ── -->
+    <!-- Search & Filter -->
     <div class="fade-up d2 mb-5">
       <div class="flex flex-col sm:flex-row gap-3">
         <div class="relative flex-1">
-          <span class="search-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A7968" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-          </span>
+          <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A7968" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
           <input type="text" id="searchStaff" class="form-input" style="padding-left: 38px;" placeholder="Cari nama, email, atau peran...">
         </div>
         <div class="relative">
           <select id="roleFilter" class="form-input form-select w-full sm:w-40">
             <option value="all">Semua Peran</option>
-            <option value="Owner">Owner</option>
             <option value="Kasir">Kasir</option>
-            <option value="Gudang">Gudang</option>
-            <option value="Manajer">Manajer</option>
+            <option value="Karyawan">Karyawan</option>
           </select>
         </div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════
-         DAFTAR STAFF (CARD LAYOUT, mirip promo card)
-         ══════════════════════════════ -->
-    <div id="staffContainer" class="flex flex-col gap-4">
-      <!-- staff cards akan diisi javascript -->
-    </div>
+    <!-- Daftar Staff -->
+    <div id="staffContainer" class="flex flex-col gap-4"></div>
 
-    <!-- ── Log Keamanan (mirip dengan diskon namun sebagai card tambahan) ── -->
+    <!-- Log Keamanan -->
     <div class="fade-up d5 bg-white rounded-2xl p-5 mt-6" style="box-shadow:0 2px 18px 0 rgba(60,40,10,.07);">
       <h2 class="text-xl font-bold text-kashy-dark mb-4">Log Keamanan Terbaru</h2>
       <div class="space-y-3">
-        <div class="flex items-start gap-3">
-          <div class="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
-          <div><p class="text-sm font-semibold text-kashy-dark">Julianne Deakin login</p><p class="text-xs text-kashy-muted">Hari ini 08:42 • IP 192.168.1.45</p></div>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center"><svg class="w-4 h-4 text-kashy-brown" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div><p class="text-sm font-semibold text-kashy-dark">Izin Marcus Knight diperbarui</p><p class="text-xs text-kashy-muted">Kemarin 16:15 • Diperbarui oleh Julianne D.</p></div>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="w-8 h-8 rounded-xl bg-red-50 flex items-center justify-center"><svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div>
-          <div><p class="text-sm font-semibold text-kashy-dark">Akun Sienna Lowe dinonaktifkan</p><p class="text-xs text-kashy-muted">24 Okt 2024 • Tindakan administratif</p></div>
-        </div>
+        <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div><div><p class="text-sm font-semibold text-kashy-dark">Julianne Deakin login</p><p class="text-xs text-kashy-muted">Hari ini 08:42 • IP 192.168.1.45</p></div></div>
+        <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center"><svg class="w-4 h-4 text-kashy-brown" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><p class="text-sm font-semibold text-kashy-dark">Izin Marcus Knight diperbarui</p><p class="text-xs text-kashy-muted">Kemarin 16:15 • Diperbarui oleh Julianne D.</p></div></div>
+        <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-xl bg-red-50 flex items-center justify-center"><svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div><div><p class="text-sm font-semibold text-kashy-dark">Akun Sienna Lowe dinonaktifkan</p><p class="text-xs text-kashy-muted">24 Okt 2024 • Tindakan administratif</p></div></div>
       </div>
-    </div>
-
-    <!-- ══════════════════════════════
-         FORM — Tambah Staff Baru (sama persis gaya form diskon)
-         ══════════════════════════════ -->
-    <div id="formSection" class="fade-up d6 bg-white rounded-2xl p-5 mt-6" style="box-shadow:0 2px 18px 0 rgba(60,40,10,.07);">
-      <h2 class="text-xl font-bold text-kashy-dark mb-5">Tambah Staff Baru</h2>
-
-      <div class="mb-4">
-        <label class="form-label">Nama Lengkap</label>
-        <input type="text" id="newName" class="form-input" placeholder="Masukkan nama..."/>
-      </div>
-
-      <div class="mb-4">
-        <label class="form-label">Email</label>
-        <input type="email" id="newEmail" class="form-input" placeholder="contoh@kashy.id"/>
-      </div>
-
-      <div class="grid grid-cols-2 gap-3 mb-4">
-        <div>
-          <label class="form-label">Peran</label>
-          <select id="newRole" class="form-input form-select">
-            <option>Kasir</option><option>Gudang</option><option>Manajer</option><option>Owner</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Status</label>
-          <select id="newStatus" class="form-input form-select">
-            <option>Aktif</option><option>Nonaktif</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="mb-5">
-        <label class="form-label">Kata Sandi Sementara</label>
-        <input type="password" class="form-input" placeholder="********" value="kasih123"/>
-      </div>
-
-      <button id="createStaffBtn" class="w-full py-4 rounded-2xl font-bold text-white text-sm tracking-wide mb-3 transition-all duration-200 hover:opacity-90 active:scale-[.98]" style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">
-        Buat Akun
-      </button>
-      <button class="w-full py-4 rounded-2xl font-bold text-kashy-dark text-sm tracking-wide border-2 border-kashy-border transition-all duration-200 hover:bg-kashy-cream active:scale-[.98] bg-white">
-        Batal
-      </button>
     </div>
 
   </div>
 </main>
 
+<!-- MODAL POPUP TAMBAH STAFF (seperti modal Stok Opname) -->
+<div id="staffModal" class="fixed inset-0 z-[70] bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center p-4" style="opacity:0; pointer-events:none; transition:opacity .25s ease;">
+  <div id="staffModalDialog" class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+    <div class="shimmer-bar"></div>
+    <div class="flex items-center justify-between px-6 pt-5 pb-4 border-b border-kashy-border">
+      <div>
+        <h2 class="text-lg font-bold text-kashy-dark">Tambah Staff Baru</h2>
+        <p class="text-[11px] text-kashy-muted mt-0.5">Lengkapi data di bawah ini</p>
+      </div>
+      <button onclick="closeStaffModal()" class="w-9 h-9 rounded-xl border border-kashy-border flex items-center justify-center text-kashy-muted hover:bg-kashy-cream hover:border-kashy-brown transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="px-6 py-5 space-y-4">
+      <div>
+        <label class="form-label">Nama Lengkap</label>
+        <input type="text" id="newName" class="form-input" placeholder="Masukkan nama...">
+      </div>
+      <div>
+        <label class="form-label">Email</label>
+        <input type="email" id="newEmail" class="form-input" placeholder="contoh@kashy.id">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="form-label">Peran</label>
+          <select id="newRole" class="form-input form-select">
+            <option>Kasir</option>
+            <option>Karyawan</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Status</label>
+          <select id="newStatus" class="form-input form-select">
+            <option>Aktif</option>
+            <option>Nonaktif</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Kata Sandi Sementara</label>
+        <input type="password" class="form-input" placeholder="********" value="kasih123" id="newPassword">
+      </div>
+    </div>
+    <div class="px-6 pb-6 flex flex-col gap-3">
+      <button id="createStaffBtn" class="w-full py-4 rounded-2xl font-bold text-white text-sm tracking-wide transition-all duration-200 hover:opacity-90 active:scale-[.98]" style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">Buat Akun</button>
+      <button onclick="closeStaffModal()" class="w-full py-4 rounded-2xl font-bold text-kashy-dark text-sm tracking-wide border-2 border-kashy-border transition-all duration-200 hover:bg-kashy-cream active:scale-[.98] bg-white">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL KONFIRMASI HIJAU -->
+<div id="confirmModal" class="modal-confirm">
+  <div class="modal-card">
+    <div class="modal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></div>
+    <div class="modal-title">Konfirmasi Data</div>
+    <div class="modal-message">Pastikan semua data yang dimasukkan sudah benar sebelum menyimpan.</div>
+    <div class="modal-buttons">
+      <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">Batal</button>
+      <button id="modalConfirmBtn" class="modal-btn modal-btn-confirm">Ya, Simpan</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // ========== DATA STAFF ==========
+  // Data staff (sama seperti awal)
   let staffData = [
-    { id:1, name:"Julianne Deakin", role:"Owner", email:"julianne@kashy.id", status:"Aktif" },
-    { id:2, name:"Marcus Knight", role:"Kasir", email:"m.knight@kashy.id", status:"Aktif" },
-    { id:3, name:"Sienna Lowe", role:"Gudang", email:"s.lowe@kashy.id", status:"Nonaktif" },
-    { id:4, name:"Ryan Hartwell", role:"Kasir", email:"r.hartwell@kashy.id", status:"Nonaktif" },
-    { id:5, name:"Clara Bennett", role:"Manajer", email:"c.bennett@kashy.id", status:"Aktif" },
-    { id:6, name:"Dylan Santoso", role:"Gudang", email:"d.santoso@kashy.id", status:"Aktif" },
-    { id:7, name:"Vera Tan", role:"Kasir", email:"vera.tan@kashy.id", status:"Aktif" },
-    { id:8, name:"Gilang Pratama", role:"Owner", email:"gilang@kashy.id", status:"Aktif" }
+    { id:1, name:"Marcus Knight", role:"Kasir", email:"m.knight@kashy.id", status:"Aktif" },
+    { id:2, name:"Sienna Lowe", role:"Karyawan", email:"s.lowe@kashy.id", status:"Nonaktif" },
+    { id:3, name:"Ryan Hartwell", role:"Kasir", email:"r.hartwell@kashy.id", status:"Nonaktif" },
+    { id:4, name:"Clara Bennett", role:"Karyawan", email:"c.bennett@kashy.id", status:"Aktif" },
+    { id:5, name:"Dylan Santoso", role:"Karyawan", email:"d.santoso@kashy.id", status:"Aktif" },
   ];
 
-  let currentTab = "semua";   // semua, aktif, nonaktif
+  let currentTab = "semua";
   let searchKeyword = "";
   let roleFilterValue = "all";
 
-  // Helper: update angka pada tab
+  // Toast dari atas
+  function showToast(message, type = "success") {
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<span>${message}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast && toast.remove) toast.remove(); }, 3000);
+  }
+
+  // Modal konfirmasi hijau
+  function showConfirmDialog(message = "Pastikan semua data yang dimasukkan sudah benar.") {
+    return new Promise((resolve) => {
+      const modal = document.getElementById("confirmModal");
+      const msgEl = modal.querySelector(".modal-message");
+      msgEl.innerText = message;
+      modal.classList.add("show");
+      const onConfirm = () => {
+        modal.classList.remove("show");
+        cleanup();
+        resolve(true);
+      };
+      const onCancel = () => {
+        modal.classList.remove("show");
+        cleanup();
+        resolve(false);
+      };
+      const cleanup = () => {
+        document.getElementById("modalConfirmBtn").removeEventListener("click", onConfirm);
+        document.getElementById("modalCancelBtn").removeEventListener("click", onCancel);
+      };
+      document.getElementById("modalConfirmBtn").addEventListener("click", onConfirm);
+      document.getElementById("modalCancelBtn").addEventListener("click", onCancel);
+    });
+  }
+
   function updateTabCounts() {
     const total = staffData.length;
     const aktif = staffData.filter(s => s.status === "Aktif").length;
@@ -297,18 +410,14 @@
     document.getElementById("countNonaktif").innerHTML = `(${nonaktif})`;
   }
 
-  // Render staff cards berdasarkan filter
   function renderStaffCards() {
     let filtered = [...staffData];
-    // Filter by tab status
     if (currentTab === "aktif") filtered = filtered.filter(s => s.status === "Aktif");
     else if (currentTab === "nonaktif") filtered = filtered.filter(s => s.status === "Nonaktif");
-    // Search filter
     if (searchKeyword.trim() !== "") {
       const kw = searchKeyword.toLowerCase();
       filtered = filtered.filter(s => s.name.toLowerCase().includes(kw) || s.email.toLowerCase().includes(kw) || s.role.toLowerCase().includes(kw));
     }
-    // Role filter
     if (roleFilterValue !== "all") filtered = filtered.filter(s => s.role === roleFilterValue);
 
     const container = document.getElementById("staffContainer");
@@ -321,14 +430,10 @@
       </div>`;
       return;
     }
-
     filtered.forEach(staff => {
-      const roleBadgeClass = staff.role === "Owner" ? "badge-owner" : (staff.role === "Kasir" ? "badge-kasir" : (staff.role === "Gudang" ? "badge-gudang" : "badge-manajer"));
+      const roleBadgeClass = staff.role === "Kasir"? "badge-kasir": "badge-karyawan";      
       const statusClass = staff.status === "Aktif" ? "status-aktif" : "status-nonaktif";
-      const statusText = staff.status === "Aktif" ? "Aktif" : "Nonaktif";
       const avatarInitial = staff.name.charAt(0).toUpperCase();
-
-      // Membuat card yang mirip dengan promo card (tanpa gambar, tapi dengan avatar bulat)
       const card = document.createElement("div");
       card.className = "fade-up d3 bg-white rounded-2xl p-4";
       card.style.boxShadow = "0 2px 18px 0 rgba(60,40,10,.07)";
@@ -344,20 +449,14 @@
             <div class="flex items-center justify-between flex-wrap gap-2">
               <span class="status-badge ${statusClass}">
                 <span class="w-1.5 h-1.5 rounded-full ${staff.status === "Aktif" ? "bg-green-600" : "bg-red-500"} inline-block mr-1"></span>
-                ${statusText}
+                ${staff.status}
               </span>
-              <div class="flex items-center gap-3">
-                <button onclick="editStaff(${staff.id})" class="flex items-center gap-1 text-sm font-semibold text-kashy-muted hover:text-kashy-dark transition-colors">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                  Edit
-                </button>
-                <button onclick="toggleStaffStatus(${staff.id})" class="flex items-center gap-1 text-sm font-semibold ${staff.status === "Aktif" ? "text-red-600 hover:text-red-700" : "text-green-600 hover:text-green-700"} transition-colors">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    ${staff.status === "Aktif" ? '<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>' : '<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3"/>'}
-                  </svg>
-                  ${staff.status === "Aktif" ? "Nonaktifkan" : "Aktifkan"}
-                </button>
-              </div>
+              <button onclick="confirmToggleStatus(${staff.id})" class="flex items-center gap-1 text-sm font-semibold ${staff.status === "Aktif" ? "text-red-600 hover:text-red-700" : "text-green-600 hover:text-green-700"} transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  ${staff.status === "Aktif" ? '<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>' : '<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3"/>'}
+                </svg>
+                ${staff.status === "Aktif" ? "Nonaktifkan" : "Aktifkan"}
+              </button>
             </div>
           </div>
         </div>
@@ -366,33 +465,21 @@
     });
   }
 
-  // Fungsi toggle status
-  function toggleStaffStatus(id) {
+  async function confirmToggleStatus(id) {
     const staff = staffData.find(s => s.id === id);
-    if (staff) {
-      staff.status = staff.status === "Aktif" ? "Nonaktif" : "Aktif";
-      renderStaffCards();
-      updateTabCounts();
-      // jika tab sedang filter yang berubah, tetap konsisten
-      filterTab(currentTab, document.querySelector(`.tab-btn[data-tab="${currentTab}"]`));
-    }
-  }
-
-  // Edit staff (sederhana dengan prompt)
-  function editStaff(id) {
-    const staff = staffData.find(s => s.id === id);
-    if (staff) {
-      const newName = prompt("Edit nama:", staff.name);
-      if (newName && newName.trim()) staff.name = newName.trim();
-      const newRole = prompt("Edit peran (Owner/Kasir/Gudang/Manajer):", staff.role);
-      if (newRole && ["Owner","Kasir","Gudang","Manajer"].includes(newRole)) staff.role = newRole;
+    if (!staff) return;
+    const newStatus = staff.status === "Aktif" ? "Nonaktif" : "Aktif";
+    const actionText = staff.status === "Aktif" ? "menonaktifkan" : "mengaktifkan";
+    const confirmed = await showConfirmDialog(`Anda yakin ingin ${actionText} akun ${staff.name}?`);
+    if (confirmed) {
+      staff.status = newStatus;
       renderStaffCards();
       updateTabCounts();
       filterTab(currentTab, document.querySelector(`.tab-btn[data-tab="${currentTab}"]`));
+      showToast(`Berhasil ${actionText} akun ${staff.name}`, "success");
     }
   }
 
-  // Filter tab
   function filterTab(tab, btn) {
     currentTab = tab;
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -400,52 +487,74 @@
     renderStaffCards();
   }
 
-  // Event listeners untuk search & filter role
-  document.getElementById("searchStaff")?.addEventListener("input", function(e) {
-    searchKeyword = e.target.value;
-    renderStaffCards();
-  });
-  document.getElementById("roleFilter")?.addEventListener("change", function(e) {
-    roleFilterValue = e.target.value;
-    renderStaffCards();
-  });
+  // Search & filter events
+  document.getElementById("searchStaff")?.addEventListener("input", (e) => { searchKeyword = e.target.value; renderStaffCards(); });
+  document.getElementById("roleFilter")?.addEventListener("change", (e) => { roleFilterValue = e.target.value; renderStaffCards(); });
 
-  // Tambah staff baru
-  document.getElementById("createStaffBtn")?.addEventListener("click", () => {
-    const name = document.getElementById("newName").value.trim();
-    const email = document.getElementById("newEmail").value.trim();
-    const role = document.getElementById("newRole").value;
-    const status = document.getElementById("newStatus").value;
-    if (!name || !email) {
-      alert("Nama dan email harus diisi.");
-      return;
-    }
-    const newId = Date.now();
-    staffData.push({ id: newId, name, role, email, status });
-    renderStaffCards();
-    updateTabCounts();
-    // reset form
+  // Modal Staff (popup)
+  const staffModal = document.getElementById("staffModal");
+  const staffModalDialog = document.getElementById("staffModalDialog");
+
+  function openStaffModal() {
+    staffModal.style.opacity = "1";
+    staffModal.style.pointerEvents = "all";
+    staffModalDialog.style.transform = "scale(1)";
+    document.body.style.overflow = "hidden";
+    // Reset form
     document.getElementById("newName").value = "";
     document.getElementById("newEmail").value = "";
-    // tetap di tab yang aktif
-    filterTab(currentTab, document.querySelector(`.tab-btn[data-tab="${currentTab}"]`));
-    alert(`Staff ${name} berhasil ditambahkan.`);
-  });
+    document.getElementById("newRole").value = "Kasir";
+    document.getElementById("newStatus").value = "Aktif";
+    document.getElementById("newPassword").value = "kasih123";
+  }
 
-  // Sidebar toggle (sama persis dengan manajemen diskon)
+  function closeStaffModal() {
+    staffModal.style.opacity = "0";
+    staffModal.style.pointerEvents = "none";
+    staffModalDialog.style.transform = "scale(0.95)";
+    document.body.style.overflow = "";
+  }
+
+  // Tombol simpan di modal
+  const createBtn = document.getElementById("createStaffBtn");
+  if (createBtn) {
+    createBtn.addEventListener("click", async () => {
+      const name = document.getElementById("newName").value.trim();
+      const email = document.getElementById("newEmail").value.trim();
+      const role = document.getElementById("newRole").value;
+      const status = document.getElementById("newStatus").value;
+      if (!name || !email) {
+        showToast("Nama dan email harus diisi.", "error");
+        return;
+      }
+      const confirmed = await showConfirmDialog("Pastikan semua data yang dimasukkan sudah benar sebelum menyimpan.");
+      if (confirmed) {
+        const newId = Date.now();
+        staffData.push({ id: newId, name, role, email, status });
+        renderStaffCards();
+        updateTabCounts();
+        filterTab(currentTab, document.querySelector(`.tab-btn[data-tab="${currentTab}"]`));
+        showToast(`Staff ${name} berhasil ditambahkan.`, "success");
+        closeStaffModal();
+      }
+    });
+  }
+
+  // Sidebar logic
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   const menuBtn = document.getElementById('global-menu-toggle');
-
-  function openSidebar()  { sidebar.classList.add('sidebar-open'); overlay.classList.add('show'); document.body.style.overflow='hidden'; }
-  function closeSidebar() { sidebar.classList.remove('sidebar-open'); overlay.classList.remove('show'); document.body.style.overflow=''; }
-  function toggleSidebar() { sidebar.classList.contains('sidebar-open') ? closeSidebar() : openSidebar(); }
-
-  if (menuBtn) menuBtn.addEventListener('click', e => { e.stopPropagation(); toggleSidebar(); });
+  function openSidebar()  { if(sidebar) sidebar.classList.add('sidebar-open'); if(overlay) overlay.classList.add('show'); document.body.style.overflow='hidden'; }
+  function closeSidebar() { if(sidebar) sidebar.classList.remove('sidebar-open'); if(overlay) overlay.classList.remove('show'); document.body.style.overflow=''; }
+  function toggleSidebar() { if(sidebar && sidebar.classList.contains('sidebar-open')) closeSidebar(); else openSidebar(); }
+  if (menuBtn) menuBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleSidebar(); });
   if (overlay)  overlay.addEventListener('click', closeSidebar);
-  document.addEventListener('keydown', e => { if (e.key==='Escape') closeSidebar(); });
+  document.addEventListener('keydown', (e) => { if (e.key==='Escape') { closeModal(); closeSidebar(); } });
+  function closeModal() { closeStaffModal(); }
+  if (sidebar) sidebar.classList.remove('sidebar-open');
+  if (overlay) overlay.classList.remove('show');
 
-  // Inisialisasi awal
+  // Inisialisasi
   updateTabCounts();
   renderStaffCards();
 </script>

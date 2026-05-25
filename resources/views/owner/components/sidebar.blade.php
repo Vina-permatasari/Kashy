@@ -127,16 +127,25 @@
 
   </nav>
 
-  <!-- Profile bottom sidebar -->
-  <div class="px-4 py-5 border-t border-kashy-border">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-full bg-kashy-brown flex items-center justify-center text-white font-bold text-sm flex-shrink-0">A</div>
+<!-- Profile bottom sidebar -->
+<div class="px-4 py-5 border-t border-kashy-border">
+  <a href="{{ route('owner.profile') }}"
+     class="nav-item {{ request()->routeIs('owner.profile') ? 'active' : '' }}"
+     data-nav>
+
+    <div class="flex items-center gap-3 w-full">
+      <div class="w-9 h-9 rounded-full bg-kashy-brown flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+        A
+      </div>
+
       <div class="min-w-0">
         <p class="text-xs font-semibold text-kashy-dark truncate">Admin</p>
         <p class="text-[11px] text-kashy-muted truncate">admin@kashy.id</p>
       </div>
     </div>
-  </div>
+
+  </a>
+</div>
 </aside>
 
 <!-- Overlay saat sidebar terbuka -->
