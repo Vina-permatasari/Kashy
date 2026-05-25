@@ -7,7 +7,6 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
-use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 class KasirTransactionController extends Controller
@@ -15,7 +14,6 @@ class KasirTransactionController extends Controller
     public function create()
     {
         $products = Product::select('id', 'nama_produk', 'harga', 'gambar', 'stok')->get();
-
         $members = Member::select('id', 'nama', 'no_hp')->get();
 
         return view('kasir.transaksi', compact('products', 'members'));
@@ -63,19 +61,40 @@ class KasirTransactionController extends Controller
             'total' => 'required|numeric',
         ]);
 
-        public function finalizePayment(Request $request)
-        {
-            $transactionData = session('kasir_transaction');
+        session([
+            'kasir_transaction' => $request->all()
+        ]);
 
-            if (!$transactionData) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Transaksi tidak ditemukan'
-                ]);
-            }
+        return response()->json([
+            'success' => true,
+            'redirect' => route('kasir.pembayaran')
+        ]);
+    }
 
-            $invoice = 'INV-' . now()->format('YmdHis');
+    public function finalizePayment(Request $request)
+    {
+        
+        // LOG 1: Cek request
+        \Log::info('=== FINALIZE PAYMENT ===');
+        \Log::info('Request data:', $request->all());
+        
+        $transactionData = session('kasir_transaction');
 
+        // LOG 2: Cek session
+        \Log::info('Session data:', $transactionData ?? ['SESSION KOSONG']);    
+
+        if (!$transactionData) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Transaksi tidak ditemukan'
+            ]);
+        }
+
+        $invoice = 'INV-' . now()->format('YmdHis');
+        $bayar = $request->bayar ?? $transactionData['total'];
+        $kembalian = $request->kembalian ?? 0;
+
+        try {
             $transaction = Transaction::create([
                 'invoice_number' => $invoice,
                 'kasir_id' => Auth::id(),
@@ -86,12 +105,11 @@ class KasirTransactionController extends Controller
                 'diskon' => 0,
                 'discount_percent' => $transactionData['discount_percent'] ?? 0,
                 'grand_total' => $transactionData['total'],
-                'bayar' => $transactionData['total'],
-                'kembalian' => 0,
+                'bayar' => $bayar,
+                'kembalian' => $kembalian,
             ]);
 
             foreach ($transactionData['cart'] as $item) {
-
                 TransactionDetail::create([
                     'transaction_id' => $transaction->id,
                     'product_id' => $item['id'],
@@ -102,14 +120,9 @@ class KasirTransactionController extends Controller
                 ]);
 
                 $product = Product::find($item['id']);
-
                 if ($product) {
                     $product->stok -= $item['qty'];
-
-                    if ($product->stok < 0) {
-                        $product->stok = 0;
-                    }
-
+                    if ($product->stok < 0) $product->stok = 0;
                     $product->save();
                 }
             }
@@ -117,17 +130,19 @@ class KasirTransactionController extends Controller
             session()->forget('kasir_transaction');
 
             return response()->json([
-                'success' => true
+                'success' => true,
+                'invoice' => $invoice
+            ]);
+            
+        } catch (\Exception $e) {
+            // LOG 4: Error detail
+            \Log::error('Payment Error: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
             ]);
         }
-
-        session([
-            'kasir_transaction' => $request->all()
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'redirect' => route('kasir.pembayaran')
-        ]);
     }
 }

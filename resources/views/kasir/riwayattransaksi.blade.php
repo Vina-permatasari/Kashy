@@ -175,132 +175,79 @@
     </div>
   </div>
 
-  <!-- ── Transaction list ── -->
-  <div class="px-4 pt-3 flex flex-col gap-5" id="trxList">
+  <!-- Transaction list -->
+<div class="px-4 pt-3 flex flex-col gap-5" id="trxList">
 
-    <!-- Group: 27 Oktober 2023 -->
-    <div class="trx-group fade-up delay-2" data-date="2023-10-27">
-      <p class="date-label mb-3">27 Oktober 2023</p>
-      <div class="flex flex-col gap-3">
-
-        <div class="trx-card" data-status="berhasil" data-id="INV/20231027/001">
-          <div class="trx-card-header" onclick="toggleDetail(this)">
-            <div class="flex justify-between items-start gap-3">
-              <div class="flex-1 min-w-0">
-                <p class="trx-id">INV/20231027/001</p>
-                <p class="trx-name">Andini Putri</p>
-                <p class="trx-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#BFB4AC" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>14:20 · 27 Okt 2023</p>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="trx-amount">Rp 1.250.000</p>
-                <span class="badge badge-success">BERHASIL</span>
-              </div>
+    @forelse($transactions as $tanggal => $items)
+    <div class="trx-group fade-up">
+        <p class="date-label mb-3">{{ $tanggal }}</p>
+        <div class="flex flex-col gap-3">
+            
+            @foreach($items as $transaction)
+            <div class="trx-card" data-status="{{ strtolower($transaction->status ?? 'berhasil') }}" data-id="{{ $transaction->invoice_number }}">
+                <div class="trx-card-header" onclick="toggleDetail(this)">
+                    <div class="flex justify-between items-start gap-3">
+                        <div class="flex-1 min-w-0">
+                            <p class="trx-id">{{ $transaction->invoice_number }}</p>
+                            <p class="trx-name">{{ $transaction->customer_name ?? 'Guest' }}</p>
+                            <p class="trx-time">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#BFB4AC" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                                </svg>
+                                {{ $transaction->created_at->format('H:i') }} · {{ $transaction->created_at->translatedFormat('d M Y') }}
+                            </p>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            <p class="trx-amount">Rp {{ number_format($transaction->grand_total ?? $transaction->total, 0, ',', '.') }}</p>
+                            <span class="badge badge-success">BERHASIL</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="trx-detail">
+                    <div class="trx-detail-inner">
+                        <p class="detail-section-label">Detail Produk</p>
+                        
+                        @foreach($transaction->details as $detail)
+                        <div class="detail-row">
+                            <span class="item-name">{{ $detail->product_name }} × {{ $detail->qty }}</span>
+                            <span>Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</span>
+                        </div>
+                        @endforeach
+                        
+                        <div class="detail-footer">
+                            <div class="metode-tag">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2">
+                                    <rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>
+                                </svg>
+                                Metode: {{ $transaction->metode_pembayaran ?? $transaction->payment_method ?? '-' }}
+                            </div>
+                            <button class="cetak-btn" onclick="cetakStruk('{{ $transaction->invoice_number }}')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 6 2 18 2 18 9"/>
+                                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                                    <rect x="6" y="14" width="12" height="8"/>
+                                </svg>
+                                Cetak Ulang
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="trx-detail">
-            <div class="trx-detail-inner">
-              <p class="detail-section-label">Detail Produk</p>
-              <div class="detail-row"><span class="item-name">Silk Wrap Dress (S) × 1</span><span>Rp 850.000</span></div>
-              <div class="detail-row"><span class="item-name">Leather Belt Tan × 1</span><span>Rp 400.000</span></div>
-              <div class="detail-footer">
-                <div class="metode-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Metode: QRIS</div>
-                <button class="cetak-btn" onclick="cetakStruk('INV/20231027/001')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Cetak Ulang</button>
-              </div>
-            </div>
-          </div>
+            @endforeach
+            
         </div>
-
-        <div class="trx-card" data-status="berhasil" data-id="INV/20231027/002">
-          <div class="trx-card-header" onclick="toggleDetail(this)">
-            <div class="flex justify-between items-start gap-3">
-              <div class="flex-1 min-w-0">
-                <p class="trx-id">INV/20231027/002</p>
-                <p class="trx-name">Budi Santoso</p>
-                <p class="trx-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#BFB4AC" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>13:45 · 27 Okt 2023</p>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="trx-amount">Rp 450.000</p>
-                <span class="badge badge-success">BERHASIL</span>
-              </div>
-            </div>
-          </div>
-          <div class="trx-detail">
-            <div class="trx-detail-inner">
-              <p class="detail-section-label">Detail Produk</p>
-              <div class="detail-row"><span class="item-name">Linen Shirt Blue × 1</span><span>Rp 450.000</span></div>
-              <div class="detail-footer">
-                <div class="metode-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Metode: Tunai</div>
-                <button class="cetak-btn" onclick="cetakStruk('INV/20231027/002')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Cetak Ulang</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="trx-card" data-status="dibatalkan" data-id="INV/20231027/003">
-          <div class="trx-card-header" onclick="toggleDetail(this)">
-            <div class="flex justify-between items-start gap-3">
-              <div class="flex-1 min-w-0">
-                <p class="trx-id">INV/20231027/003</p>
-                <p class="trx-name">Citra Lestari</p>
-                <p class="trx-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#BFB4AC" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>12:10 · 27 Okt 2023</p>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="trx-amount">Rp 2.100.000</p>
-                <span class="badge badge-cancel">DIBATALKAN</span>
-              </div>
-            </div>
-          </div>
-          <div class="trx-detail">
-            <div class="trx-detail-inner">
-              <p class="detail-section-label">Detail Produk</p>
-              <div class="detail-row"><span class="item-name">Batik Premium × 2</span><span>Rp 1.600.000</span></div>
-              <div class="detail-row"><span class="item-name">Scarf Sutera × 1</span><span>Rp 500.000</span></div>
-              <div class="detail-footer">
-                <div class="metode-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Metode: Transfer</div>
-                <span style="font-size:11px;font-weight:600;color:#C62828;background:#FDECEA;padding:7px 13px;border-radius:10px;">Dibatalkan</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
-
-    <!-- Group: 26 Oktober 2023 -->
-    <div class="trx-group fade-up delay-3" data-date="2023-10-26">
-      <p class="date-label mb-3">26 Oktober 2023</p>
-      <div class="flex flex-col gap-3">
-
-        <div class="trx-card" data-status="berhasil" data-id="INV/20231026/089">
-          <div class="trx-card-header" onclick="toggleDetail(this)">
-            <div class="flex justify-between items-start gap-3">
-              <div class="flex-1 min-w-0">
-                <p class="trx-id">INV/20231026/089</p>
-                <p class="trx-name">Guest #102</p>
-                <p class="trx-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#BFB4AC" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>19:30 · 26 Okt 2023</p>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="trx-amount">Rp 750.000</p>
-                <span class="badge badge-success">BERHASIL</span>
-              </div>
-            </div>
-          </div>
-          <div class="trx-detail">
-            <div class="trx-detail-inner">
-              <p class="detail-section-label">Detail Produk</p>
-              <div class="detail-row"><span class="item-name">Tas Rotan Natural × 1</span><span>Rp 750.000</span></div>
-              <div class="detail-footer">
-                <div class="metode-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C8B7E" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Metode: QRIS</div>
-                <button class="cetak-btn" onclick="cetakStruk('INV/20231026/089')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Cetak Ulang</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+    @empty
+    <div class="text-center py-10 text-muted">
+        <svg class="w-16 h-16 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <path d="M2 10h20"/>
+        </svg>
+        <p>Belum ada transaksi</p>
     </div>
-
-  </div>
+    @endforelse
+    
+</div>
 </main>
 
 <!-- FILTER MODAL -->

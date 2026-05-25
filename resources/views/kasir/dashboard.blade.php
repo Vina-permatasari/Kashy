@@ -315,7 +315,13 @@ async function loadTransactionStats() {
         const response = await fetch('{{ route("kasir.transaksi.recent") }}');
         const transactions = await response.json();
         document.getElementById('transaksiCount').innerText = transactions.length;
-        document.getElementById('itemCount').innerText = "0";
+        
+        // Hitung total item terjual
+        let totalItems = 0;
+        transactions.forEach(trx => {
+            totalItems += trx.total_items || 0;
+        });
+        document.getElementById('itemCount').innerText = totalItems;
     } catch (error) {
         console.error('Gagal load statistik:', error);
     }

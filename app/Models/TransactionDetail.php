@@ -1,4 +1,3 @@
-```php
 <?php
 
 namespace App\Models;
@@ -35,4 +34,3 @@ class TransactionDetail extends Model
         return $this->belongsTo(Product::class);
     }
 }
-```

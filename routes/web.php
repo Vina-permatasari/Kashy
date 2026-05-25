@@ -6,7 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\KasirShiftController;
 use App\Http\Controllers\KasirTransactionController;
-
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | LANDING
@@ -118,9 +119,17 @@ Route::put('/kasir/profil/password', [ProfileController::class, 'updatePassword'
     ->name('kasir.password.update');
 
 Route::get('/kasir/riwayattransaksi', function () {
-    return view('kasir.riwayattransaksi');
-})->name('kasir.riwayattransaksi');
-
+    $transactions = Transaction::with('details')
+        ->where('kasir_id', Auth::id())
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->groupBy(function($transaction) {
+            return $transaction->created_at->translatedFormat('d F Y');
+        });
+    
+    return view('kasir.riwayattransaksi', compact('transactions'));
+})->middleware('auth')->name('kasir.riwayattransaksi');
+    
 Route::get('/kasir/laporantransaksi', function () {
     return view('kasir.laporantransaksi');
 })->name('kasir.laporantransaksi');
@@ -139,8 +148,8 @@ Route::post('/kasir/finalize-payment', [KasirTransactionController::class, 'fina
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/kasir/transaksi-baru', [KasirTransactionController::class, 'create'])
-        ->name('kasir.transaksi');
+    // Route::get('/kasir/transaksi-baru', [KasirTransactionController::class, 'create'])
+    //     ->name('kasir.transaksi');
 
     Route::post('/kasir/member/store', [KasirTransactionController::class, 'storeMember'])
         ->name('kasir.member.store');
@@ -160,17 +169,21 @@ Route::middleware(['auth'])->group(function () {
 // Recent transactions untuk dashboard kasir
 Route::get('/kasir/transaksi/recent', function() {
     $user = Auth::user();
-    $transactions = App\Models\Transaction::where('kasir_id', $user->id)
+    $transactions = App\Models\Transaction::with('details')
+        ->where('kasir_id', $user->id)
         ->whereDate('created_at', today())
         ->orderBy('created_at', 'desc')
-        ->limit(5)
         ->get()
         ->map(function($trx) {
+            // Hitung total item terjual dari detail transaksi
+            $totalItems = $trx->details->sum('qty');
+            
             return [
                 'invoice_number' => $trx->invoice_number,
                 'grand_total' => $trx->grand_total,
                 'metode_pembayaran' => $trx->metode_pembayaran == 'cash' ? 'Tunai' : ($trx->metode_pembayaran == 'qris' ? 'QRIS' : 'Transfer'),
-                'time' => $trx->created_at->format('H:i')
+                'time' => $trx->created_at->format('H:i'),
+                'total_items' => $totalItems  // <-- INI YANG DITAMBAH
             ];
         });
     return response()->json($transactions);
