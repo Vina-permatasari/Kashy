@@ -36,7 +36,7 @@
     * { font-family:'Poppins',sans-serif; box-sizing:border-box; }
     body { background:#F5F0EB; margin:0; }
 
-    /* Sidebar */
+    /* Sidebar (konsisten semua halaman) */
     #sidebar {
       position:fixed; top:0; left:0; height:100vh; width:280px;
       background:#fff; box-shadow:2px 0 24px rgba(60,40,10,.12);
@@ -48,7 +48,6 @@
     #overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:55; backdrop-filter:blur(3px); }
     #overlay.show { display:block; }
 
-    /* Animations */
     @keyframes fadeUp {
       from { opacity:0; transform:translateY(18px); }
       to   { opacity:1; transform:translateY(0); }
@@ -58,7 +57,6 @@
     .d3 { animation-delay:.15s; } .d4 { animation-delay:.20s; }
     .d5 { animation-delay:.25s; } .d6 { animation-delay:.30s; }
 
-    /* Nav items */
     .nav-item {
       display:flex; align-items:center; gap:12px; padding:11px 18px;
       border-radius:12px; cursor:pointer; transition:all .15s;
@@ -69,16 +67,15 @@
     .nav-item.active { background:#F7EFE5; color:#7B4F2E; font-weight:600; }
     .nav-item.active svg { stroke:#7B4F2E; }
 
-    /* Tab underline */
     .tab-btn {
       padding:10px 4px; font-size:13px; font-weight:600; color:#8A7968;
       border-bottom:2px solid transparent; cursor:pointer;
-      transition:all .2s; background:none; border-top:none; border-left:none; border-right:none;
+      transition:all .2s; background:none;
+      border-top:none; border-left:none; border-right:none;
       font-family:'Poppins',sans-serif;
     }
     .tab-btn.active { color:#1a1a1a; border-bottom-color:#C49A6C; }
 
-    /* Staff card */
     .staff-avatar {
       width: 48px; height: 48px; border-radius: 60px;
       background: #F5F0EB; display: flex; align-items: center; justify-content: center;
@@ -100,7 +97,6 @@
     .status-aktif   { background:#E8F5EA; color:#3A9E6F; }
     .status-nonaktif{ background:#FEF2F2; color:#D94F4F; }
 
-    /* Form input */
     .form-input {
       width:100%; padding:12px 14px; border:1.5px solid #E0D8CE;
       border-radius:12px; font-size:13px; font-family:'Poppins',sans-serif;
@@ -127,95 +123,74 @@
     ::-webkit-scrollbar-track { background:transparent; }
     ::-webkit-scrollbar-thumb { background:#C49A6C; border-radius:10px; }
 
-    /* Toast notification (atas kanan) */
-    .toast {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      z-index: 1000;
-      background: white;
-      border-radius: 16px;
-      padding: 12px 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 14px;
-      font-weight: 500;
-      animation: slideInDown 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
-      transform-origin: top;
-      max-width: 340px;
+    /* Toast (konsisten dengan laporan keuangan) */
+    #toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: #1c1c1c; color: white;
+      font-size: 0.875rem; font-weight: 500;
+      padding: 0.75rem 1.25rem; border-radius: 9999px;
+      display: flex; align-items: center; gap: 0.5rem;
+      z-index: 9999; opacity: 0;
+      transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
     }
-    .toast-success { border-left: 5px solid #3A9E6F; color: #1a1a1a; }
-    .toast-error   { border-left: 5px solid #D94F4F; color: #1a1a1a; }
-    @keyframes slideInDown {
-      from { opacity: 0; transform: translateY(-100%); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeOut {
-      to { opacity: 0; visibility: hidden; }
-    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* Modal Konfirmasi Hijau */
+    /* Modal Konfirmasi */
     .modal-confirm {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0.2s, opacity 0.2s;
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); z-index:200;
+      display:flex; align-items:center; justify-content:center;
+      visibility:hidden; opacity:0; transition:visibility 0.2s, opacity 0.2s;
     }
-    .modal-confirm.show { visibility: visible; opacity: 1; }
+    .modal-confirm.show { visibility:visible; opacity:1; }
     .modal-confirm .modal-card {
-      background: white;
-      max-width: 380px;
-      width: 90%;
-      border-radius: 28px;
-      padding: 24px;
-      text-align: center;
-      box-shadow: 0 20px 35px -8px rgba(0,0,0,0.2);
-      transform: scale(0.95);
-      transition: transform 0.2s;
+      background:white; max-width:380px; width:90%; border-radius:28px;
+      padding:24px; text-align:center; transform:scale(0.95);
+      transition:transform 0.2s; box-shadow:0 20px 35px -8px rgba(0,0,0,0.2);
     }
-    .modal-confirm.show .modal-card { transform: scale(1); }
-    .modal-icon {
-      background: #E8F5EA;
-      width: 64px;
-      height: 64px;
-      border-radius: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-    }
-    .modal-icon svg { width: 32px; height: 32px; stroke: #3A9E6F; stroke-width: 1.8; }
-    .modal-title { font-size: 20px; font-weight: 800; color: #1a1a1a; margin-bottom: 12px; }
-    .modal-message { font-size: 14px; color: #6B5E52; margin-bottom: 24px; line-height: 1.5; }
-    .modal-buttons { display: flex; gap: 12px; }
+    .modal-confirm.show .modal-card { transform:scale(1); }
+    .modal-icon { width:64px; height:64px; border-radius:60px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
+    .modal-icon-success { background:#E8F5EA; }
+    .modal-icon-success svg { stroke:#3A9E6F; }
+    .modal-icon-danger { background:#FEF2F2; }
+    .modal-icon-danger svg { stroke:#D94F4F; }
+    .modal-title { font-size:20px; font-weight:800; color:#1a1a1a; margin-bottom:12px; }
+    .modal-message { font-size:14px; color:#6B5E52; margin-bottom:24px; line-height:1.5; }
+    .modal-buttons { display:flex; gap:12px; }
     .modal-btn {
-      flex: 1; padding: 12px; border-radius: 40px; font-weight: 700; font-size: 14px;
-      cursor: pointer; transition: all 0.2s; border: none;
+      flex:1; padding:12px; border-radius:40px; font-weight:700; font-size:14px;
+      cursor:pointer; transition:all 0.2s; border:none;
     }
-    .modal-btn-cancel { background: #F5F0EB; color: #1a1a1a; }
-    .modal-btn-confirm { background: #3A9E6F; color: white; box-shadow: 0 4px 10px rgba(58,158,111,0.3); }
-    .modal-btn-confirm:hover { background: #2e7d57; transform: scale(0.97); }
-    .modal-btn-cancel:hover { background: #EDE5DB; transform: scale(0.97); }
+    .modal-btn-cancel { background:#F5F0EB; color:#1a1a1a; }
+    .modal-btn-cancel:hover { background:#EDE5DB; transform:scale(0.97); }
+    .modal-btn-confirm-success { background:#3A9E6F; color:white; box-shadow:0 4px 10px rgba(58,158,111,0.3); }
+    .modal-btn-confirm-success:hover { background:#2e7d57; transform:scale(0.97); }
+    .modal-btn-confirm-danger { background:#D94F4F; color:white; box-shadow:0 4px 10px rgba(217,79,79,0.3); }
+    .modal-btn-confirm-danger:hover { background:#b53b3b; transform:scale(0.97); }
 
-    /* Shimmer bar untuk modal */
-    @keyframes shimmer {
-      0%   { background-position: -400px 0; }
-      100% { background-position: 400px 0; }
-    }
     .shimmer-bar {
       background: linear-gradient(90deg, #C49A6C, #E5B18A, #F0D7C7, #E5B18A, #C49A6C);
       background-size: 200%; animation: shimmer 4s linear infinite;
       height: 3px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+
+    /* Tabel log (sama dengan halaman kategori & laporan keuangan) */
+    .log-table { width:100%; border-collapse:collapse; }
+    .log-table thead th {
+      font-size:11px; font-weight:700; color:#8A7968;
+      padding:10px 16px; text-align:left;
+      border-bottom:1.5px solid #E0D8CE;
+    }
+    .log-table tbody tr { border-bottom:1px solid #E0D8CE; }
+    .log-table tbody tr:last-child { border-bottom:none; }
+    .log-table tbody td {
+      padding:12px 16px; font-size:12px; color:#1a1a1a;
     }
   </style>
 </head>
@@ -227,15 +202,16 @@
 <main id="main" class="min-h-screen bg-kashy-cream">
   @include('owner.components.topbar')
 
+  <!-- KONTEN UTAMA: ukuran & padding SAMA PERSIS dengan Laporan Keuangan -->
   <div class="px-5 md:px-8 py-6 max-w-2xl mx-auto">
 
     <!-- Header -->
     <div class="fade-up d1 mb-5">
-      <h1 class="text-3xl font-extrabold text-kashy-dark">Manajemen Staff</h1>
-      <p class="text-sm text-kashy-muted mt-1">Kelola akses, peran, dan status karyawan toko Anda.</p>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-kashy-dark leading-tight">Manajemen Staff</h1>
+      <p class="text-xs text-kashy-muted mt-1">Kelola akses, peran, dan status karyawan toko Anda.</p>
     </div>
 
-    <!-- Tombol Tambah Staff (buka modal) -->
+    <!-- Tombol Tambah Staff (sama dengan tombol di halaman lain) -->
     <div class="fade-up d2 mb-5">
       <button onclick="openStaffModal()" class="w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm tracking-widest text-white uppercase transition-all duration-200 hover:opacity-90 active:scale-[.98]" style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -273,23 +249,30 @@
       </div>
     </div>
 
-    <!-- Daftar Staff -->
+    <!-- Daftar Staff (card) -->
     <div id="staffContainer" class="flex flex-col gap-4"></div>
 
-    <!-- Log Keamanan -->
-    <div class="fade-up d5 bg-white rounded-2xl p-5 mt-6" style="box-shadow:0 2px 18px 0 rgba(60,40,10,.07);">
-      <h2 class="text-xl font-bold text-kashy-dark mb-4">Log Keamanan Terbaru</h2>
-      <div class="space-y-3">
-        <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div><div><p class="text-sm font-semibold text-kashy-dark">Julianne Deakin login</p><p class="text-xs text-kashy-muted">Hari ini 08:42 • IP 192.168.1.45</p></div></div>
-        <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center"><svg class="w-4 h-4 text-kashy-brown" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><p class="text-sm font-semibold text-kashy-dark">Izin Marcus Knight diperbarui</p><p class="text-xs text-kashy-muted">Kemarin 16:15 • Diperbarui oleh Julianne D.</p></div></div>
-        <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-xl bg-red-50 flex items-center justify-center"><svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div><div><p class="text-sm font-semibold text-kashy-dark">Akun Sienna Lowe dinonaktifkan</p><p class="text-xs text-kashy-muted">24 Okt 2024 • Tindakan administratif</p></div></div>
+    <!-- Log Keamanan Terbaru (tabel seperti di halaman kategori) -->
+    <div class="fade-up d5 mt-8 mb-6">
+      <h2 class="text-base font-bold text-kashy-dark mb-3">Log Keamanan Terbaru</h2>
+      <div class="bg-white rounded-2xl overflow-hidden shadow-card">
+        <table class="log-table">
+          <thead>
+            <tr><th>Aktivitas</th><th>Staff</th><th>Waktu</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="font-semibold">Login</td><td class="text-kashy-muted">Julianne Deakin</td><td class="text-kashy-muted">Hari ini 08:42</td></tr>
+            <tr><td class="font-semibold">Izin Diperbarui</td><td class="text-kashy-muted">Marcus Knight</td><td class="text-kashy-muted">Kemarin 16:15</td></tr>
+            <tr><td class="font-semibold">Akun Dinonaktifkan</td><td class="text-kashy-muted">Sienna Lowe</td><td class="text-kashy-muted">24 Okt 2024</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
   </div>
 </main>
 
-<!-- MODAL POPUP TAMBAH STAFF (seperti modal Stok Opname) -->
+<!-- MODAL TAMBAH STAFF (konsisten dengan modal di halaman lain) -->
 <div id="staffModal" class="fixed inset-0 z-[70] bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center p-4" style="opacity:0; pointer-events:none; transition:opacity .25s ease;">
   <div id="staffModalDialog" class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
     <div class="shimmer-bar"></div>
@@ -299,37 +282,15 @@
         <p class="text-[11px] text-kashy-muted mt-0.5">Lengkapi data di bawah ini</p>
       </div>
       <button onclick="closeStaffModal()" class="w-9 h-9 rounded-xl border border-kashy-border flex items-center justify-center text-kashy-muted hover:bg-kashy-cream hover:border-kashy-brown transition-all">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <div class="px-6 py-5 space-y-4">
-      <div>
-        <label class="form-label">Nama Lengkap</label>
-        <input type="text" id="newName" class="form-input" placeholder="Masukkan nama...">
-      </div>
-      <div>
-        <label class="form-label">Email</label>
-        <input type="email" id="newEmail" class="form-input" placeholder="contoh@kashy.id">
-      </div>
+      <div><label class="form-label">Nama Lengkap</label><input type="text" id="newName" class="form-input" placeholder="Masukkan nama..."></div>
+      <div><label class="form-label">Email</label><input type="email" id="newEmail" class="form-input" placeholder="contoh@kashy.id"></div>
       <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="form-label">Peran</label>
-          <select id="newRole" class="form-input form-select">
-            <option>Kasir</option>
-            <option>Karyawan</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Status</label>
-          <select id="newStatus" class="form-input form-select">
-            <option>Aktif</option>
-            <option>Nonaktif</option>
-          </select>
-        </div>
-      </div>
-      <div>
-        <label class="form-label">Kata Sandi Sementara</label>
-        <input type="password" class="form-input" placeholder="********" value="kasih123" id="newPassword">
+        <div><label class="form-label">Peran</label><select id="newRole" class="form-input form-select"><option>Kasir</option><option>Karyawan</option></select></div>
+        <div><label class="form-label">Kata Sandi Sementara</label><input type="password" class="form-input" placeholder="********" value="kasih123" id="newPassword"></div>
       </div>
     </div>
     <div class="px-6 pb-6 flex flex-col gap-3">
@@ -339,21 +300,87 @@
   </div>
 </div>
 
-<!-- MODAL KONFIRMASI HIJAU -->
+<!-- MODAL KONFIRMASI DINAMIS -->
 <div id="confirmModal" class="modal-confirm">
   <div class="modal-card">
-    <div class="modal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></div>
-    <div class="modal-title">Konfirmasi Data</div>
-    <div class="modal-message">Pastikan semua data yang dimasukkan sudah benar sebelum menyimpan.</div>
+    <div class="modal-icon" id="modalIcon"></div>
+    <div class="modal-title" id="modalTitle">Konfirmasi</div>
+    <div class="modal-message" id="modalMessage">Pastikan semua data yang dimasukkan sudah benar sebelum menyimpan.</div>
     <div class="modal-buttons">
       <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">Batal</button>
-      <button id="modalConfirmBtn" class="modal-btn modal-btn-confirm">Ya, Simpan</button>
+      <button id="modalConfirmBtn" class="modal-btn">Ya, Simpan</button>
     </div>
   </div>
 </div>
 
+<!-- Toast Notification -->
+<div id="toast">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C49A6C" stroke-width="2.5">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+  <span id="toastMsg"></span>
+</div>
+
 <script>
-  // Data staff (sama seperti awal)
+  // ========= SIDEBAR TOGGLE =========
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('global-menu-toggle');
+  function openSidebar()  { sidebar.classList.add('sidebar-open'); overlay.classList.add('show'); document.body.style.overflow='hidden'; }
+  function closeSidebar() { sidebar.classList.remove('sidebar-open'); overlay.classList.remove('show'); document.body.style.overflow=''; }
+  function toggleSidebar() { sidebar.classList.contains('sidebar-open') ? closeSidebar() : openSidebar(); }
+  if (menuBtn) menuBtn.addEventListener('click', e => { e.stopPropagation(); toggleSidebar(); });
+  if (overlay) overlay.addEventListener('click', closeSidebar);
+  document.addEventListener('keydown', e => { if (e.key==='Escape') { closeStaffModal(); closeSidebar(); } });
+
+  // ========= TOAST =========
+  function showToast(msg, success = true) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    toastMsg.textContent = msg;
+    toast.style.background = success ? '#1c1c1c' : '#ef4444';
+    toast.classList.add('show');
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+
+  // ========= MODAL KONFIRMASI DINAMIS =========
+  function showConfirmDialog(message, type = 'success', confirmText = 'Ya, Simpan') {
+    return new Promise((resolve) => {
+      const modal = document.getElementById("confirmModal");
+      const modalIcon = document.getElementById("modalIcon");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalMessage = document.getElementById("modalMessage");
+      const confirmBtn = document.getElementById("modalConfirmBtn");
+
+      modalMessage.innerText = message;
+      modalTitle.innerText = type === 'danger' ? 'Konfirmasi Tindakan' : 'Konfirmasi Tindakan';
+
+      if (type === 'danger') {
+        modalIcon.className = 'modal-icon modal-icon-danger';
+        modalIcon.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 7V13"/><path d="M12 17H12.01"/></svg>`;
+        confirmBtn.className = 'modal-btn modal-btn-confirm-danger';
+        confirmBtn.innerText = confirmText || 'Ya, Lanjutkan';
+      } else {
+        modalIcon.className = 'modal-icon modal-icon-success';
+        modalIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg>`;
+        confirmBtn.className = 'modal-btn modal-btn-confirm-success';
+        confirmBtn.innerText = confirmText || 'Ya, Simpan';
+      }
+
+      modal.classList.add("show");
+      const onConfirm = () => { modal.classList.remove("show"); cleanup(); resolve(true); };
+      const onCancel = () => { modal.classList.remove("show"); cleanup(); resolve(false); };
+      const cleanup = () => {
+        confirmBtn.removeEventListener("click", onConfirm);
+        document.getElementById("modalCancelBtn").removeEventListener("click", onCancel);
+      };
+      confirmBtn.addEventListener("click", onConfirm);
+      document.getElementById("modalCancelBtn").addEventListener("click", onCancel);
+    });
+  }
+
+  // ========= DATA STAFF =========
   let staffData = [
     { id:1, name:"Marcus Knight", role:"Kasir", email:"m.knight@kashy.id", status:"Aktif" },
     { id:2, name:"Sienna Lowe", role:"Karyawan", email:"s.lowe@kashy.id", status:"Nonaktif" },
@@ -365,41 +392,6 @@
   let currentTab = "semua";
   let searchKeyword = "";
   let roleFilterValue = "all";
-
-  // Toast dari atas
-  function showToast(message, type = "success") {
-    const toast = document.createElement("div");
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `<span>${message}</span>`;
-    document.body.appendChild(toast);
-    setTimeout(() => { if (toast && toast.remove) toast.remove(); }, 3000);
-  }
-
-  // Modal konfirmasi hijau
-  function showConfirmDialog(message = "Pastikan semua data yang dimasukkan sudah benar.") {
-    return new Promise((resolve) => {
-      const modal = document.getElementById("confirmModal");
-      const msgEl = modal.querySelector(".modal-message");
-      msgEl.innerText = message;
-      modal.classList.add("show");
-      const onConfirm = () => {
-        modal.classList.remove("show");
-        cleanup();
-        resolve(true);
-      };
-      const onCancel = () => {
-        modal.classList.remove("show");
-        cleanup();
-        resolve(false);
-      };
-      const cleanup = () => {
-        document.getElementById("modalConfirmBtn").removeEventListener("click", onConfirm);
-        document.getElementById("modalCancelBtn").removeEventListener("click", onCancel);
-      };
-      document.getElementById("modalConfirmBtn").addEventListener("click", onConfirm);
-      document.getElementById("modalCancelBtn").addEventListener("click", onCancel);
-    });
-  }
 
   function updateTabCounts() {
     const total = staffData.length;
@@ -424,7 +416,7 @@
     if (!container) return;
     container.innerHTML = "";
     if (filtered.length === 0) {
-      container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center" style="box-shadow:0 2px 18px 0 rgba(60,40,10,.07);">
+      container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center shadow-card">
         <svg class="w-12 h-12 mx-auto mb-3 text-kashy-muted" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
         <p class="text-kashy-muted text-sm">Tidak ada staff ditemukan.</p>
       </div>`;
@@ -435,8 +427,7 @@
       const statusClass = staff.status === "Aktif" ? "status-aktif" : "status-nonaktif";
       const avatarInitial = staff.name.charAt(0).toUpperCase();
       const card = document.createElement("div");
-      card.className = "fade-up d3 bg-white rounded-2xl p-4";
-      card.style.boxShadow = "0 2px 18px 0 rgba(60,40,10,.07)";
+      card.className = "fade-up d3 bg-white rounded-2xl p-4 shadow-card";
       card.innerHTML = `
         <div class="flex items-start gap-4">
           <div class="staff-avatar">${avatarInitial}</div>
@@ -468,15 +459,18 @@
   async function confirmToggleStatus(id) {
     const staff = staffData.find(s => s.id === id);
     if (!staff) return;
-    const newStatus = staff.status === "Aktif" ? "Nonaktif" : "Aktif";
+    const isNonaktif = staff.status === "Aktif";
     const actionText = staff.status === "Aktif" ? "menonaktifkan" : "mengaktifkan";
-    const confirmed = await showConfirmDialog(`Anda yakin ingin ${actionText} akun ${staff.name}?`);
+    const message = `Anda yakin ingin ${actionText} akun ${staff.name}?`;
+    const type = isNonaktif ? 'danger' : 'success';
+    const confirmText = isNonaktif ? 'Ya, Nonaktifkan' : 'Ya, Aktifkan';
+    const confirmed = await showConfirmDialog(message, type, confirmText);
     if (confirmed) {
-      staff.status = newStatus;
+      staff.status = staff.status === "Aktif" ? "Nonaktif" : "Aktif";
       renderStaffCards();
       updateTabCounts();
       filterTab(currentTab, document.querySelector(`.tab-btn[data-tab="${currentTab}"]`));
-      showToast(`Berhasil ${actionText} akun ${staff.name}`, "success");
+      showToast(`Berhasil ${actionText} akun ${staff.name}`, true);
     }
   }
 
@@ -487,27 +481,22 @@
     renderStaffCards();
   }
 
-  // Search & filter events
   document.getElementById("searchStaff")?.addEventListener("input", (e) => { searchKeyword = e.target.value; renderStaffCards(); });
   document.getElementById("roleFilter")?.addEventListener("change", (e) => { roleFilterValue = e.target.value; renderStaffCards(); });
 
-  // Modal Staff (popup)
+  // Modal Staff
   const staffModal = document.getElementById("staffModal");
   const staffModalDialog = document.getElementById("staffModalDialog");
-
   function openStaffModal() {
     staffModal.style.opacity = "1";
     staffModal.style.pointerEvents = "all";
     staffModalDialog.style.transform = "scale(1)";
     document.body.style.overflow = "hidden";
-    // Reset form
     document.getElementById("newName").value = "";
     document.getElementById("newEmail").value = "";
     document.getElementById("newRole").value = "Kasir";
-    document.getElementById("newStatus").value = "Aktif";
-    document.getElementById("newPassword").value = "kasih123";
+    document.getElementById("newPassword").value = "12345678";
   }
-
   function closeStaffModal() {
     staffModal.style.opacity = "0";
     staffModal.style.pointerEvents = "none";
@@ -515,46 +504,32 @@
     document.body.style.overflow = "";
   }
 
-  // Tombol simpan di modal
   const createBtn = document.getElementById("createStaffBtn");
   if (createBtn) {
     createBtn.addEventListener("click", async () => {
       const name = document.getElementById("newName").value.trim();
       const email = document.getElementById("newEmail").value.trim();
       const role = document.getElementById("newRole").value;
-      const status = document.getElementById("newStatus").value;
+      const status = "Aktif";
       if (!name || !email) {
-        showToast("Nama dan email harus diisi.", "error");
+        showToast("Nama dan email harus diisi.", false);
         return;
       }
-      const confirmed = await showConfirmDialog("Pastikan semua data yang dimasukkan sudah benar sebelum menyimpan.");
+      const confirmed = await showConfirmDialog("Pastikan semua data yang dimasukkan sudah benar sebelum menyimpan.", "success", "Ya, Simpan");
       if (confirmed) {
         const newId = Date.now();
         staffData.push({ id: newId, name, role, email, status });
         renderStaffCards();
         updateTabCounts();
         filterTab(currentTab, document.querySelector(`.tab-btn[data-tab="${currentTab}"]`));
-        showToast(`Staff ${name} berhasil ditambahkan.`, "success");
+        showToast(`Staff ${name} berhasil ditambahkan.`, true);
         closeStaffModal();
       }
     });
   }
 
-  // Sidebar logic
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  const menuBtn = document.getElementById('global-menu-toggle');
-  function openSidebar()  { if(sidebar) sidebar.classList.add('sidebar-open'); if(overlay) overlay.classList.add('show'); document.body.style.overflow='hidden'; }
-  function closeSidebar() { if(sidebar) sidebar.classList.remove('sidebar-open'); if(overlay) overlay.classList.remove('show'); document.body.style.overflow=''; }
-  function toggleSidebar() { if(sidebar && sidebar.classList.contains('sidebar-open')) closeSidebar(); else openSidebar(); }
-  if (menuBtn) menuBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleSidebar(); });
-  if (overlay)  overlay.addEventListener('click', closeSidebar);
-  document.addEventListener('keydown', (e) => { if (e.key==='Escape') { closeModal(); closeSidebar(); } });
-  function closeModal() { closeStaffModal(); }
   if (sidebar) sidebar.classList.remove('sidebar-open');
   if (overlay) overlay.classList.remove('show');
-
-  // Inisialisasi
   updateTabCounts();
   renderStaffCards();
 </script>

@@ -18,7 +18,6 @@
 @if (!request()->routeIs('owner.profile'))
 <a href="{{ route('owner.profile') }}" 
    class="flex items-center gap-2 hover:opacity-80 transition">
-
   <div class="w-8 h-8 rounded-full bg-kashy-brown flex items-center justify-center text-white font-bold text-sm shadow-sm">
     A
   </div>

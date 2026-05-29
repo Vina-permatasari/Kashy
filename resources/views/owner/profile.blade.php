@@ -209,11 +209,9 @@
         <h1 class="font-display text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Julianne Deakin</h1>
 
         <!-- Owner badge — dark premium style -->
-        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider text-white" style="background:linear-gradient(135deg,#1c1c1c,#3d3d3d); box-shadow:0 4px 14px rgba(0,0,0,.25);">
-          <!-- Crown icon -->
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="text-terra-l opacity-90"><path d="M2 19l3.553-10.658A1 1 0 0 1 7.28 8.184l4.72 5.316 4.72-5.316a1 1 0 0 1 1.727.158L22 19H2z"/><rect x="2" y="19" width="20" height="2" rx="1"/></svg>
-          OWNER
-        </span>
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-terra-xs text-terra border border-terra-ll">
+  <span class="w-1.5 h-1.5 rounded-full bg-terra"></span> Owner
+</span>
       </div>
 
       <!-- ── CARD 1: Informasi Akun ── -->
@@ -289,18 +287,15 @@
           </div>
           <div class="flex-1">
             <p class="text-[10px] font-bold tracking-wide text-muted">Alamat Toko</p>
-            <div class="flex flex-wrap gap-1.5 mt-1">
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-terra-xs text-terra border border-terra-ll">Pusat – Jakarta</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-stone-50 text-muted border border-border">Bandung</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-stone-50 text-muted border border-border">Surabaya</span>
-            </div>
+            <p class="text-sm font-medium text-gray-900">Jl. Bromo No.171 C, Binjai, Kec. Medan Denai, Kota Medan, Sumatera Utara</p>
           </div>
         </div>
-        <!-- Kontak Bisnis -->
+
+        <!-- Instagram -->
          <a href="https://www.instagram.com/snd_store___?igsh=cmloaGdna3ptbnp5" target="_blank">
         <div class="info-row flex items-center gap-4 px-5 py-4 border-b border-stone-100 transition-colors">
               
-              <div class="w-9 h-9 rounded-xl bg-terra-xs flex items-center justify-center flex-shrink-0">
+          <div class="w-9 h-9 rounded-xl bg-terra-xs flex items-center justify-center flex-shrink-0">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           </div>
           <div class="flex-1">
@@ -310,7 +305,7 @@
           </div>
         </div>
 
-        <!-- Website -->
+        <!-- Whatsapp -->
           <a href="https://wa.me/6285261246660" target="_blank">
         <div class="info-row flex items-center gap-4 px-5 py-4 transition-colors">
           <div class="w-9 h-9 rounded-xl bg-terra-xs flex items-center justify-center flex-shrink-0">
@@ -318,7 +313,7 @@
           </div>
           <div class="flex-1">
             <p class="text-[10px] font-bold tracking-wide text-muted">WhatsApp</p>
-            <p class="text-sm font-medium text-terra">0852-6124-6660</p>
+            <p class="text-sm font-medium text-gray-900">0852-6124-6660</p>
           </div>
         </div> </a>
       </div>
@@ -417,63 +412,6 @@
               Update Password
             </button>
           </div>
-        </div>
-      </div>
-
-      <!-- ── CARD 5: Preferensi Sistem ── -->
-      <div class="anim-5 bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
-        <div class="shimmer-bar h-1"></div>
-        <div class="px-5 pt-4 pb-1 flex items-center gap-3">
-          <div class="w-8 h-8 rounded-xl bg-terra-xs flex items-center justify-center">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          </div>
-          <h3 class="text-sm font-bold text-gray-900">Preferensi Sistem</h3>
-        </div>
-
-        <!-- Toggle rows -->
-        <!-- 1 -->
-        <div class="info-row flex items-center gap-4 px-5 py-4 border-b border-stone-100 transition-colors">
-          <div class="w-9 h-9 rounded-xl bg-terra-xs flex items-center justify-center flex-shrink-0">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-900">Notifikasi Email</p>
-            <p class="text-[11px] text-muted">Laporan harian & ringkasan penjualan</p>
-          </div>
-          <div class="toggle-track on" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
-        </div>
-        <!-- 3 -->
-        <div class="info-row flex items-center gap-4 px-5 py-4 border-b border-stone-100 transition-colors">
-          <div class="w-9 h-9 rounded-xl bg-terra-xs flex items-center justify-center flex-shrink-0">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-900">Autentikasi 2 Langkah</p>
-            <p class="text-[11px] text-muted">Keamanan ekstra saat login</p>
-          </div>
-          <div class="toggle-track on" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
-        </div>
-        <!-- 4 -->
-        <div class="info-row flex items-center gap-4 px-5 py-4 border-b border-stone-100 transition-colors">
-          <div class="w-9 h-9 rounded-xl bg-terra-xs flex items-center justify-center flex-shrink-0">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-900">Auto-Sinkron Stok</p>
-            <p class="text-[11px] text-muted">Sinkronisasi otomatis setiap hari</p>
-          </div>
-          <div class="toggle-track on" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
-        </div>
-        <!-- 5 -->
-        <div class="info-row flex items-center gap-4 px-5 py-4 transition-colors">
-          <div class="w-9 h-9 rounded-xl bg-terra-xs flex items-center justify-center flex-shrink-0">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8966C" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-900">Log Aktivitas</p>
-            <p class="text-[11px] text-muted">Rekam semua aksi dalam sistem</p>
-          </div>
-          <div class="toggle-track" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
         </div>
       </div>
 

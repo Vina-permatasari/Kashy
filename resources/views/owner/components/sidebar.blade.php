@@ -92,10 +92,10 @@
         <line x1="9" y1="8" x2="15" y2="8"/>
         <line x1="17" y1="16" x2="23" y2="16"/>
       </svg>
-      Pengaturan Transaksi
+      Pengaturan Tambahan
     </a>
 
-    <a href="{{ route('kustomisasi.template.struk') }}"class="nav-item {{ request()->routeIs('kustomisasi.template.struk') ? 'active' : '' }}"data-nav>
+    <!-- <a href="{{ route('kustomisasi.template.struk') }}"class="nav-item {{ request()->routeIs('kustomisasi.template.struk') ? 'active' : '' }}"data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
         <polyline points="14 2 14 8 20 8"/>
@@ -104,18 +104,18 @@
         <polyline points="10 9 9 9 8 9"/>
       </svg>
       Struk
-    </a>
+    </a> -->
 
-    <a href="{{ route('konfigurasi.printer') }}"class="nav-item {{ request()->routeIs('konfigurasi.printer') ? 'active' : '' }}"data-nav>
+    <!-- <a href="{{ route('konfigurasi.printer') }}"class="nav-item {{ request()->routeIs('konfigurasi.printer') ? 'active' : '' }}"data-nav>
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <polyline points="6 9 6 2 18 2 18 9"/>
         <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
         <rect x="6" y="14" width="12" height="8"/>
       </svg>
       Konfigurasi Printer
-    </a>
+    </a> -->
 
-    <a href="{{ route('pusat.keamanan.data') }}"class="nav-item {{ request()->routeIs('pusat.keamanan.data') ? 'active' : '' }}"data-nav>
+    <!-- <a href="{{ route('pusat.keamanan.data') }}"class="nav-item {{ request()->routeIs('pusat.keamanan.data') ? 'active' : '' }}"data-nav>
 
       <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
         <polyline points="1 4 1 10 7 10"/>
@@ -123,7 +123,7 @@
         <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/>
       </svg>
       Backup &amp; Restore
-    </a>
+    </a> -->
 
   </nav>
 

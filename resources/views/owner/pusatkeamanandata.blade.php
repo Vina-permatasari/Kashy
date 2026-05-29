@@ -266,55 +266,7 @@
 
     </div>
 
-    <!-- ══════════════════════════════
-         CARD 4 — Fitur Keamanan
-         ══════════════════════════════ -->
-    <div class="fade-up d5 bg-white rounded-2xl p-5 mb-6" style="box-shadow:0 2px 18px 0 rgba(60,40,10,.07);">
-
-      <!-- End-to-End Encryption -->
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C49A6C" stroke-width="1.8">
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
-        </div>
-        <p class="text-sm font-bold text-kashy-dark mb-1">End-to-End Encryption</p>
-        <p class="text-xs text-kashy-muted leading-relaxed max-w-xs">
-          Hanya kamu yang memegang kunci untukarsipmu. Kami tidak pernah melihat kontenmu.
-        </p>
-      </div>
-
-      <!-- Redundant Storage -->
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C49A6C" stroke-width="1.8">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        </div>
-        <p class="text-sm font-bold text-kashy-dark mb-1">Redundant Storage</p>
-        <p class="text-xs text-kashy-muted leading-relaxed max-w-xs">
-          Data dicerminkan di tiga wilayah geografis yang aman untuk keamanan maksimal
-        </p>
-      </div>
-
-      <!-- Point-in-Time Recovery -->
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C49A6C" stroke-width="1.8">
-            <polyline points="1 4 1 10 7 10"/>
-            <path d="M3.51 15a9 9 0 1 0 .49-3.5"/>
-          </svg>
-        </div>
-        <p class="text-sm font-bold text-kashy-dark mb-1">Point-in-Time Recovery</p>
-        <p class="text-xs text-kashy-muted leading-relaxed max-w-xs">
-          Pulihkan data Anda ke titik mana pun dalam 30 hari terakhir dengan mudah
-        </p>
-      </div>
-
-    </div>
-
-  </div>
+   
 </main>
 
 <script>

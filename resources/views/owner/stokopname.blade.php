@@ -36,7 +36,7 @@
     * { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
     body { background: #F5F0EB; margin: 0; }
 
-    /* Sidebar */
+    /* Sidebar (sama seperti dashboard) */
     #sidebar {
       position: fixed; top: 0; left: 0; height: 100vh; width: 280px;
       background: #fff; box-shadow: 2px 0 24px rgba(60,40,10,.12);
@@ -51,7 +51,6 @@
     }
     #overlay.show { display: block; }
 
-    /* Animations */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -139,7 +138,7 @@
 <main id="main" class="min-h-screen bg-kashy-cream">
   @include('owner.components.topbar')
 
-  <!-- KONTEN UTAMA: disamakan dengan Manajemen Staff (max-w-2xl, tanpa lg:max-w-3xl) -->
+  <!-- KONTEN UTAMA: ukuran dan padding DISAMAKAN dengan Laporan Keuangan (max-w-2xl, px-5 md:px-8, py-6) -->
   <div class="px-5 md:px-8 py-6 max-w-2xl mx-auto">
 
     <div class="fade-up d1 mb-6">
@@ -147,9 +146,10 @@
       <p class="text-sm text-kashy-muted mt-1">Pilih tanggal untuk melihat atau mencatat data stok opname.</p>
     </div>
 
+    <!-- Tombol Tambah Stok Opname (card style) -->
     <div class="fade-up d2 mb-6">
       <button onclick="openModal()"
-        class="w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm tracking-widest text-white uppercase transition-all duration-200 hover:opacity-90 active:scale-[.98]"
+        class="w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm tracking-widest text-white uppercase transition-all duration-200 hover:opacity-90 active:scale-[.98] shadow-btn"
         style="background:#C49A6C; box-shadow:0 4px 14px 0 rgba(196,154,108,.35);">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="12" y1="5" x2="12" y2="19"/>
@@ -159,6 +159,7 @@
       </button>
     </div>
 
+    <!-- Pilih Tanggal (card putih) -->
     <div class="bg-white rounded-2xl p-5 shadow-card mb-6">
       <label class="text-[11px] font-bold uppercase tracking-wider text-kashy-muted mb-1.5 block">
         Pilih Tanggal
@@ -166,14 +167,13 @@
       <input
         type="date"
         id="simpleDate"
-        class="w-full border-[1.5px] border-kashy-border rounded-xl px-3 py-3 text-sm text-kashy-dark outline-none transition-colors"
+        class="w-full border-[1.5px] border-kashy-border rounded-xl px-3 py-3 text-sm text-kashy-dark outline-none transition-colors focus:border-kashy-brown"
         style="font-family:'Poppins',sans-serif;"
         onchange="changeDate(this.value)"
-        onfocus="this.style.borderColor='#C49A6C'"
-        onblur="this.style.borderColor='#E0D8CE'"
       >
     </div>
 
+    <!-- Area Entri Stok Opname -->
     <div id="entrySection" class="fade-up d4 bg-white rounded-2xl shadow-card overflow-hidden mb-6 hidden">
       <div class="shimmer-bar h-1"></div>
       <div class="px-5 py-4 border-b border-kashy-border flex items-center justify-between">
@@ -192,14 +192,13 @@
           <line x1="9" y1="16" x2="12" y2="16"/>
         </svg>
         <p class="text-kashy-muted text-sm font-medium">Belum ada entri pada tanggal ini</p>
-        <button onclick="openModal()" class="mt-3 px-5 py-2 rounded-xl bg-kashy-brown text-white text-xs font-semibold hover:bg-kashy-brown-deep transition-colors">+ Tambah Sekarang</button>
       </div>
     </div>
 
   </div>
 </main>
 
-<!-- MODAL – ukuran tetap max-w-lg (cocok untuk tablet) -->
+<!-- MODAL – ukuran responsif, sama dengan gaya card laporan keuangan -->
 <div id="modal-overlay" class="fixed inset-0 z-[70] bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center p-4">
   <div id="modal-dialog" class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
     <div class="shimmer-bar h-1"></div>
@@ -209,7 +208,7 @@
         <p class="text-[11px] text-kashy-muted mt-0.5" id="modalDateLabel">Senin, 26 Mei 2026</p>
       </div>
       <button onclick="closeModal()" class="w-9 h-9 rounded-xl border border-kashy-border flex items-center justify-center text-kashy-muted hover:bg-kashy-cream hover:border-kashy-brown transition-all">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
@@ -224,26 +223,20 @@
         <label class="form-label">Nama Produk</label>
         <input type="text" id="formProduct" class="form-input" placeholder="Cari atau ketik nama produk...">
       </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="form-label">Kategori</label>
-          <select id="formCategory" class="form-input form-select">
-            <option value="">Pilih kategori</option>
-            <option>Dress</option>
-            <option>Blazer</option>
-            <option>Cardigan</option>
-            <option>T-Shirt</option>
-            <option>Trousers</option>
-            <option>Kemeja</option>
-            <option>Celana</option>
-            <option>Aksesoris</option>
-            <option>Tas</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Stok Sistem</label>
-          <input type="number" id="formStokSistem" class="form-input" placeholder="0" min="0">
-        </div>
+      <div>
+        <label class="form-label">Kategori</label>
+        <select id="formCategory" class="form-input form-select">
+          <option value="">Pilih kategori</option>
+          <option>Dress</option>
+          <option>Blazer</option>
+          <option>Cardigan</option>
+          <option>T-Shirt</option>
+          <option>Trousers</option>
+          <option>Kemeja</option>
+          <option>Celana</option>
+          <option>Aksesoris</option>
+          <option>Tas</option>
+        </select>
       </div>
       <div>
         <label class="form-label">Harga Barang</label>
@@ -252,7 +245,11 @@
           <input type="text" id="formHarga" class="form-input" style="padding-left:42px;" placeholder="0" oninput="formatRupiah(this)">
         </div>
       </div>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="form-label">Stok Sistem</label>
+          <input type="number" id="formStokSistem" class="form-input" placeholder="0" min="0">
+        </div>
         <div>
           <label class="form-label">Stok Fisik (Aktual)</label>
           <input type="number" id="formStokFisik" class="form-input" placeholder="0" min="0" oninput="calcSelisih()">
@@ -296,15 +293,24 @@
 <script>
   // ── Sidebar ──
   const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
+  const overlayEl = document.getElementById('overlay');
   const menuBtn = document.getElementById('global-menu-toggle');
 
-  function openSidebar()  { sidebar.classList.add('sidebar-open'); overlay.classList.add('show'); document.body.style.overflow='hidden'; }
-  function closeSidebar() { sidebar.classList.remove('sidebar-open'); overlay.classList.remove('show'); document.body.style.overflow=''; }
+  function openSidebar()  { sidebar.classList.add('sidebar-open'); overlayEl.classList.add('show'); document.body.style.overflow='hidden'; }
+  function closeSidebar() { sidebar.classList.remove('sidebar-open'); overlayEl.classList.remove('show'); document.body.style.overflow=''; }
   function toggleSidebar(){ sidebar.classList.contains('sidebar-open') ? closeSidebar() : openSidebar(); }
 
   if (menuBtn) menuBtn.addEventListener('click', e => { e.stopPropagation(); toggleSidebar(); });
   document.addEventListener('keydown', e => { if(e.key==='Escape') closeSidebar(); });
+
+  // ── Data dan fungsi Stok Opname (tidak berubah isinya) ──
+  const DAYS_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  let entriesDB = {};
+  let selectedDate = '';
+  let viewYear, viewMonth;
+  const today = new Date();
+  const todayKey = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
 
   function changeDate(dateVal) {
     if(!dateVal) return;
@@ -312,10 +318,6 @@
     const d = new Date(dateVal + 'T00:00:00');
     const label = `${DAYS_ID[d.getDay()]}, ${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
     showEntries(dateVal, label);
-  }
-
-  function fmt(y, m, d) {
-    return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
   }
 
   function showEntries(dateKey, label) {
@@ -372,19 +374,15 @@
     if(!entriesDB[dateKey]) return;
     entriesDB[dateKey].splice(idx,1);
     if(entriesDB[dateKey].length === 0) delete entriesDB[dateKey];
-    renderCalendar();
     showEntries(dateKey, document.getElementById('entrySectionDate').textContent);
     showToast('Entri dihapus');
   }
 
-  function prevMonth() { viewMonth--; if(viewMonth<0){ viewMonth=11; viewYear--; } renderCalendar(); }
-  function nextMonth() { viewMonth++; if(viewMonth>11){ viewMonth=0; viewYear++; } renderCalendar(); }
-
   function openModal() {
-    const overlay = document.getElementById('modal-overlay');
-    overlay.classList.add('open');
+    const modalOverlay = document.getElementById('modal-overlay');
+    modalOverlay.classList.add('open');
     document.body.style.overflow = 'hidden';
-    const d = selectedDate || fmt(today.getFullYear(), today.getMonth()+1, today.getDate());
+    const d = selectedDate || todayKey;
     document.getElementById('formDate').value = d;
     const dObj = new Date(d + 'T00:00:00');
     document.getElementById('modalDateLabel').textContent = `${DAYS_ID[dObj.getDay()]}, ${dObj.getDate()} ${MONTHS_ID[dObj.getMonth()]} ${dObj.getFullYear()}`;
@@ -474,17 +472,13 @@
     if(!entriesDB[dateVal]) entriesDB[dateVal] = [];
     entriesDB[dateVal].push({ product, category, harga, sistem, fisik, selisih, desc, status });
     closeModal();
-    renderCalendar();
     if(selectedDate === dateVal) {
       showEntries(dateVal, document.getElementById('entrySectionDate').textContent);
     } else {
       const d = new Date(dateVal + 'T00:00:00');
       const label = `${DAYS_ID[d.getDay()]}, ${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;
       selectedDate = dateVal;
-      viewYear  = d.getFullYear();
-      viewMonth = d.getMonth();
-      document.getElementById('selectedLabel').textContent = label;
-      renderCalendar();
+      document.getElementById('simpleDate').value = dateVal;
       showEntries(dateVal, label);
     }
     showToast('✓ Stok opname berhasil disimpan');
@@ -499,14 +493,7 @@
     t._t = setTimeout(() => t.classList.remove('show'), 2600);
   }
 
-  // Inisialisasi data dan variabel global
-  const DAYS_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-  const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  let entriesDB = {};
-  let selectedDate = '';
-  let viewYear, viewMonth;
-  const today = new Date();
-  const todayKey = fmt(today.getFullYear(), today.getMonth()+1, today.getDate());
+  // Inisialisasi
   document.getElementById('simpleDate').value = todayKey;
   changeDate(todayKey);
 </script>
